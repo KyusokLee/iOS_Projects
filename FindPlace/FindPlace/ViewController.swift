@@ -11,6 +11,9 @@ import UIKit
 // Splash Screen: AppleのHuman Interface Guidelineに従い、Splash Screen(Launch Screen)には、アプリのlogoやimageなどの簡単なものだけを載せることをおすすめする。
 
 class ViewController: UIViewController {
+    
+    @IBOutlet var searchVC: UIView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

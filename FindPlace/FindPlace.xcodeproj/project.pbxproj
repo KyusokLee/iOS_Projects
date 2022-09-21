@@ -17,6 +17,7 @@
 		94FDC0682897EED6009CE2EE /* FindPlaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FDC0672897EED6009CE2EE /* FindPlaceTests.swift */; };
 		94FDC0722897EED6009CE2EE /* FindPlaceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FDC0712897EED6009CE2EE /* FindPlaceUITests.swift */; };
 		94FDC0742897EED6009CE2EE /* FindPlaceUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FDC0732897EED6009CE2EE /* FindPlaceUITestsLaunchTests.swift */; };
+		94FDC08528980767009CE2EE /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FDC08428980767009CE2EE /* FavoriteViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		94FDC06D2897EED6009CE2EE /* FindPlaceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FindPlaceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		94FDC0712897EED6009CE2EE /* FindPlaceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPlaceUITests.swift; sourceTree = "<group>"; };
 		94FDC0732897EED6009CE2EE /* FindPlaceUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPlaceUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		94FDC08428980767009CE2EE /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				94FDC04D2897EED5009CE2EE /* AppDelegate.swift */,
 				94FDC04F2897EED5009CE2EE /* SceneDelegate.swift */,
 				94FDC0512897EED5009CE2EE /* ViewController.swift */,
+				94FDC08428980767009CE2EE /* FavoriteViewController.swift */,
 				94FDC0532897EED5009CE2EE /* Main.storyboard */,
 				94FDC0592897EED6009CE2EE /* Assets.xcassets */,
 				94FDC05B2897EED6009CE2EE /* LaunchScreen.storyboard */,
@@ -265,6 +268,7 @@
 				94FDC0522897EED5009CE2EE /* ViewController.swift in Sources */,
 				94FDC04E2897EED5009CE2EE /* AppDelegate.swift in Sources */,
 				94FDC0502897EED5009CE2EE /* SceneDelegate.swift in Sources */,
+				94FDC08528980767009CE2EE /* FavoriteViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
