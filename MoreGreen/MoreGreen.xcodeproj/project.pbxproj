@@ -12,6 +12,12 @@
 		94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF428DC6613004DEED6 /* TabBarController.swift */; };
 		942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007CD28DDC6B40092B699 /* ItemCell.swift */; };
 		942007D028DDC6B40092B699 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007CE28DDC6B40092B699 /* ItemCell.xib */; };
+		942007D228DDDA020092B699 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D128DDDA020092B699 /* CameraVC.swift */; };
+		942007D428DDDA120092B699 /* Camera.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 942007D328DDDA120092B699 /* Camera.storyboard */; };
+		942007D628DDE0A20092B699 /* ItemViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D528DDE0A20092B699 /* ItemViewPresenter.swift */; };
+		942007D828DDE10D0092B699 /* EndPeriodImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D728DDE10D0092B699 /* EndPeriodImage.swift */; };
+		942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D928DDE6740092B699 /* ItemImageCell.swift */; };
+		942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007DA28DDE6740092B699 /* ItemImageCell.xib */; };
 		94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8D28D9F75C001C8BBB /* AppDelegate.swift */; };
 		94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */; };
 		94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94449A9628D9F75C001C8BBB /* MoreGreen.xcdatamodeld */; };
@@ -38,6 +44,12 @@
 		94122FF428DC6613004DEED6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		942007CD28DDC6B40092B699 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		942007CE28DDC6B40092B699 /* ItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
+		942007D128DDDA020092B699 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		942007D328DDDA120092B699 /* Camera.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Camera.storyboard; sourceTree = "<group>"; };
+		942007D528DDE0A20092B699 /* ItemViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewPresenter.swift; sourceTree = "<group>"; };
+		942007D728DDE10D0092B699 /* EndPeriodImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPeriodImage.swift; sourceTree = "<group>"; };
+		942007D928DDE6740092B699 /* ItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCell.swift; sourceTree = "<group>"; };
+		942007DA28DDE6740092B699 /* ItemImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemImageCell.xib; sourceTree = "<group>"; };
 		94449A8A28D9F75C001C8BBB /* MoreGreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoreGreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449A8D28D9F75C001C8BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +92,7 @@
 				94AF3E6F28DC93D400502C5B /* NewItemVC.storyboard */,
 				949B2AE628DDB2F70053E70B /* CityInfoVC.storyboard */,
 				949B2AE228DDA2550053E70B /* SettingsVC.storyboard */,
+				942007D328DDDA120092B699 /* Camera.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -97,6 +110,7 @@
 		94122FEC28DC5F3C004DEED6 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				942007D528DDE0A20092B699 /* ItemViewPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -112,6 +126,7 @@
 		94122FEE28DC5F59004DEED6 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				942007D728DDE10D0092B699 /* EndPeriodImage.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -167,6 +182,7 @@
 				94AF3E6228DC74D800502C5B /* HomeVC.swift */,
 				94AF3E6628DC7E3000502C5B /* ItemListVC.swift */,
 				94AF3E7128DC93EB00502C5B /* NewItemVC.swift */,
+				942007D128DDDA020092B699 /* CameraVC.swift */,
 				949B2AE428DDB2EA0053E70B /* CityInfoVC.swift */,
 				949B2AE028DDA2420053E70B /* SettingsVC.swift */,
 			);
@@ -178,6 +194,8 @@
 			children = (
 				942007CD28DDC6B40092B699 /* ItemCell.swift */,
 				942007CE28DDC6B40092B699 /* ItemCell.xib */,
+				942007D928DDE6740092B699 /* ItemImageCell.swift */,
+				942007DA28DDE6740092B699 /* ItemImageCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -254,7 +272,9 @@
 				94AF3E7028DC93D400502C5B /* NewItemVC.storyboard in Resources */,
 				942007D028DDC6B40092B699 /* ItemCell.xib in Resources */,
 				949B2AE328DDA2550053E70B /* SettingsVC.storyboard in Resources */,
+				942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */,
 				94AF3E6528DC74E800502C5B /* HomeVC.storyboard in Resources */,
+				942007D428DDDA120092B699 /* Camera.storyboard in Resources */,
 				949B2AE728DDB2F70053E70B /* CityInfoVC.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -266,21 +286,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				942007D828DDE10D0092B699 /* EndPeriodImage.swift in Sources */,
 				949B2AE128DDA2420053E70B /* SettingsVC.swift in Sources */,
 				94122FF328DC60DF004DEED6 /* Fonts_extension.swift in Sources */,
 				94AF3E6328DC74D800502C5B /* HomeVC.swift in Sources */,
 				94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */,
 				94AF3E6728DC7E3000502C5B /* ItemListVC.swift in Sources */,
 				949B2AE528DDB2EA0053E70B /* CityInfoVC.swift in Sources */,
+				942007D628DDE0A20092B699 /* ItemViewPresenter.swift in Sources */,
 				94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */,
 				94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */,
 				949B2AE928DDBE090053E70B /* UILayer_extension.swift in Sources */,
 				949B2AEB28DDBE1B0053E70B /* UITabBar_extension.swift in Sources */,
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
+				942007D228DDDA020092B699 /* CameraVC.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemVC.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */,
 				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
+				942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
