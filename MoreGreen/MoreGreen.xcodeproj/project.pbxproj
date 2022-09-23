@@ -10,13 +10,19 @@
 		94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */; };
 		94122FF328DC60DF004DEED6 /* Fonts_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF228DC60DF004DEED6 /* Fonts_extension.swift */; };
 		94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF428DC6613004DEED6 /* TabBarController.swift */; };
+		942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007CD28DDC6B40092B699 /* ItemCell.swift */; };
+		942007D028DDC6B40092B699 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007CE28DDC6B40092B699 /* ItemCell.xib */; };
 		94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8D28D9F75C001C8BBB /* AppDelegate.swift */; };
 		94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */; };
-		94449A9228D9F75C001C8BBB /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A9128D9F75C001C8BBB /* TopViewController.swift */; };
-		94449A9528D9F75C001C8BBB /* TopView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94449A9328D9F75C001C8BBB /* TopView.storyboard */; };
 		94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94449A9628D9F75C001C8BBB /* MoreGreen.xcdatamodeld */; };
 		94449A9A28D9F75D001C8BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94449A9928D9F75D001C8BBB /* Assets.xcassets */; };
 		94449A9D28D9F75D001C8BBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */; };
+		949B2AE128DDA2420053E70B /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AE028DDA2420053E70B /* SettingsVC.swift */; };
+		949B2AE328DDA2550053E70B /* SettingsVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949B2AE228DDA2550053E70B /* SettingsVC.storyboard */; };
+		949B2AE528DDB2EA0053E70B /* CityInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AE428DDB2EA0053E70B /* CityInfoVC.swift */; };
+		949B2AE728DDB2F70053E70B /* CityInfoVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 949B2AE628DDB2F70053E70B /* CityInfoVC.storyboard */; };
+		949B2AE928DDBE090053E70B /* UILayer_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AE828DDBE090053E70B /* UILayer_extension.swift */; };
+		949B2AEB28DDBE1B0053E70B /* UITabBar_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AEA28DDBE1B0053E70B /* UITabBar_extension.swift */; };
 		94AF3E6328DC74D800502C5B /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E6228DC74D800502C5B /* HomeVC.swift */; };
 		94AF3E6528DC74E800502C5B /* HomeVC.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94AF3E6428DC74E800502C5B /* HomeVC.storyboard */; };
 		94AF3E6728DC7E3000502C5B /* ItemListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E6628DC7E3000502C5B /* ItemListVC.swift */; };
@@ -30,15 +36,21 @@
 		94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_Extension.swift; sourceTree = "<group>"; };
 		94122FF228DC60DF004DEED6 /* Fonts_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts_extension.swift; sourceTree = "<group>"; };
 		94122FF428DC6613004DEED6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		942007CD28DDC6B40092B699 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		942007CE28DDC6B40092B699 /* ItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
 		94449A8A28D9F75C001C8BBB /* MoreGreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoreGreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449A8D28D9F75C001C8BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		94449A9128D9F75C001C8BBB /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
-		94449A9428D9F75C001C8BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TopView.storyboard; sourceTree = "<group>"; };
 		94449A9728D9F75C001C8BBB /* MoreGreen.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MoreGreen.xcdatamodel; sourceTree = "<group>"; };
 		94449A9928D9F75D001C8BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94449A9C28D9F75D001C8BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94449A9E28D9F75D001C8BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		949B2AE028DDA2420053E70B /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		949B2AE228DDA2550053E70B /* SettingsVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsVC.storyboard; sourceTree = "<group>"; };
+		949B2AE428DDB2EA0053E70B /* CityInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityInfoVC.swift; sourceTree = "<group>"; };
+		949B2AE628DDB2F70053E70B /* CityInfoVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CityInfoVC.storyboard; sourceTree = "<group>"; };
+		949B2AE828DDBE090053E70B /* UILayer_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILayer_extension.swift; sourceTree = "<group>"; };
+		949B2AEA28DDBE1B0053E70B /* UITabBar_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITabBar_extension.swift; sourceTree = "<group>"; };
 		94AF3E6228DC74D800502C5B /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		94AF3E6428DC74E800502C5B /* HomeVC.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeVC.storyboard; sourceTree = "<group>"; };
 		94AF3E6628DC7E3000502C5B /* ItemListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListVC.swift; sourceTree = "<group>"; };
@@ -63,25 +75,23 @@
 			isa = PBXGroup;
 			children = (
 				94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */,
-				94449A9328D9F75C001C8BBB /* TopView.storyboard */,
 				94AF3E6428DC74E800502C5B /* HomeVC.storyboard */,
 				94AF3E6828DC7E3B00502C5B /* ItemListVC.storyboard */,
 				94AF3E6F28DC93D400502C5B /* NewItemVC.storyboard */,
+				949B2AE628DDB2F70053E70B /* CityInfoVC.storyboard */,
+				949B2AE228DDA2550053E70B /* SettingsVC.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
 		};
-		94122FEB28DC5F2F004DEED6 /* Controller */ = {
+		94122FEB28DC5F2F004DEED6 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				945108CB28DDC5E500E80F20 /* Cells */,
+				945108CA28DDC5DE00E80F20 /* Controllers */,
 				94AF3E6A28DC872600502C5B /* Views */,
-				94449A9128D9F75C001C8BBB /* TopViewController.swift */,
-				94122FF428DC6613004DEED6 /* TabBarController.swift */,
-				94AF3E6228DC74D800502C5B /* HomeVC.swift */,
-				94AF3E6628DC7E3000502C5B /* ItemListVC.swift */,
-				94AF3E7128DC93EB00502C5B /* NewItemVC.swift */,
 			);
-			path = Controller;
+			path = Scenes;
 			sourceTree = "<group>";
 		};
 		94122FEC28DC5F3C004DEED6 /* Presenter */ = {
@@ -111,6 +121,8 @@
 			children = (
 				94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */,
 				94122FF228DC60DF004DEED6 /* Fonts_extension.swift */,
+				949B2AE828DDBE090053E70B /* UILayer_extension.swift */,
+				949B2AEA28DDBE1B0053E70B /* UITabBar_extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -137,7 +149,7 @@
 				94449A8D28D9F75C001C8BBB /* AppDelegate.swift */,
 				94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */,
 				94122FEA28DC5F25004DEED6 /* Storyboard */,
-				94122FEB28DC5F2F004DEED6 /* Controller */,
+				94122FEB28DC5F2F004DEED6 /* Scenes */,
 				94122FEC28DC5F3C004DEED6 /* Presenter */,
 				94122FED28DC5F44004DEED6 /* Model */,
 				94122FEF28DC5F65004DEED6 /* Utils */,
@@ -146,6 +158,28 @@
 				94449A9628D9F75C001C8BBB /* MoreGreen.xcdatamodeld */,
 			);
 			path = MoreGreen;
+			sourceTree = "<group>";
+		};
+		945108CA28DDC5DE00E80F20 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				94122FF428DC6613004DEED6 /* TabBarController.swift */,
+				94AF3E6228DC74D800502C5B /* HomeVC.swift */,
+				94AF3E6628DC7E3000502C5B /* ItemListVC.swift */,
+				94AF3E7128DC93EB00502C5B /* NewItemVC.swift */,
+				949B2AE428DDB2EA0053E70B /* CityInfoVC.swift */,
+				949B2AE028DDA2420053E70B /* SettingsVC.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		945108CB28DDC5E500E80F20 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				942007CD28DDC6B40092B699 /* ItemCell.swift */,
+				942007CE28DDC6B40092B699 /* ItemCell.xib */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		94AF3E6A28DC872600502C5B /* Views */ = {
@@ -218,8 +252,10 @@
 				94449A9A28D9F75D001C8BBB /* Assets.xcassets in Resources */,
 				94AF3E6928DC7E3B00502C5B /* ItemListVC.storyboard in Resources */,
 				94AF3E7028DC93D400502C5B /* NewItemVC.storyboard in Resources */,
+				942007D028DDC6B40092B699 /* ItemCell.xib in Resources */,
+				949B2AE328DDA2550053E70B /* SettingsVC.storyboard in Resources */,
 				94AF3E6528DC74E800502C5B /* HomeVC.storyboard in Resources */,
-				94449A9528D9F75C001C8BBB /* TopView.storyboard in Resources */,
+				949B2AE728DDB2F70053E70B /* CityInfoVC.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,31 +266,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				949B2AE128DDA2420053E70B /* SettingsVC.swift in Sources */,
 				94122FF328DC60DF004DEED6 /* Fonts_extension.swift in Sources */,
 				94AF3E6328DC74D800502C5B /* HomeVC.swift in Sources */,
-				94449A9228D9F75C001C8BBB /* TopViewController.swift in Sources */,
 				94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */,
 				94AF3E6728DC7E3000502C5B /* ItemListVC.swift in Sources */,
+				949B2AE528DDB2EA0053E70B /* CityInfoVC.swift in Sources */,
 				94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */,
 				94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */,
+				949B2AE928DDBE090053E70B /* UILayer_extension.swift in Sources */,
+				949B2AEB28DDBE1B0053E70B /* UITabBar_extension.swift in Sources */,
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemVC.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */,
+				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		94449A9328D9F75C001C8BBB /* TopView.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				94449A9428D9F75C001C8BBB /* Base */,
-			);
-			name = TopView.storyboard;
-			sourceTree = "<group>";
-		};
 		94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -392,7 +424,7 @@
 				INFOPLIST_FILE = MoreGreen/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = TopView;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -420,7 +452,7 @@
 				INFOPLIST_FILE = MoreGreen/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = TopView;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

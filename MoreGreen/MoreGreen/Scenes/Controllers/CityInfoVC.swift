@@ -1,13 +1,13 @@
 //
-//  ItemListVC.swift
+//  CityInfoVC.swift
 //  MoreGreen
 //
-//  Created by Kyus'lee on 2022/09/22.
+//  Created by Kyus'lee on 2022/09/23.
 //
 
 import UIKit
 
-class ItemListVC: UIViewController {
+class CityInfoVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -13,15 +13,33 @@
             <objects>
                 <viewController storyboardIdentifier="ItemListVC" id="Y6W-OH-hqX" customClass="ItemListVC" customModule="MoreGreen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="670"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gJj-JG-obh">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="670"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="gJj-JG-obh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="22B-w2-rVS"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="gJj-JG-obh" secondAttribute="trailing" id="2ij-Bo-W9g"/>
+                            <constraint firstItem="gJj-JG-obh" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="e4y-8h-8me"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="gJj-JG-obh" secondAttribute="bottom" id="t37-5q-10e"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="hIQ-re-jeI"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="itemListTableView" destination="gJj-JG-obh" id="nmM-02-AVy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="103" y="4"/>
+            <point key="canvasLocation" x="1960" y="-51"/>
         </scene>
     </scenes>
     <resources>

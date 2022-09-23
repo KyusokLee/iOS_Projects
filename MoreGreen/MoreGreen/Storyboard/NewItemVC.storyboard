@@ -15,16 +15,49 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PGH-LH-cFa">
+                                <rect key="frame" x="174" y="62" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uwq-JU-W9W">
+                                <rect key="frame" x="25" y="50" width="45" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="0hX-l5-gQS"/>
+                                    <constraint firstAttribute="width" constant="45" id="1ZW-kJ-BDQ"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="multiply.circle" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="multiply.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="dismissTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qqt-s1-hfM"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uwq-JU-W9W" firstAttribute="centerY" secondItem="PGH-LH-cFa" secondAttribute="centerY" id="BbY-Kd-Gk9"/>
+                            <constraint firstItem="PGH-LH-cFa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="E2z-f8-KQR"/>
+                            <constraint firstItem="PGH-LH-cFa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="KSh-dY-f2L"/>
+                            <constraint firstItem="uwq-JU-W9W" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="frU-C4-Qxj"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="F1k-Vl-Chp"/>
+                    <connections>
+                        <outlet property="createViewTitle" destination="PGH-LH-cFa" id="re2-bA-TRl"/>
+                        <outlet property="dismissButton" destination="uwq-JU-W9W" id="B0s-Sc-j9W"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="48" y="-2"/>
+            <point key="canvasLocation" x="976.92307692307691" y="-2.1327014218009479"/>
         </scene>
     </scenes>
     <resources>
+        <image name="multiply.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

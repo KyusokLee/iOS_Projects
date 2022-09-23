@@ -1,17 +1,17 @@
 //
-//  NewItemVC.swift
+//  SettingsVC.swift
 //  MoreGreen
 //
-//  Created by Kyus'lee on 2022/09/22.
+//  Created by Kyus'lee on 2022/09/23.
 //
 
 import UIKit
 
-class NewItemVC: UIViewController {
+class SettingsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("Setting VC")
         // Do any additional setup after loading the view.
     }
     
