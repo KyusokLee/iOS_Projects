@@ -30,7 +30,11 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yg2-V1-e30">
-                        <rect key="frame" x="50" y="260" width="203" height="44"/>
+                        <rect key="frame" x="41.666666666666657" y="250" width="219.99999999999997" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="Xva-4t-OGk"/>
+                            <constraint firstAttribute="width" constant="220" id="avN-37-jqx"/>
+                        </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" title="Button"/>
                         <connections>
@@ -39,12 +43,11 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Yg2-V1-e30" firstAttribute="top" secondItem="zSe-IQ-uVU" secondAttribute="bottom" constant="20" id="4zx-cy-bbe"/>
+                    <constraint firstItem="Yg2-V1-e30" firstAttribute="top" secondItem="zSe-IQ-uVU" secondAttribute="bottom" constant="10" id="4zx-cy-bbe"/>
                     <constraint firstItem="zSe-IQ-uVU" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Cdb-d5-7vv"/>
+                    <constraint firstItem="Yg2-V1-e30" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="G6S-HX-grZ"/>
                     <constraint firstItem="zSe-IQ-uVU" firstAttribute="top" secondItem="FhT-8l-N6q" secondAttribute="top" constant="25" id="KEZ-jE-9L9"/>
-                    <constraint firstAttribute="bottom" secondItem="Yg2-V1-e30" secondAttribute="bottom" constant="10" id="R58-2S-GlP"/>
-                    <constraint firstItem="Yg2-V1-e30" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="UoL-Lv-udY"/>
-                    <constraint firstAttribute="trailing" secondItem="Yg2-V1-e30" secondAttribute="trailing" constant="50" id="cj5-in-yOm"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Yg2-V1-e30" secondAttribute="bottom" constant="10" id="R58-2S-GlP"/>
                     <constraint firstItem="FhT-8l-N6q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="gDB-ro-39l"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FhT-8l-N6q" secondAttribute="trailing" constant="15" id="lFM-Kr-o2c"/>
                     <constraint firstItem="FhT-8l-N6q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="qre-Nj-90T"/>

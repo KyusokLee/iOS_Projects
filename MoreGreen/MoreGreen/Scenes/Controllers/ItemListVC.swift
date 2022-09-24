@@ -52,3 +52,13 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     
     
 }
+
+// tableViewの更新を行う
+extension ItemListVC: ButtonDelegate {
+    func didFinishSaveData() {
+        // CoreDataの場合
+        // self.fetchData()
+        self.itemListTableView.reloadData()
+        updateViewConstraints()
+    }
+}

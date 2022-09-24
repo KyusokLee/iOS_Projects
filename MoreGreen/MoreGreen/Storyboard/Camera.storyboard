@@ -18,16 +18,37 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rvo-6T-YsY">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urf-Y4-sJR">
+                                        <rect key="frame" x="25" y="40" width="35" height="35"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="35" id="nBe-gr-uho"/>
+                                            <constraint firstAttribute="height" constant="35" id="qjU-3c-Wv0"/>
+                                        </constraints>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="multiply" catalog="system"/>
+                                        <connections>
+                                            <action selector="didTapCloseButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="P3l-wg-CAl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Urf-Y4-sJR" firstAttribute="leading" secondItem="Rvo-6T-YsY" secondAttribute="leading" constant="25" id="H0a-GT-v3m"/>
+                                    <constraint firstItem="Urf-Y4-sJR" firstAttribute="top" secondItem="Rvo-6T-YsY" secondAttribute="top" constant="40" id="j2w-0p-pTP"/>
+                                </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vg5-up-Zbz">
-                                <rect key="frame" x="160" y="722" width="70" height="70"/>
+                                <rect key="frame" x="160" y="723" width="70" height="68.666666666666629"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="KO9-QS-38q"/>
                                     <constraint firstAttribute="width" constant="70" id="gdG-xh-1GP"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="camera.circle.fill" catalog="system"/>
+                                <state key="normal" backgroundImage="camera.circle.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="shootButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qxc-u8-f1h"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
@@ -42,17 +63,19 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cameraButton" destination="Vg5-up-Zbz" id="l0q-fe-dHQ"/>
+                        <outlet property="cameraButton" destination="Vg5-up-Zbz" id="kju-9a-38y"/>
+                        <outlet property="dismissButton" destination="Urf-Y4-sJR" id="hLX-ub-FW0"/>
                         <outlet property="previewView" destination="Rvo-6T-YsY" id="4k6-Do-CTM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136.92307692307691" y="3.5545023696682461"/>
+            <point key="canvasLocation" x="158" y="-16"/>
         </scene>
     </scenes>
     <resources>
         <image name="camera.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="multiply" catalog="system" width="128" height="111"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -8,12 +8,29 @@
 import UIKit
 import AVFoundation
 
+// cellIndexによって、Image写真の種類を分ける
+// index 0: ただのimage写真 -> 今後　商品の名前も認識するように変更する方針
+// index 1: OCR 結果を用いる賞味期限の文字認識image -> この場合、presenterを用いる
+protocol CameraVCDelegate: AnyObject {
+    func didFinishTakePhoto()
+}
+
+
+
+
 class CameraVC: UIViewController {
+    var cellIndex = 0
+    weak var delegate: CameraVCDelegate?
     
     @IBOutlet private weak var previewView: UIView!
     
     @IBOutlet weak var cameraButton: UIButton!
     
+    @IBOutlet weak var dismissButton: UIButton! {
+        didSet {
+            dismissButton.tintColor = UIColor.systemGray5
+        }
+    }
     
     //CaptureSession編数 _ cameraCaptureに関する全ての流れを管理するsession
     private let captureSession = AVCaptureSession()
@@ -23,12 +40,9 @@ class CameraVC: UIViewController {
     //画像のOutput_写真キャプチャ
     private let imageOutput = AVCapturePhotoOutput()
     
-    //preview layerは全域編数として使ってもよかったかも
-    
-
-    // カメラをとって、item生成vcに画面遷移
-    static func instantiate() -> NewItemVC {
-        return UIStoryboard(name: "NewItemVC", bundle: nil).instantiateInitialViewController() as! NewItemVC
+    // カメラをVCへの画面遷移メソッド
+    static func instantiate() -> CameraVC {
+        return UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! CameraVC
     }
 
     override func viewDidLoad() {
@@ -55,9 +69,8 @@ class CameraVC: UIViewController {
 
 extension CameraVC {
     @IBAction func shootButton(_ sender: Any) {
-        /// TODO: 課題1
         // このタイミングでカメラのシャッターを切る
-        print("Pressed Shutter _ 課題1")
+        print("Pressed Shutter")
         
         // 単一写真capture Requestで使用する機能及び設定の使用を定義するobject
         let settings = AVCapturePhotoSettings()
@@ -69,32 +82,6 @@ extension CameraVC {
         //スクショの処理
         imageOutput.capturePhoto(with: settings, delegate: self)
     }
-    
-    // Capture Resultを受け取るメソッド
-    // didFinishProcessingPhoto: 保存のために、実装しなければいけない部分
-    // ⚠️Error: -> private でも、ただのfuncでもAVCapturePhotoCaptureDelegate がErrorになった！
-    
-    // photoOutputをinternalにしたら直った -> なぜ？
-    // internal 内部moduleだけで使う
-//    internal func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-//        guard error == nil else {
-//            print("Error broken photo data: \(error!)")
-//            return
-//        }
-//
-//        guard let imageData = photo.fileDataRepresentation() else {
-//            print("No photo data to write.")
-//            return
-//        }
-//
-//        // logic: Success -> result Viewに画面を移動
-//        //画面の設定 with imageData
-//        let resultVC = ProfileViewController.instantiate(with: imageData)
-//        // back buttonもあったらいいよね...? -> dismiss buttonがあった
-//
-//        // 画面移動
-//        navigationController?.pushViewController(resultVC, animated: true)
-//    }
 
     @IBAction func didTapCloseButton(_ sender: Any) {
         dismiss(animated: true)
@@ -153,9 +140,7 @@ extension CameraVC {
     }
 
     func startCapture() {
-        // TODO: 課題1 -> 完了
         // ここでセッションをスタート
-        
         // DispatchQueue.globalを用いる
         // startRunningは設定処理に時間がかかるのでバックグラウンドスレッドで実行させる -> スムーズな実行処理ができるので、ユーザー経験を考えたコードの実装が可能
         // 参照: https://developer.apple.com/documentation/avfoundation/avcapturesession/1388185-startrunning
@@ -168,9 +153,7 @@ extension CameraVC {
     }
 
     func stopCapture() {
-        // TODO: 課題1 -> 完了
         // ここでセッションをストップ
-        
         //captureSessionが作動中であるときだけ、stopするように
         guard captureSession.isRunning else {
             return
@@ -181,20 +164,18 @@ extension CameraVC {
 
 extension CameraVC: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-//        guard error == nil else {
-//            print("Error broken photo data: \(error!)")
-//            return
-//        }
         
-        // dataがnilだったら、それ自体がerrorであることだから、上記のerrorに関するguard error処理はなくてもいい
         // fileDataRepresentation: 撮影した画像をデータ化する (Data型)
         guard let imageData = photo.fileDataRepresentation() else {
             print("No photo data to write.")
             return
         }
-        
         // logic: Success -> result Viewに画面を移動
         //画面の設定 with imageData
+        
+        // Photoを撮ったことをdelegateに知らせる
+        delegate?.didFinishTakePhoto()
+        
         let resultVC = NewItemVC.instantiate(with: imageData)
         // 🔥ここが肝心なところ!!!
         // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない

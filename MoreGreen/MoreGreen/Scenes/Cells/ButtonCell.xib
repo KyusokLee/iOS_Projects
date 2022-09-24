@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="195" id="KGk-i7-Jjw" customClass="ButtonCell" customModule="MoreGreen" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="447" height="195"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="447" height="195"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="HlW-G5-THJ">
+                        <rect key="frame" x="98.666666666666686" y="22.666666666666671" width="250" height="150"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gjm-ZH-dQL">
+                                <rect key="frame" x="5" y="5" width="250" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="j3L-L7-Yjb"/>
+                                    <constraint firstAttribute="width" constant="250" id="nGr-OJ-TY2"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyY-3y-t9n">
+                                <rect key="frame" x="5" y="55" width="250" height="50.666666666666657"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rd0-KJ-dOc">
+                                <rect key="frame" x="5" y="115.66666666666667" width="250" height="34.333333333333329"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Gjm-ZH-dQL" secondAttribute="trailing" constant="5" id="0Vl-Ji-3aO"/>
+                            <constraint firstAttribute="height" constant="150" id="BAN-4u-ug5"/>
+                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" constant="10" id="EHG-bw-sqa"/>
+                            <constraint firstItem="zyY-3y-t9n" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="Gh3-To-dOL"/>
+                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="HrA-jk-ajP"/>
+                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" constant="10" id="KpA-do-UXm"/>
+                            <constraint firstAttribute="trailing" secondItem="zyY-3y-t9n" secondAttribute="trailing" constant="5" id="NWe-32-gXc"/>
+                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" id="QbV-vS-d4a"/>
+                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="top" secondItem="HlW-G5-THJ" secondAttribute="top" constant="5" id="QpC-rq-Uf3"/>
+                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="ZqT-9K-f2J"/>
+                            <constraint firstAttribute="width" constant="250" id="avG-Oc-lhI"/>
+                            <constraint firstAttribute="trailing" secondItem="Gjm-ZH-dQL" secondAttribute="trailing" constant="5" id="gWn-Sz-dFE"/>
+                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="top" secondItem="HlW-G5-THJ" secondAttribute="top" constant="5" id="veN-rt-5jA"/>
+                            <constraint firstItem="Rd0-KJ-dOc" firstAttribute="top" secondItem="zyY-3y-t9n" secondAttribute="bottom" constant="10" id="y70-LS-AmY"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="HlW-G5-THJ" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="QIr-5d-8f8"/>
+                    <constraint firstItem="HlW-G5-THJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fPL-cA-Tel"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="createButton" destination="Gjm-ZH-dQL" id="EK8-AD-Gqc"/>
+                <outlet property="deleteButton" destination="Rd0-KJ-dOc" id="vkz-HQ-nWb"/>
+                <outlet property="updateButton" destination="zyY-3y-t9n" id="LYi-BI-2Te"/>
+            </connections>
+            <point key="canvasLocation" x="185" y="-16"/>
+        </tableViewCell>
+    </objects>
+</document>
