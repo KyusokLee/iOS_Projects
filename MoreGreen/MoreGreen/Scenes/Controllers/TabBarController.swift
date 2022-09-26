@@ -8,10 +8,11 @@
 import UIKit
 // MARK: APP logic
 // カメラで商品の写真を撮る
-// MVP🔥 1-1. 賞味期限の OCR (GCP)
+// MVP🔥🔥 1-1(1). 商品のイメージを取るように
+// MVP🔥🔥 1-1(2).賞味期限の OCR (GCP)
 // MVP🔥 1-2. 商品のバーコードを読み込む
 // 1-2(1). Yahoo search APIや外部の商品番号登録APIとfetchする (GCP 後、 他のAPI)
-// MVP🔥 1-3. 画面に表示
+// MVP🔥🔥 1-3. 画面に表示
 // MVP🔥 1-4. Core Dataを導入し、保存するように
 // MVP🔥 1-5. dataのCRUDを可能に
 // MVP🔥 1-6.　アラーム通知

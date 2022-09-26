@@ -11,6 +11,7 @@ class HomeCardViewCell: UITableViewCell {
     
     @IBOutlet weak var cardView: UIView! {
         didSet {
+            cardView.layer.masksToBounds = true
             cardView.backgroundColor = UIColor(rgb: 0x81C784)
             cardView.layer.cornerRadius = 20
         }
@@ -18,6 +19,7 @@ class HomeCardViewCell: UITableViewCell {
     
     @IBOutlet weak var cardImageView: UIImageView! {
         didSet {
+            cardImageView.image = UIImage(named: "120")
             cardImageView.layer.cornerRadius = cardImageView.bounds.height / 2
         }
     }

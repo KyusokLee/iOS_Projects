@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: Buttonをなくして、+ pictogramで修正してもいいかも！
+
 
 protocol ItemImageCellDelegate {
     func takeImagePhotoScreen()
@@ -31,7 +33,7 @@ class ItemImageCell: UITableViewCell {
     
     @IBOutlet weak var itemImageCameraButton: UIButton! {
         didSet {
-            itemImageCameraButton.layer.cornerRadius = 15
+            itemImageCameraButton.layer.cornerRadius = 8
             itemImageCameraButton.setTitle("商品の写真を撮る", for: .normal)
             itemImageCameraButton.setTitleColor(.white, for: .normal)
             // なんか効かない

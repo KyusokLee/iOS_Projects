@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: Buttonをなくして、+ pictogramで修正してもいいかも！
+
 protocol EndPeriodCellDelegate {
     func takeEndPeriodScreen()
 }
@@ -21,18 +23,28 @@ class EndPeriodCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var endPeriodView: UIView! {
+        didSet {
+            endPeriodView.backgroundColor = .clear
+            endPeriodView.layer.borderColor = UIColor(rgb: 0x36B700).cgColor
+            endPeriodView.layer.borderWidth = 0.5
+        }
+    }
+    
     @IBOutlet weak var endPeriodDataLabel: UILabel! {
         didSet {
             endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .bold)
         }
     }
     
+    
+    
     @IBOutlet weak var endPeriodShootButton: UIButton! {
         didSet {
             endPeriodShootButton.setTitle("賞味期限の写真を撮る", for: .normal)
             endPeriodShootButton.tintColor = UIColor.white
             endPeriodShootButton.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.5)
-            endPeriodShootButton.layer.cornerRadius = endPeriodShootButton.frame.height / 2
+            endPeriodShootButton.layer.cornerRadius = 8
             
         }
     }

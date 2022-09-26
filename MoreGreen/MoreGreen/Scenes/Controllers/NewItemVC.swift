@@ -12,7 +12,6 @@ import UIKit
 // cell2 : 賞味期限の表示
 // cell3 : Itemの詳細説明を記入できるように, create button, update button, delete Buttonも一緒に
 
-
 class NewItemVC: UIViewController {
     
     @IBOutlet weak var createViewTitle: UILabel! {
@@ -56,10 +55,16 @@ class NewItemVC: UIViewController {
         createItemTableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
     }
     
-    static func instantiate(with imageData: Data) -> NewItemVC {
+    static func instantiate(with imageData: Data, index tag: Int) -> NewItemVC {
         let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateInitialViewController() as! NewItemVC
         controller.loadViewIfNeeded()
-        controller.configure(with: imageData)
+        
+        if tag == 0 {
+            controller.imageConfigure(with: imageData)
+        } else {
+            controller.periodConfigure(with: imageData)
+        }
+        
         return controller
     }
     
@@ -73,13 +78,17 @@ private extension NewItemVC {
     // TODO: imageは2週類ある
     // 1つ目:　商品の写真だけを保存
     // 2つ目: OCR結果を用いて、賞味期限の表示
-    func configure(with imageData: Data) {
+    func imageConfigure(with imageData: Data) {
 //        presenter = ItemViewPresenter(
 //            jsonParser: ProfileJSONParser(profileCreater: ProfileElementsCreater()),
 //            apiClient: GoogleVisonAPIClient(),
 //            view: self
 //        )
 //        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
+        
+    }
+    
+    func periodConfigure(with imageData: Data) {
         
     }
     
@@ -119,6 +128,12 @@ extension NewItemVC: EndPeriodCellDelegate {
     }
 }
 
+extension NewItemVC: ButtonDelegate {
+    func didFinishSaveData() {
+        print("222")
+    }
+}
+
 extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -134,7 +149,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return UITableView().estimatedRowHeight
         case 1:
-            return 200
+            return UITableView.automaticDimension
         case 2:
             return 200
         default:
@@ -147,7 +162,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return UITableView().estimatedRowHeight
         case 1:
-            return UITableView().estimatedRowHeight
+            return UITableView.automaticDimension
         case 2:
             return UITableView().estimatedRowHeight
         default:
@@ -163,17 +178,24 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
             // cell 関連のメソッド
+            // ⚠️不確実 cell delegateをここで定義?
+            cell.delegate = self
+            
             cell.selectionStyle = .none
             
             return cell
             
         case 1:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
+            cell.delegate = self
+            
             cell.selectionStyle = .none
             return cell
             
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
+            cell.delegate = self
+            
             cell.selectionStyle = .none
             
             return cell

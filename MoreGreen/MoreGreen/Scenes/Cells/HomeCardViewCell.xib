@@ -10,31 +10,31 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" restorationIdentifier="HomeCardViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeCardViewCell" rowHeight="211" id="KGk-i7-Jjw" customClass="HomeCardViewCell" customModule="MoreGreen" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="362" height="211"/>
+        <tableViewCell contentMode="scaleToFill" restorationIdentifier="HomeCardViewCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeCardViewCell" rowHeight="249" id="KGk-i7-Jjw" customClass="HomeCardViewCell" customModule="MoreGreen" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="407" height="249"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="362" height="211"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="407" height="249"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g0p-cy-wIN">
-                        <rect key="frame" x="5" y="5" width="350" height="200"/>
+                        <rect key="frame" x="28.666666666666657" y="10" width="350" height="229"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="家の食品をより簡単に管理しよう" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NH3-qB-zJz">
-                                <rect key="frame" x="10" y="10" width="290.66666666666669" height="40"/>
+                                <rect key="frame" x="10" y="10" width="290.66666666666669" height="89"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AppLogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="kxV-HI-n5s">
-                                <rect key="frame" x="10" y="65" width="120" height="120"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="120.png" translatesAutoresizingMaskIntoConstraints="NO" id="kxV-HI-n5s">
+                                <rect key="frame" x="10" y="114" width="100" height="100"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="Nh3-Zz-VLp"/>
-                                    <constraint firstAttribute="height" constant="120" id="uXo-Fh-BjT"/>
+                                    <constraint firstAttribute="width" constant="100" id="Nh3-Zz-VLp"/>
+                                    <constraint firstAttribute="height" constant="100" id="uXo-Fh-BjT"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" tag="5" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="gRM-G2-vPh">
-                                <rect key="frame" x="140" y="97.333333333333329" width="94.333333333333314" height="55.666666666666671"/>
+                                <rect key="frame" x="120" y="136.33333333333334" width="94.333333333333314" height="55.666666666666657"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ようこそ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UY9-Ni-GBh">
                                         <rect key="frame" x="0.0" y="0.0" width="94.333333333333329" height="20.333333333333332"/>
@@ -43,7 +43,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="kyukyu　様" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9jT-aE-f6z">
-                                        <rect key="frame" x="0.0" y="35.333333333333329" width="94.333333333333329" height="20.333333333333329"/>
+                                        <rect key="frame" x="0.0" y="35.333333333333314" width="94.333333333333329" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -63,15 +63,13 @@
                             <constraint firstItem="kxV-HI-n5s" firstAttribute="top" secondItem="NH3-qB-zJz" secondAttribute="bottom" constant="15" id="cgt-2J-r5p"/>
                             <constraint firstItem="kxV-HI-n5s" firstAttribute="centerY" secondItem="gRM-G2-vPh" secondAttribute="centerY" id="gbz-Jy-gXZ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NH3-qB-zJz" secondAttribute="trailing" constant="10" id="rrL-5u-r6x"/>
-                            <constraint firstAttribute="height" constant="200" id="v9J-tl-Olv"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="g0p-cy-wIN" secondAttribute="bottom" constant="5" id="9Wo-EY-AeQ"/>
-                    <constraint firstAttribute="trailing" secondItem="g0p-cy-wIN" secondAttribute="trailing" constant="5" id="KRV-pd-j3v"/>
-                    <constraint firstItem="g0p-cy-wIN" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="Wp1-jE-e2n"/>
-                    <constraint firstItem="g0p-cy-wIN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="kr2-Pr-g9W"/>
+                    <constraint firstItem="g0p-cy-wIN" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="2iW-sV-uTO"/>
+                    <constraint firstItem="g0p-cy-wIN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="DYb-RK-h1f"/>
+                    <constraint firstAttribute="bottom" secondItem="g0p-cy-wIN" secondAttribute="bottom" constant="10" id="Pvd-2q-Uph"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -79,11 +77,11 @@
                 <outlet property="cardImageView" destination="kxV-HI-n5s" id="rRk-cg-vgs"/>
                 <outlet property="cardView" destination="g0p-cy-wIN" id="1sF-D3-9XP"/>
             </connections>
-            <point key="canvasLocation" x="166.15384615384616" y="79.976303317535539"/>
+            <point key="canvasLocation" x="200.76923076923077" y="93.483412322274873"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="AppLogo.png" width="256" height="256"/>
+        <image name="120.png" width="120" height="120"/>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

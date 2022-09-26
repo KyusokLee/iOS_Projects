@@ -20,7 +20,7 @@ class ButtonCell: UITableViewCell {
             createButton.tintColor = UIColor.white
             createButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
             createButton.backgroundColor = UIColor(rgb: 0x0095F6)
-            createButton.layer.cornerRadius = createButton.bounds.height / 2
+            createButton.layer.cornerRadius = 8
         }
     }
     @IBOutlet weak var updateButton: UIButton! {
@@ -29,7 +29,7 @@ class ButtonCell: UITableViewCell {
             updateButton.tintColor = UIColor.white
             updateButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
             updateButton.backgroundColor = UIColor(rgb: 0xFFB74D)
-            updateButton.layer.cornerRadius = updateButton.bounds.height / 2
+            updateButton.layer.cornerRadius = 8
         }
     }
     @IBOutlet weak var deleteButton: UIButton! {
@@ -38,7 +38,7 @@ class ButtonCell: UITableViewCell {
             deleteButton.tintColor = UIColor.white
             deleteButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
             deleteButton.backgroundColor = UIColor(rgb: 0xF5522D)
-            deleteButton.layer.cornerRadius = deleteButton.bounds.height / 2
+            deleteButton.layer.cornerRadius = 8
         }
     }
     

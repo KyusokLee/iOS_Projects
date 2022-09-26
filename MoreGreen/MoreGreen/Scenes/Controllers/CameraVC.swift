@@ -19,16 +19,31 @@ protocol CameraVCDelegate: AnyObject {
 
 
 class CameraVC: UIViewController {
-    var cellIndex = 0
     weak var delegate: CameraVCDelegate?
+    var cellIndex = 0
     
     @IBOutlet private weak var previewView: UIView!
     
-    @IBOutlet weak var cameraButton: UIButton!
+    @IBOutlet weak var cameraButton: UIButton! {
+        didSet {
+            // imageの大きさがただのimageに入れるととても小さく表示される
+            // しかし、backGroundに入れると、大きいサイズになっている
+            cameraButton.setImage(UIImage(systemName: "camera.circle.fill")?.withRenderingMode(.alwaysOriginal), for: .normal)
+            cameraButton.contentVerticalAlignment = .fill
+            cameraButton.contentHorizontalAlignment = .fill
+            cameraButton.tintColor = UIColor(rgb: 0x388E3C)
+        }
+    }
     
     @IBOutlet weak var dismissButton: UIButton! {
         didSet {
             dismissButton.tintColor = UIColor.systemGray5
+            // 🔥Buttonの設定したconstraintsより、imageが小さくなった場合、Buttonをsizeの大きさに合わせる方法
+            dismissButton.contentVerticalAlignment = .fill
+            dismissButton.contentHorizontalAlignment = .fill
+            // imageEdgeInsetsがdeprecatedされた
+            // その代わりに、UIButton.Configuration (NSDirectionalEdgeInsetsに変わった)を使用
+//            dismissButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         }
     }
     
@@ -42,7 +57,9 @@ class CameraVC: UIViewController {
     
     // カメラをVCへの画面遷移メソッド
     static func instantiate() -> CameraVC {
-        return UIStoryboard(name: "Camera", bundle: nil).instantiateInitialViewController() as! CameraVC
+        print("1")
+        
+        return UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraVC
     }
 
     override func viewDidLoad() {
@@ -148,8 +165,8 @@ extension CameraVC {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.captureSession.startRunning()
         }
-        
-        captureSession.startRunning()
+//
+//        captureSession.startRunning()
     }
 
     func stopCapture() {
@@ -176,7 +193,7 @@ extension CameraVC: AVCapturePhotoCaptureDelegate {
         // Photoを撮ったことをdelegateに知らせる
         delegate?.didFinishTakePhoto()
         
-        let resultVC = NewItemVC.instantiate(with: imageData)
+        let resultVC = NewItemVC.instantiate(with: imageData, index: cellIndex)
         // 🔥ここが肝心なところ!!!
         // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
         // 写真をとって、ここでloadするようにしておく

@@ -30,10 +30,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yg2-V1-e30">
-                        <rect key="frame" x="41.666666666666657" y="250" width="219.99999999999997" height="35"/>
+                        <rect key="frame" x="21.666666666666657" y="250" width="260" height="35"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="35" id="Xva-4t-OGk"/>
-                            <constraint firstAttribute="width" constant="220" id="avN-37-jqx"/>
+                            <constraint firstAttribute="width" constant="260" id="avN-37-jqx"/>
                         </constraints>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" title="Button"/>

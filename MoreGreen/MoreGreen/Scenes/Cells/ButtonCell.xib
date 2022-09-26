@@ -16,59 +16,49 @@
                 <rect key="frame" x="0.0" y="0.0" width="447" height="195"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="HlW-G5-THJ">
-                        <rect key="frame" x="98.666666666666686" y="22.666666666666671" width="250" height="150"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="cge-CT-okp">
+                        <rect key="frame" x="63.666666666666657" y="23" width="320" height="149"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gjm-ZH-dQL">
-                                <rect key="frame" x="5" y="5" width="250" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k2h-Sk-fAc">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="j3L-L7-Yjb"/>
-                                    <constraint firstAttribute="width" constant="250" id="nGr-OJ-TY2"/>
+                                    <constraint firstAttribute="width" constant="320" id="W96-Dp-zcE"/>
+                                    <constraint firstAttribute="height" constant="45" id="pCc-v4-0h0"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Create"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyY-3y-t9n">
-                                <rect key="frame" x="5" y="55" width="250" height="50.666666666666657"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rj6-Zc-EFt">
+                                <rect key="frame" x="0.0" y="52" width="320" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="PCX-mX-rH4"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Update"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rd0-KJ-dOc">
-                                <rect key="frame" x="5" y="115.66666666666667" width="250" height="34.333333333333329"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d4j-4A-BCb">
+                                <rect key="frame" x="0.0" y="104" width="320" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="bTJ-He-CxX"/>
+                                </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Delete"/>
                             </button>
                         </subviews>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Gjm-ZH-dQL" secondAttribute="trailing" constant="5" id="0Vl-Ji-3aO"/>
-                            <constraint firstAttribute="height" constant="150" id="BAN-4u-ug5"/>
-                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" constant="10" id="EHG-bw-sqa"/>
-                            <constraint firstItem="zyY-3y-t9n" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="Gh3-To-dOL"/>
-                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="HrA-jk-ajP"/>
-                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" constant="10" id="KpA-do-UXm"/>
-                            <constraint firstAttribute="trailing" secondItem="zyY-3y-t9n" secondAttribute="trailing" constant="5" id="NWe-32-gXc"/>
-                            <constraint firstItem="zyY-3y-t9n" firstAttribute="top" secondItem="Gjm-ZH-dQL" secondAttribute="bottom" id="QbV-vS-d4a"/>
-                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="top" secondItem="HlW-G5-THJ" secondAttribute="top" constant="5" id="QpC-rq-Uf3"/>
-                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="leading" secondItem="HlW-G5-THJ" secondAttribute="leading" constant="5" id="ZqT-9K-f2J"/>
-                            <constraint firstAttribute="width" constant="250" id="avG-Oc-lhI"/>
-                            <constraint firstAttribute="trailing" secondItem="Gjm-ZH-dQL" secondAttribute="trailing" constant="5" id="gWn-Sz-dFE"/>
-                            <constraint firstItem="Gjm-ZH-dQL" firstAttribute="top" secondItem="HlW-G5-THJ" secondAttribute="top" constant="5" id="veN-rt-5jA"/>
-                            <constraint firstItem="Rd0-KJ-dOc" firstAttribute="top" secondItem="zyY-3y-t9n" secondAttribute="bottom" constant="10" id="y70-LS-AmY"/>
-                        </constraints>
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="HlW-G5-THJ" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="QIr-5d-8f8"/>
-                    <constraint firstItem="HlW-G5-THJ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fPL-cA-Tel"/>
+                    <constraint firstItem="cge-CT-okp" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="G0s-zu-ygP"/>
+                    <constraint firstItem="cge-CT-okp" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="b6X-sl-nWe"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="createButton" destination="Gjm-ZH-dQL" id="EK8-AD-Gqc"/>
-                <outlet property="deleteButton" destination="Rd0-KJ-dOc" id="vkz-HQ-nWb"/>
-                <outlet property="updateButton" destination="zyY-3y-t9n" id="LYi-BI-2Te"/>
+                <outlet property="createButton" destination="k2h-Sk-fAc" id="Ki8-bW-NXb"/>
+                <outlet property="deleteButton" destination="d4j-4A-BCb" id="xlf-du-8W4"/>
+                <outlet property="updateButton" destination="Rj6-Zc-EFt" id="W76-0P-Q0u"/>
             </connections>
-            <point key="canvasLocation" x="185" y="-16"/>
+            <point key="canvasLocation" x="290" y="-57"/>
         </tableViewCell>
     </objects>
 </document>
