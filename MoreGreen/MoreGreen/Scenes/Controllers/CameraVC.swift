@@ -12,16 +12,16 @@ import AVFoundation
 // index 0: ただのimage写真 -> 今後　商品の名前も認識するように変更する方針
 // index 1: OCR 結果を用いる賞味期限の文字認識image -> この場合、presenterを用いる
 protocol CameraVCDelegate: AnyObject {
-    func didFinishTakePhoto()
+    func didFinishTakePhoto(with imageData: Data, index cellIndex: Int)
 }
-
-
-
 
 class CameraVC: UIViewController {
     weak var delegate: CameraVCDelegate?
+    // itemの写真を撮る場合は、0
+    // itemの賞味期限や消費期限の写真を撮る場合は、1
     var cellIndex = 0
     
+    // カメラの拡大、縮小の機能をTapgestureで追加する
     @IBOutlet private weak var previewView: UIView!
     
     @IBOutlet weak var cameraButton: UIButton! {
@@ -51,6 +51,7 @@ class CameraVC: UIViewController {
     private let captureSession = AVCaptureSession()
     // 解像度の設定 -> default: Highになっている
     //CameraDevicesの登録編数
+    // Camera Deviceがあることを前提にしたので、non optionalで定義
     private var cameraDevice: AVCaptureDevice!
     //画像のOutput_写真キャプチャ
     private let imageOutput = AVCapturePhotoOutput()
@@ -68,6 +69,8 @@ class CameraVC: UIViewController {
         navigationController?.isNavigationBarHidden = true
         // カメラの設定やセッションの組み立てはここで行う
         settingSession()
+        // カメラの拡大、縮小gestureの追加
+        addCameraViewGesture()
         // preview Layer setting間数の呼び出し
         settingLivePreveiw()
     }
@@ -81,6 +84,41 @@ class CameraVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stopCapture()
+    }
+    
+    // camera Preview viewに拡大、縮小の機能を追加
+    private func addCameraViewGesture() {
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchCamera))
+        previewView.addGestureRecognizer(pinch)
+    }
+    
+    @objc func handlePinchCamera(_ pinch: UIPinchGestureRecognizer) {
+        // camera Deviceがあることが前提なので、guard や if let　castingはしなかった
+        
+        var initialScale = cameraDevice.videoZoomFactor
+        let minAvailableZoomScale = 1.0
+        let maxAvailableZoomScale = cameraDevice.maxAvailableVideoZoomFactor
+        
+        do {
+            try cameraDevice.lockForConfiguration()
+            
+            if (pinch.state == UIPinchGestureRecognizer.State.began) {
+                initialScale = cameraDevice.videoZoomFactor
+            } else {
+                if (initialScale * (pinch.scale) < minAvailableZoomScale) {
+                    cameraDevice.videoZoomFactor = minAvailableZoomScale
+                } else if (initialScale * (pinch.scale) > maxAvailableZoomScale) {
+                    cameraDevice.videoZoomFactor = maxAvailableZoomScale
+                } else {
+                    cameraDevice.videoZoomFactor = initialScale * (pinch.scale)
+                }
+            }
+            pinch.scale = 1.0
+        } catch {
+            print(error)
+            return
+        }
+        cameraDevice.unlockForConfiguration()
     }
 }
 
@@ -139,6 +177,18 @@ extension CameraVC {
         captureSession.addOutput(imageOutput)
     }
     
+    // ⚠️　今回は、こっちは利用してない。ただし、発生し得る問題に対する解決策としてコードを作成
+    // iPhone versionごとに Camera Typeが異なるため、バージョン別の最適のdevice cameraを探すためのメソッド
+    private func getDefaultCamera() -> AVCaptureDevice? {
+        if let device = AVCaptureDevice.default(.builtInDualCamera,for: AVMediaType.video,position: .back) {
+            return device
+        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video,position: .back) {
+            return device
+        } else {
+            return nil
+        }
+    }
+    
     //preview layer Setting
     private func settingLivePreveiw() {
         // input, outputが設定された AVCaptureSessionのpreview オブジェクトを受け取り、previewのlayerを持つデータ型
@@ -180,6 +230,7 @@ extension CameraVC {
 }
 
 extension CameraVC: AVCapturePhotoCaptureDelegate {
+    //　写真を撮った後のprocess動作処理
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         
         // fileDataRepresentation: 撮影した画像をデータ化する (Data型)
@@ -191,22 +242,28 @@ extension CameraVC: AVCapturePhotoCaptureDelegate {
         //画面の設定 with imageData
         
         // Photoを撮ったことをdelegateに知らせる
-        delegate?.didFinishTakePhoto()
+        // ここで、delegateに伝えたらいいんちゃうか？
+        delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
+        self.dismiss(animated: true, completion: nil)
         
-        let resultVC = NewItemVC.instantiate(with: imageData, index: cellIndex)
-        // 🔥ここが肝心なところ!!!
-        // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
-        // 写真をとって、ここでloadするようにしておく
-        // データ型を base64EncodedString()を用いて、String型にしておく必要がある
-//        resultVC.presenter.loadProfile(from: imageData.base64EncodedString())
-        
-        // navigationItemのbackbuttonItemをcustomする
-        // styleは、tapするとglowする plain　(default)にする
-        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backButtonItem
-        navigationController?.navigationBar.tintColor = UIColor.white
-        
-        // 画面移動
-        navigationController?.pushViewController(resultVC, animated: true)
+//        let resultVC = NewItemVC.instantiate(with: imageData, index: cellIndex)
+//        // 🔥ここが肝心なところ!!!
+//        // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
+//        // 写真をとって、ここでloadするようにしておく
+//        // データ型を base64EncodedString()を用いて、String型にしておく必要がある
+////        resultVC.presenter.loadProfile(from: imageData.base64EncodedString())
+//
+//        // navigationItemのbackbuttonItemをcustomする
+//        // styleは、tapするとglowする plain　(default)にする
+//        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+//        navigationItem.backBarButtonItem = backButtonItem
+//        navigationController?.navigationBar.tintColor = UIColor.white
+//
+//        // 画面移動
+//        // ⚠️ここで、エラーが生じる
+//        // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
+////        navigationController?.popViewController(animated: true)
+//        // ⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
+//        navigationController?.pushViewController(resultVC, animated: true)
     }
 }

@@ -8,6 +8,7 @@
 import Foundation
 
 // 賞味期限のtext json parsing
-struct EndPeriodImage: Codable {
-    var date: String?
+struct EndDate: Codable {
+    var endDate: String?
 }
+

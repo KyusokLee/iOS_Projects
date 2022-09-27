@@ -29,8 +29,9 @@ class NewItemVC: UIViewController {
     }
     
     @IBOutlet weak var createItemTableView: UITableView!
-    private(set) var presenter: ItemViewPresenter!
+    private(set) var presenter: ItemInfoViewPresenter!
     
+    // ⚠️まだ、使うかどうか決めてない変数
     var itemImage = UIImage()
     var endPeriodText = ""
     var dDayText = ""
@@ -122,6 +123,7 @@ extension NewItemVC: EndPeriodCellDelegate {
     func takeEndPeriodScreen() {
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 1
+        
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
         self.present(navigation, animated: true)
@@ -130,7 +132,18 @@ extension NewItemVC: EndPeriodCellDelegate {
 
 extension NewItemVC: ButtonDelegate {
     func didFinishSaveData() {
-        print("222")
+        print("save")
+    }
+}
+
+extension NewItemVC: CameraVCDelegate {
+    // CameraVCで撮った写真を反映させる
+    func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
+        if cellIndex == 0 {
+            itemImage = UIImage(data: imageData) ?? <#default value#>
+        } else {
+            
+        }
     }
 }
 
@@ -180,6 +193,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
+            cell.resultItemImageView.image = itemImage
             
             cell.selectionStyle = .none
             

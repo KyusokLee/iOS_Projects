@@ -55,6 +55,13 @@ class ItemImageCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // ⚠️NewItemVCとどのように繋げるかがちょっと難しい
+    func configure(with image: UIImage) {
+        let itemImage = image.toUp
+        resultItemImageView.image = itemImage
+        self.layoutIfNeeded()
+    }
+    
     @IBAction func shootItemImage(_ sender: Any) {
         print("take a Item Image Photo")
         self.delegate?.takeImagePhotoScreen()
