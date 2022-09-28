@@ -155,11 +155,15 @@ class TabBarController: UITabBarController {
     }
 //
     @objc func addButtonAction(sender: UIButton) {
-        // カメラを撮るようにAlert
-        print("camera on!")
+        // 商品の登録VCを画面に表示
         let createNewItemVC = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
-        createNewItemVC.modalPresentationCapturesStatusBarAppearance = true
-        self.present(createNewItemVC, animated: true) {
+        
+        let navigationNewItemVC = UINavigationController(rootViewController: createNewItemVC)
+        
+        navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
+        
+        // navigation Controllerをpushじゃないpresentで表示させる方法
+        self.present(navigationNewItemVC, animated: true) {
             print("will create new info of food items")
         }
     }

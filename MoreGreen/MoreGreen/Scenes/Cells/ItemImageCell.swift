@@ -26,8 +26,9 @@ class ItemImageCell: UITableViewCell {
     
     @IBOutlet weak var resultItemImageView: UIImageView! {
         didSet {
-            resultItemImageView.image = UIImage(systemName: "photo.fill.on.rectangle.fill")?.withRenderingMode(.alwaysOriginal)
-            resultItemImageView.tintColor = UIColor.systemGray.withAlphaComponent(0.7)
+            resultItemImageView.image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysOriginal)
+            resultItemImageView.tintColor = UIColor.blue
+            resultItemImageView.backgroundColor = UIColor.systemGray5
         }
     }
     

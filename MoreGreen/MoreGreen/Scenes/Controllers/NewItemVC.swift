@@ -14,20 +14,6 @@ import UIKit
 
 class NewItemVC: UIViewController {
     
-    @IBOutlet weak var createViewTitle: UILabel! {
-        didSet {
-            createViewTitle.text = "食品登録"
-            createViewTitle.tintColor = .black
-            createViewTitle.font = .systemFont(ofSize: 20, weight: .bold)
-        }
-    }
-    @IBOutlet weak var dismissButton: UIButton! {
-        didSet {
-            dismissButton.setImage(UIImage(systemName: "multiply.circle")?.withRenderingMode(.alwaysOriginal), for: .normal)
-            dismissButton.tintColor = UIColor.systemGray.withAlphaComponent(0.7)
-        }
-    }
-    
     @IBOutlet weak var createItemTableView: UITableView!
     private(set) var presenter: ItemInfoViewPresenter!
     
@@ -43,10 +29,36 @@ class NewItemVC: UIViewController {
         registerCell()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNavigationBar()
+    }
+    
     private func setUpTableView() {
         createItemTableView.delegate = self
         createItemTableView.dataSource = self
         createItemTableView.separatorStyle = .none
+    }
+    
+    // NewItemVCをnavigation Controllerにさせるメソッド
+    private func setNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.7)
+        
+        self.navigationItem.title = "商品登録"
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        appearance.titleTextAttributes = textAttributes
+        
+        let dismissBarButton = UIBarButtonItem(image: UIImage(systemName: "multiply.circle")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(dismissBarButtonTap))
+        self.navigationController?.navigationBar.topItem?.leftBarButtonItem = dismissBarButton
+        
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    @objc func dismissBarButtonTap() {
+        self.dismiss(animated: true)
     }
     
     private func registerCell() {
@@ -67,11 +79,6 @@ class NewItemVC: UIViewController {
         }
         
         return controller
-    }
-    
-
-    @IBAction func dismissTap(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -140,9 +147,9 @@ extension NewItemVC: CameraVCDelegate {
     // CameraVCで撮った写真を反映させる
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
         if cellIndex == 0 {
-            itemImage = UIImage(data: imageData) ?? <#default value#>
+            itemImage = UIImage(data: imageData)!.toUp
         } else {
-            
+            // cellIndexが1の時は、賞味期限の方を処理
         }
     }
 }
@@ -193,7 +200,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
-            cell.resultItemImageView.image = itemImage
+//            cell.resultItemImageView.image = itemImage
             
             cell.selectionStyle = .none
             
