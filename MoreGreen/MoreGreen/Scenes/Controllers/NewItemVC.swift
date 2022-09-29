@@ -12,19 +12,24 @@ import UIKit
 // cell2 : 賞味期限の表示
 // cell3 : Itemの詳細説明を記入できるように, create button, update button, delete Buttonも一緒に
 
+// ⚠️Error: CameraVCからPopViewControllerしたとき、navigationBarが表示されない
+
 class NewItemVC: UIViewController {
     
     @IBOutlet weak var createItemTableView: UITableView!
     private(set) var presenter: ItemInfoViewPresenter!
+    private var cameraVC = CameraVC()
     
     // ⚠️まだ、使うかどうか決めてない変数
     var itemImage = UIImage()
+    var takeItemImage = false
     var endPeriodText = ""
     var dDayText = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Create new item list with camera OCR and barcode")
+        cameraVC.delegate = self
         setUpTableView()
         registerCell()
     }
@@ -32,6 +37,7 @@ class NewItemVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBar()
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func setUpTableView() {
@@ -68,14 +74,33 @@ class NewItemVC: UIViewController {
         createItemTableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
     }
     
-    static func instantiate(with imageData: Data, index tag: Int) -> NewItemVC {
-        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateInitialViewController() as! NewItemVC
+//    // MARK: ❗️このメソッドは、新しくVCへの画面遷移するときに適している判断した
+//    static func instantiate(with imageData: Data, index tag: Int) -> NewItemVC {
+//        // 🔥initialじゃなく、camera VCに行ってから、また戻るパータンなので、instatiate initialではない
+//        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
+//        controller.loadViewIfNeeded()
+//
+//        if tag == 0 {
+//            controller.imageConfigure(with: imageData)
+//            return controller
+//        } else {
+//            controller.periodConfigure(with: imageData)
+//            return controller
+//        }
+//    }
+    
+    // static funcだと、このファイルで作成した他のメソッドへアクセスできない
+    // controller インスタンスを作るとアクセス可能
+    static func cellConfigure(with imageData: Data, index cellIndex: Int) -> NewItemVC {
+        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
         controller.loadViewIfNeeded()
         
-        if tag == 0 {
-            controller.imageConfigure(with: imageData)
+        if cellIndex == 0 {
+            controller.itemImage = UIImage(data: imageData)!
+            controller.takeItemImage = true
+            controller.imageConfigure(with: imageData, index: cellIndex)
         } else {
-            controller.periodConfigure(with: imageData)
+            controller.periodConfigure(with: imageData, index: cellIndex)
         }
         
         return controller
@@ -85,18 +110,25 @@ class NewItemVC: UIViewController {
 private extension NewItemVC {
     // TODO: imageは2週類ある
     // 1つ目:　商品の写真だけを保存
-    // 2つ目: OCR結果を用いて、賞味期限の表示
-    func imageConfigure(with imageData: Data) {
-//        presenter = ItemViewPresenter(
-//            jsonParser: ProfileJSONParser(profileCreater: ProfileElementsCreater()),
-//            apiClient: GoogleVisonAPIClient(),
-//            view: self
-//        )
-//        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
+    func imageConfigure(with imageData: Data, index cellIndex: Int) {
+        print("image configure")
         
+        let indexPath = IndexPath(row: cellIndex, section: cellIndex)
+        let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
+        let image = UIImage(data: imageData)?.toUp
+        cell.resultItemImageView.image = image
     }
     
-    func periodConfigure(with imageData: Data) {
+    // Json parsingを用いて、imageをparsingする
+    // 2つ目: OCR結果を用いて、賞味期限の表示
+    func periodConfigure(with imageData: Data, index cellIndex: Int) {
+        print("period configure")
+        //        presenter = ItemViewPresenter(
+        //            jsonParser: ProfileJSONParser(profileCreater: ProfileElementsCreater()),
+        //            apiClient: GoogleVisonAPIClient(),
+        //            view: self
+        //        )
+        //        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
         
     }
     
@@ -117,12 +149,24 @@ private extension NewItemVC {
 }
 
 extension NewItemVC: ItemImageCellDelegate {
+    // image 上のbuttonを通したcamera VCへの画面遷移
+    // navigationのpushを用いた方法
+    func takeItemImagePhoto() {
+        let cameraVC = CameraVC.instantiate()
+        cameraVC.cellIndex = 0
+        let navigation = UINavigationController(rootViewController: cameraVC)
+        navigation.modalPresentationStyle = .fullScreen
+        // fullScreenであるが、1つ前のViewのサイズに合わせてpushされる
+        navigationController?.pushViewController(cameraVC, animated: true)
+    }
+    
+    // ただのbuttonを通したcamera VCへの画面遷移
     func takeImagePhotoScreen() {
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 0
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
-        self.present(navigation, animated: true)
+        navigationController?.pushViewController(cameraVC, animated: true)
     }
 }
 
@@ -133,10 +177,11 @@ extension NewItemVC: EndPeriodCellDelegate {
         
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
-        self.present(navigation, animated: true)
+        navigationController?.pushViewController(cameraVC, animated: true)
     }
 }
 
+// 作成、更新、削除のボタンからデータを反映する
 extension NewItemVC: ButtonDelegate {
     func didFinishSaveData() {
         print("save")
@@ -147,6 +192,12 @@ extension NewItemVC: CameraVCDelegate {
     // CameraVCで撮った写真を反映させる
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
         if cellIndex == 0 {
+            // cellを特定
+            print("NewItemVC: cell index 0")
+            var indexPath: IndexPath
+            indexPath = IndexPath(row: cellIndex, section: cellIndex)
+            
+            
             itemImage = UIImage(data: imageData)!.toUp
         } else {
             // cellIndexが1の時は、賞味期限の方を処理
@@ -200,7 +251,9 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
-//            cell.resultItemImageView.image = itemImage
+            if takeItemImage {
+                cell.resultItemImageView.image = itemImage
+            }
             
             cell.selectionStyle = .none
             

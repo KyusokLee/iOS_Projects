@@ -65,6 +65,7 @@ class CameraVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("cell Index: \(cellIndex)")
         // cameraの部分では、 navigationBarを隠す
         navigationController?.isNavigationBarHidden = true
         // カメラの設定やセッションの組み立てはここで行う
@@ -139,7 +140,7 @@ extension CameraVC {
     }
 
     @IBAction func didTapCloseButton(_ sender: Any) {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     private func settingSession() {
@@ -241,29 +242,27 @@ extension CameraVC: AVCapturePhotoCaptureDelegate {
         // logic: Success -> result Viewに画面を移動
         //画面の設定 with imageData
         
-        // Photoを撮ったことをdelegateに知らせる
-        // ここで、delegateに伝えたらいいんちゃうか？
-        delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
-        self.dismiss(animated: true, completion: nil)
+        // ⚠️Photoを撮ったことをdelegateに知らせる
+//        // ⚠️delegateが効かないエラーが出た
+//        self.delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
         
-//        let resultVC = NewItemVC.instantiate(with: imageData, index: cellIndex)
-//        // 🔥ここが肝心なところ!!!
-//        // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
-//        // 写真をとって、ここでloadするようにしておく
-//        // データ型を base64EncodedString()を用いて、String型にしておく必要がある
-////        resultVC.presenter.loadProfile(from: imageData.base64EncodedString())
-//
-//        // navigationItemのbackbuttonItemをcustomする
-//        // styleは、tapするとglowする plain　(default)にする
-//        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-//        navigationItem.backBarButtonItem = backButtonItem
-//        navigationController?.navigationBar.tintColor = UIColor.white
-//
-//        // 画面移動
-//        // ⚠️ここで、エラーが生じる
-//        // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
-////        navigationController?.popViewController(animated: true)
-//        // ⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
-//        navigationController?.pushViewController(resultVC, animated: true)
+        let resultVC = NewItemVC.cellConfigure(with: imageData, index: cellIndex)
+        
+        if cellIndex == 0 {
+            print("index 0")
+        } else {
+            // 🔥ここが肝心なところ!!!
+            // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
+            // 写真をとって、ここでloadするようにしておく
+            // データ型を base64EncodedString()を用いて、String型にしておく必要がある
+            resultVC.presenter.loadItemInfo(from: imageData.base64EncodedString())
+        }
+        // ⚠️ここで、エラーが生じる
+        // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
+        // 一個前のVCに戻る
+        navigationController?.popViewController(animated: true)
+
+        ////⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
+        //navigationController?.pushViewController(resultVC, animated: true)
     }
 }

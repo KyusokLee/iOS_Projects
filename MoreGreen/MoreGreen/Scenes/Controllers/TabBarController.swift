@@ -161,6 +161,8 @@ class TabBarController: UITabBarController {
         let navigationNewItemVC = UINavigationController(rootViewController: createNewItemVC)
         
         navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
+        // fullScreenで表示させる方法
+        navigationNewItemVC.modalPresentationStyle = .fullScreen
         
         // navigation Controllerをpushじゃないpresentで表示させる方法
         self.present(navigationNewItemVC, animated: true) {

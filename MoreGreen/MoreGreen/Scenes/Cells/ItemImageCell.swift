@@ -12,6 +12,7 @@ import UIKit
 
 protocol ItemImageCellDelegate {
     func takeImagePhotoScreen()
+    func takeItemImagePhoto()
 }
 
 class ItemImageCell: UITableViewCell {
@@ -24,11 +25,28 @@ class ItemImageCell: UITableViewCell {
         }
     }
     
+    // ImageViewにgestureを追加する予定
     @IBOutlet weak var resultItemImageView: UIImageView! {
         didSet {
-            resultItemImageView.image = UIImage(systemName: "plus")?.withRenderingMode(.alwaysOriginal)
-            resultItemImageView.tintColor = UIColor.blue
+            // withTintColorだと、alwaysOriginalで、色を変えれる
+            // ただの、tintColorだと、alwaysTemplateで色の変更ができる
+            
+//            let imageConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .bold)
+            // plusイメージを小さくしたい
+            // configurationを用いても、変わらなかった
+            
+            resultItemImageView.layer.cornerRadius = 8
+//            resultItemImageView.image = UIImage(systemName: "plus")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+////            resultItemImageView.image?.withConfiguration(imageConfig)
             resultItemImageView.backgroundColor = UIColor.systemGray5
+        }
+    }
+    
+    // imageがあれば、hiddenにしておく
+    // また、imageViewにtapGestureを追加する
+    @IBOutlet weak var imagePlusButton: UIButton! {
+        didSet {
+            setButtonOnImage()
         }
     }
     
@@ -56,11 +74,26 @@ class ItemImageCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func setButtonOnImage() {
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 60, weight: .medium)
+        let image = UIImage(systemName: "plus", withConfiguration: imageConfig)
+        imagePlusButton.setImage(image?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal), for: .normal)
+        imagePlusButton.backgroundColor = .clear
+    }
+    
+    
     // ⚠️NewItemVCとどのように繋げるかがちょっと難しい
     func configure(with image: UIImage) {
         let itemImage = image.toUp
         resultItemImageView.image = itemImage
         self.layoutIfNeeded()
+    }
+    
+    
+    @IBAction func takeItemImageTap(_ sender: Any) {
+        print("take photo !!!")
+        self.delegate?.takeItemImagePhoto()
+        
     }
     
     @IBAction func shootItemImage(_ sender: Any) {
