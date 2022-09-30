@@ -27,6 +27,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Create"/>
+                                <connections>
+                                    <action selector="createButtonTap:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1yG-s3-bbB"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rj6-Zc-EFt">
                                 <rect key="frame" x="0.0" y="52" width="320" height="45"/>
@@ -35,6 +38,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Update"/>
+                                <connections>
+                                    <action selector="updateButtonTap:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="79R-Ac-TtJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d4j-4A-BCb">
                                 <rect key="frame" x="0.0" y="104" width="320" height="45"/>
@@ -43,6 +49,9 @@
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete"/>
+                                <connections>
+                                    <action selector="deleteButtonTap:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="pMA-EH-GjZ"/>
+                                </connections>
                             </button>
                         </subviews>
                     </stackView>

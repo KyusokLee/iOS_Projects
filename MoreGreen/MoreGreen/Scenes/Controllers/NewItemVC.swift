@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 // MARK: 新しいItemを生成する時に表示されるViewController
 // cell1 : Image , Itemの名前を検知
@@ -18,26 +19,31 @@ class NewItemVC: UIViewController {
     
     @IBOutlet weak var createItemTableView: UITableView!
     private(set) var presenter: ItemInfoViewPresenter!
-    private var cameraVC = CameraVC()
+    typealias PhotoType = (itemImage: Data, periodImage: Data)
     
     // ⚠️まだ、使うかどうか決めてない変数
     var itemImage = UIImage()
     var takeItemImage = false
     var endPeriodText = ""
     var dDayText = ""
+    // ⚠️cameraVCから、image Dataを受け取るためのproperty
+    var photoData = Array(repeating: Data(), count: 2)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Create new item list with camera OCR and barcode")
-        cameraVC.delegate = self
+        print(photoData)
         setUpTableView()
         registerCell()
+        createItemTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBar()
+        // navigation画面遷移によるnavigation barの隠しをfalseにする
         navigationController?.setNavigationBarHidden(false, animated: false)
+        self.loadViewIfNeeded()
     }
     
     private func setUpTableView() {
@@ -73,37 +79,37 @@ class NewItemVC: UIViewController {
         createItemTableView.register(UINib(nibName: "EndPeriodCell", bundle: nil), forCellReuseIdentifier: "EndPeriodCell")
         createItemTableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
     }
-    
-//    // MARK: ❗️このメソッドは、新しくVCへの画面遷移するときに適している判断した
-//    static func instantiate(with imageData: Data, index tag: Int) -> NewItemVC {
-//        // 🔥initialじゃなく、camera VCに行ってから、また戻るパータンなので、instatiate initialではない
+////    // MARK: ❗️cameraVCからのデータをconfigureさせるメソッド
+//    // MARK: このようなメソッドの書き方は、初めてVCを開き出すときに適していると判断した
+//    // static funcだと、このファイルで作成した他のメソッドへアクセスできない
+//    // controller インスタンスを作るとアクセス可能
+//    static func cellConfigure(with imageData: Data, index cellIndex: Int) -> NewItemVC {
+//        // controllerの指定
 //        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
 //        controller.loadViewIfNeeded()
 //
-//        if tag == 0 {
-//            controller.imageConfigure(with: imageData)
-//            return controller
+//        if cellIndex == 0 {
+//            controller.itemImage = UIImage(data: imageData)!
+//            controller.takeItemImage = true
+//            controller.imageConfigure(with: imageData, index: cellIndex)
 //        } else {
-//            controller.periodConfigure(with: imageData)
-//            return controller
+//            controller.periodConfigure(with: imageData, index: cellIndex)
 //        }
+//
+//        controller.createItemTableView.reloadData()
+//
+//        return controller
 //    }
     
-    // static funcだと、このファイルで作成した他のメソッドへアクセスできない
-    // controller インスタンスを作るとアクセス可能
-    static func cellConfigure(with imageData: Data, index cellIndex: Int) -> NewItemVC {
-        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
-        controller.loadViewIfNeeded()
-        
+    // controllerを返すのではなく、ImageDataをfetchするだけのメソッド
+    func fetchImageData(with imageData: Data, index cellIndex: Int) {
         if cellIndex == 0 {
-            controller.itemImage = UIImage(data: imageData)!
-            controller.takeItemImage = true
-            controller.imageConfigure(with: imageData, index: cellIndex)
+            self.photoData[cellIndex] = imageData
         } else {
-            controller.periodConfigure(with: imageData, index: cellIndex)
+            self.photoData[cellIndex] = imageData
         }
         
-        return controller
+        print(photoData)
     }
 }
 
@@ -112,11 +118,13 @@ private extension NewItemVC {
     // 1つ目:　商品の写真だけを保存
     func imageConfigure(with imageData: Data, index cellIndex: Int) {
         print("image configure")
+        print(takeItemImage)
         
         let indexPath = IndexPath(row: cellIndex, section: cellIndex)
         let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
-        let image = UIImage(data: imageData)?.toUp
-        cell.resultItemImageView.image = image
+        let image = UIImage(data: imageData)
+        cell.itemPhoto = image!
+        createItemTableView.reloadData()
     }
     
     // Json parsingを用いて、imageをparsingする
@@ -129,31 +137,73 @@ private extension NewItemVC {
         //            view: self
         //        )
         //        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
-        
+        createItemTableView.reloadData()
+    }
+    // カメラ撮影の権限をcheckするメソッド
+    func requestCameraPermission() {
+        AVCaptureDevice.requestAccess(for: .video) { (granted: Bool) in
+            if granted {
+                print("camera: 権限許可")
+            } else {
+                print("camera: 権限拒否")
+            }
+        }
     }
     
-//    func specifyCell(index tag: Int) -> UITableViewCell {
-//        switch tag {
-//        case 0:
-//            let cell = UINib(nibName: "ItemImageCell", bundle: nil) as! UITableViewCell
-//
-//            return cell
-//        case 1:
-//            let cell = UINib(nibName: "EndPeriodCell", bundle: nil) as! EndPeriodCell
-//
-//            return cell
-//
-//        default:
-//            return UITableViewCell()
-//        }
+    func setImagePhotoEventAlert() -> UIAlertController {
+        let alert = UIAlertController(title: "写真の更新", message: "", preferredStyle: .actionSheet)
+        
+        let newPhoto = UIAlertAction(title: "写真変更", style: .default) { _ in
+            self.moveAgainToTakePhoto()
+        }
+        
+        let back = UIAlertAction(title: "戻る", style: .cancel) { _ in
+            print("back")
+        }
+        
+        let cancel = UIAlertAction(title: "削除", style: .destructive) { _ in
+            self.imageCancelAction()
+        }
+        
+        alert.addAction(newPhoto)
+        alert.addAction(cancel)
+        alert.addAction(back)
+        
+        return alert
+    }
+    
+    func moveAgainToTakePhoto() {
+        let cameraVC = CameraVC.instantiate()
+        cameraVC.cellIndex = 0
+        cameraVC.delegate = self
+        
+        let navigation = UINavigationController(rootViewController: cameraVC)
+        navigation.modalPresentationStyle = .fullScreen
+        // fullScreenであるが、1つ前のViewのサイズに合わせてpushされる
+        navigationController?.pushViewController(cameraVC, animated: true)
+    }
+    
+    func imageCancelAction() {
+        // data型に初期化
+        photoData[0] = Data()
+        createItemTableView.reloadData()
+    }
 }
 
 extension NewItemVC: ItemImageCellDelegate {
+    func tapImageViewEvent() {
+        self.present(setImagePhotoEventAlert(), animated: true)
+    }
+    
     // image 上のbuttonを通したcamera VCへの画面遷移
     // navigationのpushを用いた方法
     func takeItemImagePhoto() {
+        requestCameraPermission()
+        
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 0
+        cameraVC.delegate = self
+        
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
         // fullScreenであるが、1つ前のViewのサイズに合わせてpushされる
@@ -162,8 +212,12 @@ extension NewItemVC: ItemImageCellDelegate {
     
     // ただのbuttonを通したcamera VCへの画面遷移
     func takeImagePhotoScreen() {
+        requestCameraPermission()
+        
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 0
+        cameraVC.delegate = self
+        
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(cameraVC, animated: true)
@@ -172,8 +226,11 @@ extension NewItemVC: ItemImageCellDelegate {
 
 extension NewItemVC: EndPeriodCellDelegate {
     func takeEndPeriodScreen() {
+        requestCameraPermission()
+        
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 1
+        cameraVC.delegate = self
         
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
@@ -186,22 +243,13 @@ extension NewItemVC: ButtonDelegate {
     func didFinishSaveData() {
         print("save")
     }
-}
-
-extension NewItemVC: CameraVCDelegate {
-    // CameraVCで撮った写真を反映させる
-    func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
-        if cellIndex == 0 {
-            // cellを特定
-            print("NewItemVC: cell index 0")
-            var indexPath: IndexPath
-            indexPath = IndexPath(row: cellIndex, section: cellIndex)
-            
-            
-            itemImage = UIImage(data: imageData)!.toUp
-        } else {
-            // cellIndexが1の時は、賞味期限の方を処理
-        }
+    
+    func didFinishUpdateData() {
+        print("update")
+    }
+    
+    func didFinishDeleteData() {
+        print("delete")
     }
 }
 
@@ -218,7 +266,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return UITableView().estimatedRowHeight
+            return UITableView.automaticDimension
         case 1:
             return UITableView.automaticDimension
         case 2:
@@ -231,7 +279,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return UITableView().estimatedRowHeight
+            return UITableView.automaticDimension
         case 1:
             return UITableView.automaticDimension
         case 2:
@@ -251,8 +299,17 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
-            if takeItemImage {
-                cell.resultItemImageView.image = itemImage
+            
+            let imageData = photoData[indexPath.row]
+            let resultImage = UIImage(data: photoData[indexPath.row])
+            
+            if let hasImage = resultImage {
+                cell.imageData = imageData
+                cell.itemPhoto = hasImage
+                cell.configure(with: hasImage)
+            } else {
+                cell.imageData = imageData
+                cell.configure(with: resultImage)
             }
             
             cell.selectionStyle = .none
@@ -269,7 +326,6 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
             cell.delegate = self
-            
             cell.selectionStyle = .none
             
             return cell
@@ -278,9 +334,32 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
             
         }
-        
-        
     }
-    
-    
+}
+
+// delegateがなぜかここに映らない
+extension NewItemVC: CameraVCDelegate {
+    // CameraVCで撮った写真を反映させる
+    func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
+        print("didFinishTakePhoto!")
+        
+        self.fetchImageData(with: imageData, index: cellIndex)
+        self.createItemTableView.reloadData()
+        updateViewConstraints()
+    }
+        
+        
+        
+//        if cellIndex == 0 {
+//            // cellを特定
+//            print("NewItemVC: cell Index 0")
+////            var indexPath: IndexPath
+////            indexPath = IndexPath(row: cellIndex, section: cellIndex)
+////
+////
+////            itemImage = UIImage(data: imageData)!.toUp
+//        } else {
+//            // cellIndexが1の時は、賞味期限の方を処理
+//            print("NewItemVC: cell Index 1")
+//        }
 }

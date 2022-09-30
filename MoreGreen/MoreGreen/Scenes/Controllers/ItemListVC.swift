@@ -61,4 +61,14 @@ extension ItemListVC: ButtonDelegate {
         self.itemListTableView.reloadData()
         updateViewConstraints()
     }
+    
+    func didFinishUpdateData() {
+        self.itemListTableView.reloadData()
+        updateViewConstraints()
+    }
+    
+    func didFinishDeleteData() {
+        self.itemListTableView.reloadData()
+        updateViewConstraints()
+    }
 }

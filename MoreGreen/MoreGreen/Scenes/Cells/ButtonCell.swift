@@ -9,6 +9,8 @@ import UIKit
 
 protocol ButtonDelegate: AnyObject {
     func didFinishSaveData()
+    func didFinishUpdateData()
+    func didFinishDeleteData()
 }
 
 class ButtonCell: UITableViewCell {
@@ -53,5 +55,19 @@ class ButtonCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @IBAction func createButtonTap(_ sender: Any) {
+        self.delegate?.didFinishSaveData()
+    }
+    
+    @IBAction func updateButtonTap(_ sender: Any) {
+        self.delegate?.didFinishUpdateData()
+    }
+    
+    @IBAction func deleteButtonTap(_ sender: Any) {
+        self.delegate?.didFinishDeleteData()
+    }
+    
+    
     
 }

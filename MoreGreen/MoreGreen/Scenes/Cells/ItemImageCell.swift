@@ -13,9 +13,12 @@ import UIKit
 protocol ItemImageCellDelegate {
     func takeImagePhotoScreen()
     func takeItemImagePhoto()
+    func tapImageViewEvent()
 }
 
 class ItemImageCell: UITableViewCell {
+    var imageData: Data?
+    var itemPhoto = UIImage()
     
     @IBOutlet weak var itemImageCreateLabel: UILabel! {
         didSet {
@@ -38,7 +41,7 @@ class ItemImageCell: UITableViewCell {
             resultItemImageView.layer.cornerRadius = 8
 //            resultItemImageView.image = UIImage(systemName: "plus")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
 ////            resultItemImageView.image?.withConfiguration(imageConfig)
-            resultItemImageView.backgroundColor = UIColor.systemGray5
+//            resultItemImageView.backgroundColor = UIColor.systemGray5
         }
     }
     
@@ -66,6 +69,8 @@ class ItemImageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        imagePlusButton.isHidden = false
+        addImageViewTapGesture()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -83,10 +88,34 @@ class ItemImageCell: UITableViewCell {
     
     
     // ⚠️NewItemVCとどのように繋げるかがちょっと難しい
-    func configure(with image: UIImage) {
-        let itemImage = image.toUp
-        resultItemImageView.image = itemImage
+    // 商品のimageがあるときだけ、呼び出すメソッド
+    func configure(with image: UIImage?) {
+        if let hasImage = image {
+            imagePlusButton.isHidden = true
+            resultItemImageView.backgroundColor = .clear
+            let itemImage = hasImage
+            resultItemImageView.image = itemImage
+        } else {
+            if imagePlusButton.isHidden {
+                imagePlusButton.isHidden = false
+            }
+            resultItemImageView.backgroundColor = UIColor.systemGray5
+        }
+        
         self.layoutIfNeeded()
+    }
+    
+    func addImageViewTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapImageView))
+        resultItemImageView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func tapImageView() {
+        guard imageData != nil else {
+            return
+        }
+        
+        self.delegate?.tapImageViewEvent()
     }
     
     

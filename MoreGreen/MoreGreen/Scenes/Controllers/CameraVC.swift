@@ -136,10 +136,12 @@ extension CameraVC {
         
         UIGraphicsBeginImageContextWithOptions(UIScreen.main.bounds.size, false, 0.0)
         //スクショの処理
+        // 写真をcaptureするdelegateは、self(cameraVC)
         imageOutput.capturePhoto(with: settings, delegate: self)
     }
 
     @IBAction func didTapCloseButton(_ sender: Any) {
+        // 以前のnavigation controllerに戻る
         navigationController?.popViewController(animated: true)
     }
     
@@ -216,8 +218,6 @@ extension CameraVC {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.captureSession.startRunning()
         }
-//
-//        captureSession.startRunning()
     }
 
     func stopCapture() {
@@ -231,37 +231,51 @@ extension CameraVC {
 }
 
 extension CameraVC: AVCapturePhotoCaptureDelegate {
+//    // 🔥カメラの音を無音にする (複数の国では、無音にすることは禁止されている)
+//    func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+//        AudioServicesDisposeSystemSoundID(1108)
+//        AVAudioPlayer().play()
+//    }
+    
     //　写真を撮った後のprocess動作処理
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        
         // fileDataRepresentation: 撮影した画像をデータ化する (Data型)
         guard let imageData = photo.fileDataRepresentation() else {
             print("No photo data to write.")
             return
         }
-        // logic: Success -> result Viewに画面を移動
+        // 🎖logic: Success -> result Viewに画面を移動
         //画面の設定 with imageData
         
+        print(imageData)
+        // bytesが表示される
         // ⚠️Photoを撮ったことをdelegateに知らせる
 //        // ⚠️delegateが効かないエラーが出た
-//        self.delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
+        delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
         
-        let resultVC = NewItemVC.cellConfigure(with: imageData, index: cellIndex)
-        
-        if cellIndex == 0 {
-            print("index 0")
-        } else {
-            // 🔥ここが肝心なところ!!!
-            // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
-            // 写真をとって、ここでloadするようにしておく
-            // データ型を base64EncodedString()を用いて、String型にしておく必要がある
-            resultVC.presenter.loadItemInfo(from: imageData.base64EncodedString())
-        }
+//        let resultVC = NewItemVC.cellConfigure(with: imageData, index: cellIndex)
+//
+//        if cellIndex == 0 {
+//            print("index 0")
+//        } else {
+//            // 🔥ここが肝心なところ!!!
+//            // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
+//            // 写真をとって、ここでloadするようにしておく
+//            // データ型を base64EncodedString()を用いて、String型にしておく必要がある
+//            resultVC.presenter.loadItemInfo(from: imageData.base64EncodedString())
+//        }
         // ⚠️ここで、エラーが生じる
         // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
         // 一個前のVCに戻る
         navigationController?.popViewController(animated: true)
+//        // 🔥pushだったら、写真が反映される
+//        navigationController?.pushViewController(resultVC, animated: true)
 
+
+        
+//        // Test Image View Result VC
+//        let testResultVC = PhotoResultVC.instantiate(with: imageData, index: cellIndex)
+//        navigationController?.pushViewController(testResultVC, animated: true)
         ////⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
         //navigationController?.pushViewController(resultVC, animated: true)
     }
