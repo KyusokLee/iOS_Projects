@@ -6,16 +6,21 @@
 //
 
 import UIKit
+import CoreData
 
 class ItemListVC: UIViewController {
     
     @IBOutlet weak var itemListTableView: UITableView!
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var itemList = [ItemList]()
+    var buttonCell = ButtonCell()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
         registerCell()
+        buttonCell.delegate = self
     }
     
     func setUpTableView() {
@@ -28,12 +33,23 @@ class ItemListVC: UIViewController {
     func registerCell() {
         itemListTableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
     }
+    
+    func fetchData() {
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+                
+        let context = appDelegate.persistentContainer.viewContext
+        do {
+            self.itemList = try context.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
+    }
 
 }
 
 extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return self.itemList.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -47,6 +63,9 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newItemVC = NewItemVC.init(nibName: "NewItemVC", bundle: nil)
+        
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -57,7 +76,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
 extension ItemListVC: ButtonDelegate {
     func didFinishSaveData() {
         // CoreDataの場合
-        // self.fetchData()
+        self.fetchData()
         self.itemListTableView.reloadData()
         updateViewConstraints()
     }

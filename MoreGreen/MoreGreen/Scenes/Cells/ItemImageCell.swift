@@ -8,12 +8,13 @@
 import UIKit
 
 // MARK: Buttonをなくして、+ pictogramで修正してもいいかも！
-
+// MARK: image の方は、long press gestrueに変える
 
 protocol ItemImageCellDelegate {
     func takeImagePhotoScreen()
     func takeItemImagePhoto()
     func tapImageViewEvent()
+    func longPressImageViewEvent()
 }
 
 class ItemImageCell: UITableViewCell {
@@ -39,9 +40,11 @@ class ItemImageCell: UITableViewCell {
             // configurationを用いても、変わらなかった
             
             resultItemImageView.layer.cornerRadius = 8
-//            resultItemImageView.image = UIImage(systemName: "plus")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-////            resultItemImageView.image?.withConfiguration(imageConfig)
-//            resultItemImageView.backgroundColor = UIColor.systemGray5
+            self.resultItemImageView.isUserInteractionEnabled = true
+            // 長押しのgesture
+            addImageViewLongTapGesture()
+            // ただのtapのgesture
+            addImageViewTapGesture()
         }
     }
     
@@ -70,7 +73,6 @@ class ItemImageCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         imagePlusButton.isHidden = false
-        addImageViewTapGesture()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -89,29 +91,54 @@ class ItemImageCell: UITableViewCell {
     
     // ⚠️NewItemVCとどのように繋げるかがちょっと難しい
     // 商品のimageがあるときだけ、呼び出すメソッド
-    func configure(with image: UIImage?) {
+    func configure(with image: UIImage?, scaleX x: CGFloat?, scaleY y: CGFloat?) {
         if let hasImage = image {
             imagePlusButton.isHidden = true
+            resultItemImageView.contentMode = .scaleAspectFill
             resultItemImageView.backgroundColor = .clear
             let itemImage = hasImage
             resultItemImageView.image = itemImage
+            
+            if x != nil || y != nil {
+                resultItemImageView.transform = (resultItemImageView.transform).scaledBy(x: x!, y: y!)
+            }
         } else {
             if imagePlusButton.isHidden {
                 imagePlusButton.isHidden = false
             }
+            resultItemImageView.image = nil
             resultItemImageView.backgroundColor = UIColor.systemGray5
         }
         
         self.layoutIfNeeded()
     }
     
+    // 長押しで実行されるメソッド
+    func addImageViewLongTapGesture() {
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressImageView))
+        resultItemImageView.addGestureRecognizer(longPressGesture)
+    }
+    
+    @objc func longPressImageView(_ sender: UILongPressGestureRecognizer) {
+        guard resultItemImageView.image != nil else {
+            return
+        }
+        
+        // タップを長押しして表示されるようにしたいなら、.began
+        // 指を離した後に表示させたいのであれば、.ended
+        if sender.state == .began {
+            self.delegate?.longPressImageViewEvent()
+        }
+    }
+    
+    // ただ、tapしたら呼び出されるメソッド
     func addImageViewTapGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapImageView))
         resultItemImageView.addGestureRecognizer(tapGesture)
     }
     
-    @objc func tapImageView() {
-        guard imageData != nil else {
+    @objc func tapImageView(_ sender: UITapGestureRecognizer) {
+        guard resultItemImageView.image != nil else {
             return
         }
         

@@ -28,6 +28,14 @@ class NewItemVC: UIViewController {
     var dDayText = ""
     // ⚠️cameraVCから、image Dataを受け取るためのproperty
     var photoData = Array(repeating: Data(), count: 2)
+    var photoResultVC = PhotoResultVC()
+    var imageScale: CGAffineTransform?
+    var imageScaleX: CGFloat?
+    var imageScaleY: CGFloat?
+    var hasCoreData = false
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var selectedItemList: ItemList?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +43,7 @@ class NewItemVC: UIViewController {
         print(photoData)
         setUpTableView()
         registerCell()
+        photoResultVC.delegate = self
         createItemTableView.reloadData()
     }
     
@@ -67,6 +76,14 @@ class NewItemVC: UIViewController {
         
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    func fetchCoreData() {
+        if let hasData = selectedItemList {
+            
+        } else {
+            hasCoreData = false
+        }
     }
     
     @objc func dismissBarButtonTap() {
@@ -111,6 +128,10 @@ class NewItemVC: UIViewController {
         
         print(photoData)
     }
+    
+    func resizeImageData(with imageData: Data) {
+        
+    }
 }
 
 private extension NewItemVC {
@@ -151,7 +172,7 @@ private extension NewItemVC {
     }
     
     func setImagePhotoEventAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "写真の更新", message: "", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "", message: "写真の更新", preferredStyle: .actionSheet)
         
         let newPhoto = UIAlertAction(title: "写真変更", style: .default) { _ in
             self.moveAgainToTakePhoto()
@@ -191,8 +212,19 @@ private extension NewItemVC {
 }
 
 extension NewItemVC: ItemImageCellDelegate {
-    func tapImageViewEvent() {
+    // 長押しで、削除、写真変更などが可能となる
+    func longPressImageViewEvent() {
         self.present(setImagePhotoEventAlert(), animated: true)
+    }
+    
+    //　撮った写真を確認できるようにして、また、写真を撮り直すことも可能とするメソッド
+    func tapImageViewEvent() {
+        // indexが0の写真を見せるので、固定的に0を記入した
+        let resultImageVC = PhotoResultVC.instantiate(with: photoData[0])
+        resultImageVC.resultImageData = photoData[0]
+        
+        resultImageVC.modalPresentationStyle = .overCurrentContext
+        self.present(resultImageVC, animated: true)
     }
     
     // image 上のbuttonを通したcamera VCへの画面遷移
@@ -306,10 +338,10 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             if let hasImage = resultImage {
                 cell.imageData = imageData
                 cell.itemPhoto = hasImage
-                cell.configure(with: hasImage)
+                cell.configure(with: hasImage, scaleX: imageScaleX, scaleY: imageScaleY)
             } else {
                 cell.imageData = imageData
-                cell.configure(with: resultImage)
+                cell.configure(with: resultImage, scaleX: 1.0, scaleY: 1.0)
             }
             
             cell.selectionStyle = .none
@@ -327,6 +359,14 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
             cell.delegate = self
             cell.selectionStyle = .none
+            
+            if !hasCoreData {
+                cell.deleteButton.isHidden = true
+                cell.updateButton.isHidden = true
+            } else {
+                cell.deleteButton.isHidden = false
+                cell.updateButton.isHidden = false
+            }
             
             return cell
             
@@ -347,7 +387,17 @@ extension NewItemVC: CameraVCDelegate {
         self.createItemTableView.reloadData()
         updateViewConstraints()
     }
-        
+}
+
+extension NewItemVC: ResizePhotoDelegate {
+    func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat) {
+        imageScale = imageScale?.scaledBy(x: x, y: y)
+        imageScaleX = x
+        imageScaleY = y
+        self.createItemTableView.reloadData()
+        updateViewConstraints()
+    }
+}
         
         
 //        if cellIndex == 0 {
@@ -362,4 +412,4 @@ extension NewItemVC: CameraVCDelegate {
 //            // cellIndexが1の時は、賞味期限の方を処理
 //            print("NewItemVC: cell Index 1")
 //        }
-}
+

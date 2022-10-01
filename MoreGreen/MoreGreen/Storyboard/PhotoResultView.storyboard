@@ -16,31 +16,58 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oG8-Lh-B5h">
+                                <rect key="frame" x="22.999999999999996" y="77" width="43.666666666666657" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="multiply" catalog="system"/>
+                                <connections>
+                                    <action selector="dismissTap:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="wgV-QI-IUC"/>
+                                </connections>
+                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="anr-Sc-PJH">
-                                <rect key="frame" x="75" y="322" width="240" height="200"/>
+                                <rect key="frame" x="20" y="229.66666666666663" width="350" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="240" id="DoU-dI-rMN"/>
-                                    <constraint firstAttribute="height" constant="200" id="IPR-lr-lk4"/>
+                                    <constraint firstAttribute="height" constant="300" id="IPR-lr-lk4"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cw-rg-kgv">
+                                <rect key="frame" x="120" y="609.66666666666663" width="150" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="tLd-xf-DhU"/>
+                                    <constraint firstAttribute="width" constant="150" id="yI5-uq-ftZ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="tapResizePhoto:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="F22-8j-BUR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="anr-Sc-PJH" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="2MM-7W-a60"/>
-                            <constraint firstItem="anr-Sc-PJH" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="RIf-u7-Zia"/>
+                            <constraint firstItem="5cw-rg-kgv" firstAttribute="top" secondItem="anr-Sc-PJH" secondAttribute="bottom" constant="80" id="2WA-Ab-wAM"/>
+                            <constraint firstItem="anr-Sc-PJH" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" multiplier="0.9" id="88T-Xt-GZt"/>
+                            <constraint firstItem="oG8-Lh-B5h" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="30" id="8WP-Fu-w0X"/>
+                            <constraint firstItem="5cw-rg-kgv" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="FMH-KD-Ac2"/>
+                            <constraint firstItem="anr-Sc-PJH" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="m0k-RS-dw9"/>
+                            <constraint firstItem="oG8-Lh-B5h" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="23" id="nH2-Gm-PK3"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="anr-Sc-PJH" secondAttribute="trailing" constant="20" id="ulL-b6-7tg"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="dismissButton" destination="oG8-Lh-B5h" id="DtR-dR-WSq"/>
+                        <outlet property="resizeImageButton" destination="5cw-rg-kgv" id="V1V-qe-VFi"/>
                         <outlet property="resultImageView" destination="anr-Sc-PJH" id="B2R-Lb-b1q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="138" y="4"/>
+            <point key="canvasLocation" x="136.92307692307691" y="3.5545023696682461"/>
         </scene>
     </scenes>
     <resources>
+        <image name="multiply" catalog="system" width="128" height="111"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
