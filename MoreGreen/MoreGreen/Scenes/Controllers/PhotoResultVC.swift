@@ -11,6 +11,9 @@ import UIKit
 // ❗️PhotoResultへの反映は可能だった
 // 写真をtapして、撮った写真を確認するように
 // ここのページはcell indexが要らない
+// ⚠️ただの、pinch gestureだけが可能となるViewになった　-> 今後、scroll viewにも対応させる予定
+
+
 protocol ResizePhotoDelegate: AnyObject {
     func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat)
 }

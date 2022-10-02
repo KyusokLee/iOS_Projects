@@ -62,7 +62,7 @@ class ItemImageCell: UITableViewCell {
             itemImageCameraButton.setTitle("商品の写真を撮る", for: .normal)
             itemImageCameraButton.setTitleColor(.white, for: .normal)
             // なんか効かない
-            itemImageCameraButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+            itemImageCameraButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
             itemImageCameraButton.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.7)
         }
     }

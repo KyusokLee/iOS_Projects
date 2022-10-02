@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import CoreData
 
 // MARK: 新しいItemを生成する時に表示されるViewController
 // cell1 : Image , Itemの名前を検知
@@ -14,6 +15,12 @@ import AVFoundation
 // cell3 : Itemの詳細説明を記入できるように, create button, update button, delete Buttonも一緒に
 
 // ⚠️Error: CameraVCからPopViewControllerしたとき、navigationBarが表示されない
+
+protocol NewItemVCDelegate: AnyObject {
+    func addNewItemInfo()
+}
+
+
 
 class NewItemVC: UIViewController {
     
@@ -24,8 +31,11 @@ class NewItemVC: UIViewController {
     // ⚠️まだ、使うかどうか決めてない変数
     var itemImage = UIImage()
     var takeItemImage = false
+    
     var endPeriodText = ""
+    var recognizeState = false
     var dDayText = ""
+    
     // ⚠️cameraVCから、image Dataを受け取るためのproperty
     var photoData = Array(repeating: Data(), count: 2)
     var photoResultVC = PhotoResultVC()
@@ -34,8 +44,11 @@ class NewItemVC: UIViewController {
     var imageScaleY: CGFloat?
     var hasCoreData = false
     
+    // imageの賞味期限や消費期限のconfigureのための変数
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var selectedItemList: ItemList?
+    weak var delegate: NewItemVCDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -124,6 +137,7 @@ class NewItemVC: UIViewController {
             self.photoData[cellIndex] = imageData
         } else {
             self.photoData[cellIndex] = imageData
+            self.periodConfigure(with: imageData, index: cellIndex)
         }
         
         print(photoData)
@@ -148,16 +162,16 @@ private extension NewItemVC {
         createItemTableView.reloadData()
     }
     
-    // Json parsingを用いて、imageをparsingする
+    // 🔥Json parsingを用いて、imageをparsingする
     // 2つ目: OCR結果を用いて、賞味期限の表示
     func periodConfigure(with imageData: Data, index cellIndex: Int) {
         print("period configure")
-        //        presenter = ItemViewPresenter(
-        //            jsonParser: ProfileJSONParser(profileCreater: ProfileElementsCreater()),
-        //            apiClient: GoogleVisonAPIClient(),
-        //            view: self
-        //        )
-        //        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
+        presenter = ItemInfoViewPresenter(
+            jsonParser: EndDateJSONParser(itemInfoCreater: ItemElementsCreator()),
+            apiClient: GoogleVisonAPIClient(),
+            itemView: self
+        )
+        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
         createItemTableView.reloadData()
     }
     // カメラ撮影の権限をcheckするメソッド
@@ -273,7 +287,32 @@ extension NewItemVC: EndPeriodCellDelegate {
 // 作成、更新、削除のボタンからデータを反映する
 extension NewItemVC: ButtonDelegate {
     func didFinishSaveData() {
+        // 選択されたもの(既存のitemデータ)がないときだけ、save可能だからguardを採択した
+        guard selectedItemList == nil else {
+            return
+        }
         print("save")
+        
+        guard let entityDescription = NSEntityDescription.entity(forEntityName: "ItemList", in: context) else {
+            return
+        }
+        
+        guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? ItemList else {
+            return
+        }
+        
+        object.endDate = endPeriodText
+        object.curDate = Date()
+        object.uuid = UUID()
+        //imageDataは、itemの写真だけを入れるから、photoData[0]を格納する
+        // selectedされたとき、fetchimageすればいい
+        object.itemImage = photoData[0]
+        
+        let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        appDelegate.saveContext()
+        
+        self.delegate?.addNewItemInfo()
+        self.dismiss(animated: true)
     }
     
     func didFinishUpdateData() {
@@ -352,6 +391,11 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
             cell.delegate = self
             
+            // 何もないとき
+            if endPeriodText.count != 0 {
+                cell.configure(with: endPeriodText, checkState: recognizeState)
+            }
+            
             cell.selectionStyle = .none
             return cell
             
@@ -359,6 +403,26 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
             cell.delegate = self
             cell.selectionStyle = .none
+            
+            // dataがあるときだけ、save ButtonをisEnabledをtrueにして、活性化にする
+            // TODO: ⚠️一つ以上のデータ(賞味期限、もしくは、商品のimage)があれば、buttonのクリックができるようにする
+            
+            // 選択したitemがある -> すでにCoreData上に格納したデータがあるってこと
+            if selectedItemList != nil {
+                cell.createButton.isHidden = true
+            } else {
+                cell.createButton.isHidden = false
+//                cell.createButton.isEnabled = false
+//                cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
+            }
+            
+            if photoData[0] == Data() && photoData[1] == Data() {
+                cell.createButton.isEnabled = false
+                cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
+            } else {
+                cell.createButton.isEnabled = true
+                cell.createButton.backgroundColor = UIColor(rgb: 0x0095F6)
+            }
             
             if !hasCoreData {
                 cell.deleteButton.isHidden = true
@@ -389,6 +453,7 @@ extension NewItemVC: CameraVCDelegate {
     }
 }
 
+// この機能は反映されない
 extension NewItemVC: ResizePhotoDelegate {
     func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat) {
         imageScale = imageScale?.scaledBy(x: x, y: y)
@@ -398,7 +463,33 @@ extension NewItemVC: ResizePhotoDelegate {
         updateViewConstraints()
     }
 }
+
+extension NewItemVC: ItemInfoView {
+    // 認証とネットワークアクセスに成功した時
+    func successToShowItemInfo(with endDate: EndDate) {
+        //image Viewからのデータをpresenterから受け取ってimageをfetchする
+        let unrecognizedMsg = "日付を読み取れませんでした"
         
+        self.endPeriodText = endDate.endDate ?? unrecognizedMsg
+        self.createItemTableView.reloadData()
+    }
+    
+    // Google APIへのnetWork 接続Error
+    func networkError() {
+        self.endPeriodText = "ネットワークアクセスに失敗しました"
+        self.createItemTableView.reloadData()
+    }
+    
+    // 文字(賞味期限や消費期限)の認識に失敗
+    func failToRecognize() {
+        self.endPeriodText = "文字認識に失敗しました"
+        self.createItemTableView.reloadData()
+    }
+    
+    
+}
+
+
         
 //        if cellIndex == 0 {
 //            // cellを特定

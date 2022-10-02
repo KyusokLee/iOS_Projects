@@ -7,6 +7,8 @@
 
 import Foundation
 
+// google vision apiを用いる
+
 struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
     // API仕様はこちらを参照
     // https://cloud.google.com/vision/docs/ocr?hl=ja
@@ -16,7 +18,10 @@ struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
         // URLSessionを使って通信をする
         // 通信が終わったらcompletionを呼ぶ
         let request = buildRequest(with: base64String)
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            // Debug確認をよりしやすくするため、status codeを表示させる
+            print((response as! HTTPURLResponse).statusCode)
+            
             DispatchQueue.main.async {
                 completion(data, error)
             }
@@ -26,7 +31,7 @@ struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
 
 private extension GoogleVisonAPIClient {
     func buildRequest(with base64String: String) -> URLRequest {
-        // ここにAPI keyが入る
+        // 🔥ここにAPI keyが入る
         let apiKey = ""
         let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(apiKey)")!
         var request = URLRequest(url: url)

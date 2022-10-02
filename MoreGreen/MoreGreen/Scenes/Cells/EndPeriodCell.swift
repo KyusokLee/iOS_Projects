@@ -33,7 +33,9 @@ class EndPeriodCell: UITableViewCell {
     
     @IBOutlet weak var endPeriodDataLabel: UILabel! {
         didSet {
+            endPeriodDataLabel.text = "日付が表示されます"
             endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .bold)
+            endPeriodDataLabel.textColor = UIColor.systemGray3
         }
     }
     
@@ -42,8 +44,10 @@ class EndPeriodCell: UITableViewCell {
     @IBOutlet weak var endPeriodShootButton: UIButton! {
         didSet {
             endPeriodShootButton.setTitle("賞味期限の写真を撮る", for: .normal)
+            endPeriodShootButton.setTitleColor(.white, for: .normal)
+            endPeriodShootButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
             endPeriodShootButton.tintColor = UIColor.white
-            endPeriodShootButton.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.5)
+            endPeriodShootButton.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.7)
             endPeriodShootButton.layer.cornerRadius = 8
             
         }
@@ -69,8 +73,21 @@ class EndPeriodCell: UITableViewCell {
     }
     
     
-    private func configure() {
+    func configure(with endDate: String, checkState state: Bool) {
         
+        endPeriodDataLabel.text = endDate
+        
+        if !state {
+            // 認証に失敗
+            endPeriodDataLabel.textColor = UIColor(rgb: 0x751717)
+            endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        } else {
+            // 認証に成功
+            endPeriodDataLabel.textColor = UIColor(rgb: 0x388E3C)
+            endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        }
+        
+        self.layoutIfNeeded()
     }
     
 }
