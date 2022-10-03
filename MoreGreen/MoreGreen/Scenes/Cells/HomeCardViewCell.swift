@@ -19,15 +19,20 @@ class HomeCardViewCell: UITableViewCell {
     
     @IBOutlet weak var cardImageView: UIImageView! {
         didSet {
+            cardImageView.contentMode = .scaleAspectFill
             cardImageView.image = UIImage(named: "120")
+            cardImageView.layer.masksToBounds = true
             cardImageView.layer.cornerRadius = cardImageView.bounds.height / 2
         }
     }
     
-
+    @IBOutlet weak var cardTitleLabel: UILabel!
+    @IBOutlet weak var cardWelcomeLabel: UILabel!
+    @IBOutlet weak var cardUserNameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.layoutIfNeeded()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

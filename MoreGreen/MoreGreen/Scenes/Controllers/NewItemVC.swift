@@ -16,11 +16,16 @@ import CoreData
 
 // ⚠️Error: CameraVCからPopViewControllerしたとき、navigationBarが表示されない
 
+// MARK: 🔥⚠️現在layoutの警告がでるところ -> HomeVCのcardView, NewItemVCの '写真を撮る'のボタン -> 今後直す予定
+
+
 protocol NewItemVCDelegate: AnyObject {
     func addNewItemInfo()
 }
 
-
+//protocol NewItemMakeDelegate: AnyObject {
+//    func makeNewItemFromThisView()
+//}
 
 class NewItemVC: UIViewController {
     
@@ -34,6 +39,7 @@ class NewItemVC: UIViewController {
     
     var endPeriodText = ""
     var recognizeState = false
+    var failState = false
     var dDayText = ""
     
     // ⚠️cameraVCから、image Dataを受け取るためのproperty
@@ -49,20 +55,31 @@ class NewItemVC: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var selectedItemList: ItemList?
     weak var delegate: NewItemVCDelegate?
+//    weak var makeDelegate: NewItemMakeDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Create new item list with camera OCR and barcode")
         print(photoData)
+        
+        if let hasItemList = selectedItemList {
+            print(hasItemList)
+        }
+        
         setUpTableView()
         registerCell()
         photoResultVC.delegate = self
         createItemTableView.reloadData()
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setNavigationBar()
+        fetchCoreData()
         // navigation画面遷移によるnavigation barの隠しをfalseにする
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.loadViewIfNeeded()
@@ -93,7 +110,7 @@ class NewItemVC: UIViewController {
     
     func fetchCoreData() {
         if let hasData = selectedItemList {
-            
+            imageConfigure(with: hasData.itemImage ?? Data(), index: 0)
         } else {
             hasCoreData = false
         }
@@ -109,37 +126,21 @@ class NewItemVC: UIViewController {
         createItemTableView.register(UINib(nibName: "EndPeriodCell", bundle: nil), forCellReuseIdentifier: "EndPeriodCell")
         createItemTableView.register(UINib(nibName: "ButtonCell", bundle: nil), forCellReuseIdentifier: "ButtonCell")
     }
-////    // MARK: ❗️cameraVCからのデータをconfigureさせるメソッド
-//    // MARK: このようなメソッドの書き方は、初めてVCを開き出すときに適していると判断した
-//    // static funcだと、このファイルで作成した他のメソッドへアクセスできない
-//    // controller インスタンスを作るとアクセス可能
-//    static func cellConfigure(with imageData: Data, index cellIndex: Int) -> NewItemVC {
-//        // controllerの指定
-//        let controller = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
-//        controller.loadViewIfNeeded()
-//
-//        if cellIndex == 0 {
-//            controller.itemImage = UIImage(data: imageData)!
-//            controller.takeItemImage = true
-//            controller.imageConfigure(with: imageData, index: cellIndex)
-//        } else {
-//            controller.periodConfigure(with: imageData, index: cellIndex)
-//        }
-//
-//        controller.createItemTableView.reloadData()
-//
-//        return controller
-//    }
-    
+// MARK:🔥 UIViewControllerを返すメソッドの書き方は、初めてVCを開き出すときに適していると判断した
+
     // controllerを返すのではなく、ImageDataをfetchするだけのメソッド
+    // cameraVCから写真を撮った後は、最初にここから始まる
+    // 別にこのメソッドがなくてm動いている
     func fetchImageData(with imageData: Data, index cellIndex: Int) {
         if cellIndex == 0 {
+            // photoDataのimageを変えるだけで、tableViewをreloadDataすれば、更新される
             self.photoData[cellIndex] = imageData
         } else {
             self.photoData[cellIndex] = imageData
             self.periodConfigure(with: imageData, index: cellIndex)
         }
         
+        // byteが出力される
         print(photoData)
     }
     
@@ -154,11 +155,11 @@ private extension NewItemVC {
     func imageConfigure(with imageData: Data, index cellIndex: Int) {
         print("image configure")
         print(takeItemImage)
-        
+
         let indexPath = IndexPath(row: cellIndex, section: cellIndex)
         let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
         let image = UIImage(data: imageData)
-        cell.itemPhoto = image!
+        cell.itemPhoto = image ?? UIImage()
         createItemTableView.reloadData()
     }
     
@@ -172,7 +173,14 @@ private extension NewItemVC {
             itemView: self
         )
         // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
-        createItemTableView.reloadData()
+        periodImageLoad(with: imageData)
+    }
+    
+    // 🔥画面への反映速度が遅い: loadをimageをここでやると、案の定画面への反映速度が若干遅かった
+    // --> 修正したい方向性: cameraVCで写真を撮ったあと、すぐloadItemInfoをするようにすれば、より早く反映されるのではないかと考える
+    // それとも、presenterを最初からVCのloadの時点(viewDidLoad)で定義する
+    func periodImageLoad(with imageData: Data) {
+        presenter.loadItemInfo(from: imageData.base64EncodedString())
     }
     // カメラ撮影の権限をcheckするメソッド
     func requestCameraPermission() {
@@ -286,6 +294,7 @@ extension NewItemVC: EndPeriodCellDelegate {
 
 // 作成、更新、削除のボタンからデータを反映する
 extension NewItemVC: ButtonDelegate {
+    // DataをCoreDataにsaveする
     func didFinishSaveData() {
         // 選択されたもの(既存のitemデータ)がないときだけ、save可能だからguardを採択した
         guard selectedItemList == nil else {
@@ -301,7 +310,11 @@ extension NewItemVC: ButtonDelegate {
             return
         }
         
-        object.endDate = endPeriodText
+        if failState {
+            object.endDate = "データなし"
+        } else {
+            object.endDate = endPeriodText
+        }
         object.curDate = Date()
         object.uuid = UUID()
         //imageDataは、itemの写真だけを入れるから、photoData[0]を格納する
@@ -312,15 +325,88 @@ extension NewItemVC: ButtonDelegate {
         appDelegate.saveContext()
         
         self.delegate?.addNewItemInfo()
+        
+//        // このVCをpresentしたVCを指定する
+//        guard let rootVC = self.presentingViewController else {
+//            return
+//        }
+//
+//        if rootVC != TabBarController() {
+//            print(rootVC)
+//        }
+        // rootVCが全部 TabBarControllerになっている
+        
+        // dismissするとともに、itemListVCに行きたい
         self.dismiss(animated: true)
     }
     
     func didFinishUpdateData() {
         print("update")
+        guard let hasData = selectedItemList else {
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+        
+        guard let hasUUID = hasData.uuid else {
+            return
+        }
+        
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        
+        do {
+            let loadedData = try context.fetch(fetchRequest)
+            
+            loadedData.first?.itemImage = photoData[0]
+            
+            if failState {
+                loadedData.first?.endDate = "データなし"
+            } else {
+                loadedData.first?.endDate = endPeriodText
+            }
+            loadedData.first?.curDate = Date()
+            
+            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+            appDelegate.saveContext()
+            
+        } catch {
+            print(error)
+        }
+        
+        self.delegate?.addNewItemInfo()
+        
+        self.dismiss(animated: true)
     }
     
     func didFinishDeleteData() {
         print("delete")
+        guard let hasData = selectedItemList else {
+            return
+        }
+        
+        guard let hasUUID = hasData.uuid else {
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        
+        do {
+            let loadedData = try context.fetch(fetchRequest)
+            if let loadFirstData = loadedData.first {
+                context.delete(loadFirstData)
+                
+                let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+                appDelegate.saveContext()
+            }
+        } catch {
+            print(error)
+        }
+        
+        self.delegate?.addNewItemInfo()
+        self.dismiss(animated: true)
+        
     }
 }
 
@@ -341,7 +427,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return UITableView.automaticDimension
         case 2:
-            return 200
+            return 100
         default:
             return 0
         }
@@ -354,7 +440,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return UITableView.automaticDimension
         case 2:
-            return UITableView().estimatedRowHeight
+            return UITableView.automaticDimension
         default:
             return 0
         }
@@ -371,16 +457,26 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
             
-            let imageData = photoData[indexPath.row]
-            let resultImage = UIImage(data: photoData[indexPath.row])
-            
-            if let hasImage = resultImage {
-                cell.imageData = imageData
-                cell.itemPhoto = hasImage
-                cell.configure(with: hasImage, scaleX: imageScaleX, scaleY: imageScaleY)
+            if let hasData = selectedItemList {
+                if let hasItemImage = hasData.itemImage {
+                    let fetchImage = UIImage(data: hasItemImage)!
+                    cell.imageData = hasItemImage
+                    cell.itemPhoto = fetchImage
+                    cell.configure(with: fetchImage, scaleX: imageScaleX, scaleY: imageScaleY)
+                }
+                
             } else {
-                cell.imageData = imageData
-                cell.configure(with: resultImage, scaleX: 1.0, scaleY: 1.0)
+                let imageData = photoData[indexPath.row]
+                let resultImage = UIImage(data: photoData[indexPath.row])
+                
+                if let hasImage = resultImage {
+                    cell.imageData = imageData
+                    cell.itemPhoto = hasImage
+                    cell.configure(with: hasImage, scaleX: imageScaleX, scaleY: imageScaleY)
+                } else {
+                    cell.imageData = imageData
+                    cell.configure(with: resultImage, scaleX: 1.0, scaleY: 1.0)
+                }
             }
             
             cell.selectionStyle = .none
@@ -388,12 +484,21 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             return cell
             
         case 1:
+            // ⚠️途中の段階: 賞味期限のcellでの処理をもっと書く必要がある
             let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
             cell.delegate = self
             
+            if let hasData = selectedItemList {
+                if let hasEndDate = hasData.endDate {
+                    // endDateが必ずあるときだけ、この処理をするので、checkStateは直ちにtrueにしてあげた
+                    let fetchEndDate = hasEndDate
+                    cell.configure(with: fetchEndDate, checkState: true, failure: false)
+                }
+            }
+            
             // 何もないとき
             if endPeriodText.count != 0 {
-                cell.configure(with: endPeriodText, checkState: recognizeState)
+                cell.configure(with: endPeriodText, checkState: recognizeState, failure: failState)
             }
             
             cell.selectionStyle = .none
@@ -410,26 +515,21 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // 選択したitemがある -> すでにCoreData上に格納したデータがあるってこと
             if selectedItemList != nil {
                 cell.createButton.isHidden = true
+                cell.updateButton.isHidden = false
+                cell.deleteButton.isHidden = false
             } else {
                 cell.createButton.isHidden = false
-//                cell.createButton.isEnabled = false
-//                cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
+                cell.updateButton.isHidden = true
+                cell.deleteButton.isHidden = true
             }
             
+            //商品のimageデータとperiodデータ両方ともないと create button 押せないように
             if photoData[0] == Data() && photoData[1] == Data() {
                 cell.createButton.isEnabled = false
                 cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
             } else {
                 cell.createButton.isEnabled = true
                 cell.createButton.backgroundColor = UIColor(rgb: 0x0095F6)
-            }
-            
-            if !hasCoreData {
-                cell.deleteButton.isHidden = true
-                cell.updateButton.isHidden = true
-            } else {
-                cell.deleteButton.isHidden = false
-                cell.updateButton.isHidden = false
             }
             
             return cell
@@ -470,37 +570,30 @@ extension NewItemVC: ItemInfoView {
         //image Viewからのデータをpresenterから受け取ってimageをfetchする
         let unrecognizedMsg = "日付を読み取れませんでした"
         
+        self.recognizeState = true
         self.endPeriodText = endDate.endDate ?? unrecognizedMsg
+        
+        if self.endPeriodText == unrecognizedMsg {
+            failState = true
+        } else {
+            failState = false
+        }
+        
         self.createItemTableView.reloadData()
     }
     
     // Google APIへのnetWork 接続Error
     func networkError() {
+        self.recognizeState = false
         self.endPeriodText = "ネットワークアクセスに失敗しました"
         self.createItemTableView.reloadData()
     }
     
     // 文字(賞味期限や消費期限)の認識に失敗
     func failToRecognize() {
+        self.recognizeState = false
         self.endPeriodText = "文字認識に失敗しました"
         self.createItemTableView.reloadData()
     }
-    
-    
 }
-
-
-        
-//        if cellIndex == 0 {
-//            // cellを特定
-//            print("NewItemVC: cell Index 0")
-////            var indexPath: IndexPath
-////            indexPath = IndexPath(row: cellIndex, section: cellIndex)
-////
-////
-////            itemImage = UIImage(data: imageData)!.toUp
-//        } else {
-//            // cellIndexが1の時は、賞味期限の方を処理
-//            print("NewItemVC: cell Index 1")
-//        }
 

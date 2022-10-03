@@ -14,20 +14,20 @@ import UIKit
 class HomeVC: UIViewController {
     
     @IBOutlet weak var homeTableView: UITableView!
-
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print("this is home view")
         setUpTableView()
         registerCell()
+        homeTableView.reloadData()
+        updateViewConstraints()
     }
     
     private func setUpTableView() {
         homeTableView.delegate = self
         homeTableView.dataSource = self
-        homeTableView.reloadData()
     }
     
     private func registerCell() {
@@ -58,7 +58,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return UITableView.automaticDimension
+            return 200
         default:
             return 0
         }
@@ -79,3 +79,4 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
 
 }
+

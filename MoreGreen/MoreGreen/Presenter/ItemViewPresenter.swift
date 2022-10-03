@@ -30,7 +30,7 @@ final class ItemInfoViewPresenter {
         self.itemView = itemView
     }
     
-    
+    // Google APIとのネットワーク処理を行い、処理後のイベントを管理するメソッド
     func loadItemInfo(from base64String: String) {
         apiClient.send(base64String: base64String) { (data, error) in
             guard error == nil, let hasData = data else {

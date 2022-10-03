@@ -13,7 +13,7 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="314" id="KGk-i7-Jjw" customClass="ItemImageCell" customModule="MoreGreen" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="303" height="314"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="303" height="314"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -64,7 +64,7 @@
                     <constraint firstItem="zSe-IQ-uVU" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Cdb-d5-7vv"/>
                     <constraint firstItem="Yg2-V1-e30" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="G6S-HX-grZ"/>
                     <constraint firstItem="zSe-IQ-uVU" firstAttribute="top" secondItem="FhT-8l-N6q" secondAttribute="top" constant="25" id="KEZ-jE-9L9"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Yg2-V1-e30" secondAttribute="bottom" constant="10" id="R58-2S-GlP"/>
+                    <constraint firstAttribute="bottom" secondItem="Yg2-V1-e30" secondAttribute="bottom" constant="10" id="R58-2S-GlP"/>
                     <constraint firstItem="FhT-8l-N6q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="gDB-ro-39l"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FhT-8l-N6q" secondAttribute="trailing" constant="15" id="lFM-Kr-o2c"/>
                     <constraint firstItem="2R5-xz-V70" firstAttribute="centerY" secondItem="zSe-IQ-uVU" secondAttribute="centerY" id="oXO-dq-SK6"/>

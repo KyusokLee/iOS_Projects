@@ -75,7 +75,10 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="cardImageView" destination="kxV-HI-n5s" id="rRk-cg-vgs"/>
+                <outlet property="cardTitleLabel" destination="NH3-qB-zJz" id="kLM-DA-bni"/>
+                <outlet property="cardUserNameLabel" destination="9jT-aE-f6z" id="LHH-Qa-cry"/>
                 <outlet property="cardView" destination="g0p-cy-wIN" id="1sF-D3-9XP"/>
+                <outlet property="cardWelcomeLabel" destination="UY9-Ni-GBh" id="DF6-kn-dYm"/>
             </connections>
             <point key="canvasLocation" x="200.76923076923077" y="93.483412322274873"/>
         </tableViewCell>

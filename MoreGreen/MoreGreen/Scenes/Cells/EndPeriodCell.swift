@@ -73,7 +73,7 @@ class EndPeriodCell: UITableViewCell {
     }
     
     
-    func configure(with endDate: String, checkState state: Bool) {
+    func configure(with endDate: String, checkState state: Bool, failure fail: Bool) {
         
         endPeriodDataLabel.text = endDate
         
@@ -82,9 +82,15 @@ class EndPeriodCell: UITableViewCell {
             endPeriodDataLabel.textColor = UIColor(rgb: 0x751717)
             endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
         } else {
-            // 認証に成功
-            endPeriodDataLabel.textColor = UIColor(rgb: 0x388E3C)
-            endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
+            if fail {
+                // 正常に文字認識はできるが、日付を読み取れなかったとき
+                endPeriodDataLabel.textColor = UIColor(rgb: 0x751717)
+                endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
+            } else {
+                // 認証に成功、または、Core Data上のデータがある場合
+                endPeriodDataLabel.textColor = UIColor(rgb: 0x388E3C)
+                endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .medium)
+            }
         }
         
         self.layoutIfNeeded()

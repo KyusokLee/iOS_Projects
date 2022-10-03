@@ -58,6 +58,7 @@ class ItemImageCell: UITableViewCell {
     
     @IBOutlet weak var itemImageCameraButton: UIButton! {
         didSet {
+            itemImageCameraButton.layer.masksToBounds = true
             itemImageCameraButton.layer.cornerRadius = 8
             itemImageCameraButton.setTitle("商品の写真を撮る", for: .normal)
             itemImageCameraButton.setTitleColor(.white, for: .normal)

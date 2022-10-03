@@ -14,7 +14,13 @@ enum isShowed {
 
 class ItemCell: UITableViewCell {
     
-    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var itemImageView: UIImageView! {
+        didSet {
+            itemImageView.layer.masksToBounds = true
+            itemImageView.layer.cornerRadius = 8
+            itemImageView.contentMode = .scaleAspectFill
+        }
+    }
     
     @IBOutlet weak var itemNameLabel: UILabel! {
         didSet {
@@ -25,7 +31,7 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var itemEndPeriod: UILabel! {
         didSet {
-            itemEndPeriod.text = "賞味期限: "
+            itemEndPeriod.text = ""
             itemEndPeriod.font = .systemFont(ofSize: 14, weight: .medium)
         }
     }
@@ -39,9 +45,13 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var showDetailButton: UIButton!
     
+    var calendar = Calendar.current
+    var currentDate = Date()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -55,6 +65,17 @@ class ItemCell: UITableViewCell {
         
         
     }
+    
+//    func setDateFormat() {
+//        if let dateString = 
+//        let dateFormatter = DateFormatter()
+//        var daysCount: Int = 0
+//        
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        dateFormatter.date(f)
+//        
+//        
+//    }
     
     
     @IBAction func showDetailItemInfo(_ sender: Any) {

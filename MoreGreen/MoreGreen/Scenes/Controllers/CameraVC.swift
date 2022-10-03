@@ -232,10 +232,14 @@ extension CameraVC {
 
 extension CameraVC: AVCapturePhotoCaptureDelegate {
 //    // 🔥カメラの音を無音にする (複数の国では、無音にすることは禁止されている)
-//    func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
-//        AudioServicesDisposeSystemSoundID(1108)
+    func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        AudioServicesDisposeSystemSoundID(1108)
 //        AVAudioPlayer().play()
-//    }
+    }
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        AudioServicesDisposeSystemSoundID(1108)
+    }
     
     //　写真を撮った後のprocess動作処理
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
@@ -250,20 +254,10 @@ extension CameraVC: AVCapturePhotoCaptureDelegate {
         print(imageData)
         // bytesが表示される
         // ⚠️Photoを撮ったことをdelegateに知らせる
-//        // ⚠️delegateが効かないエラーが出た
         delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
         
-//        let resultVC = NewItemVC.cellConfigure(with: imageData, index: cellIndex)
-//
-//        if cellIndex == 0 {
-//            print("index 0")
-//        } else {
-//            // 🔥ここが肝心なところ!!!
-//            // ここで、presenterのloadProfileメソッドを呼びださない以上、profileVCで作成したProtocolにデータが渡されるわけがない
-//            // 写真をとって、ここでloadするようにしておく
-//            // データ型を base64EncodedString()を用いて、String型にしておく必要がある
-//            resultVC.presenter.loadItemInfo(from: imageData.base64EncodedString())
-//        }
+        //⚠️ここで、presenterのloadItemInfo処理をするのが適していると思うが、View Controllerをpushするのではなく、parent VCに戻る処理をするので、難しかった
+        
         // ⚠️ここで、エラーが生じる
         // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
         // 一個前のVCに戻る
@@ -271,8 +265,6 @@ extension CameraVC: AVCapturePhotoCaptureDelegate {
 //        // 🔥pushだったら、写真が反映される
 //        navigationController?.pushViewController(resultVC, animated: true)
 
-
-        
 //        // Test Image View Result VC
 //        let testResultVC = PhotoResultVC.instantiate(with: imageData, index: cellIndex)
 //        navigationController?.pushViewController(testResultVC, animated: true)
