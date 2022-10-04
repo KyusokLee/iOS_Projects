@@ -14,6 +14,7 @@ class ItemListVC: UIViewController {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var itemList = [ItemList]()
     var newItemVC = NewItemVC()
+    var isTrue = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +67,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
         
+        cell.itemEndPeriod.text = itemList[indexPath.row].endDate
         cell.itemImageView.image = UIImage(data: itemList[indexPath.row].itemImage ?? Data())
         
         if let dateString = itemList[indexPath.row].endDate {
