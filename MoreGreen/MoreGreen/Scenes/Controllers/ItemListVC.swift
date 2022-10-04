@@ -8,13 +8,14 @@
 import UIKit
 import CoreData
 
+// itemListから、newItemへの入りでエラーが生じる　(うまく画面が反映されない)
+
 class ItemListVC: UIViewController {
     
     @IBOutlet weak var itemListTableView: UITableView!
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var itemList = [ItemList]()
     var newItemVC = NewItemVC()
-    var isTrue = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +48,11 @@ class ItemListVC: UIViewController {
             print(error)
         }
     }
+    
+    // ⚠️アプリを開いたときのcurrent dateとitemの賞味期限の差を求め、D-Dayをfetchする
+    func fetchCurrentDate() {
+        
+    }
 
 }
 
@@ -67,22 +73,25 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
         
-        cell.itemEndPeriod.text = itemList[indexPath.row].endDate
-        cell.itemImageView.image = UIImage(data: itemList[indexPath.row].itemImage ?? Data())
+        let cellImageData = itemList[indexPath.row].itemImage ?? Data()
+        let cellEndPeriod = itemList[indexPath.row].endDate ?? ""
         
-        if let dateString = itemList[indexPath.row].endDate {
-            let formatter = ISO8601DateFormatter()
-            
-            if let isoDate = formatter.date(from: dateString) {
-                let customFormatter = DateFormatter()
-                customFormatter.dateFormat = "yyyy年 MM月 dd日"
-                
-                let customDateString = customFormatter.string(from: isoDate)
-                
-                cell.itemEndPeriod.text = customDateString
-            }
-            
-        }
+        cell.configure(with: cellImageData, hasDate: cellEndPeriod)
+        
+        
+//        if let dateString = itemList[indexPath.row].endDate {
+//            let formatter = ISO8601DateFormatter()
+//            
+//            if let isoDate = formatter.date(from: dateString) {
+//                let customFormatter = DateFormatter()
+//                customFormatter.dateFormat = "yyyy年 MM月 dd日"
+//                
+//                let customDateString = customFormatter.string(from: isoDate)
+//                
+//                cell.itemEndPeriod.text = customDateString
+//            }
+//            
+//        }
         
         
         

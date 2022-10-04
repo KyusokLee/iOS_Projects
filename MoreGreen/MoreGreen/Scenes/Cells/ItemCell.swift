@@ -22,6 +22,15 @@ class ItemCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var labelOnImage: UILabel! {
+        didSet {
+            labelOnImage.text = "No Image"
+            labelOnImage.font = .systemFont(ofSize: 11, weight: .bold)
+            labelOnImage.textColor = UIColor.white
+        }
+    }
+    
+    
     @IBOutlet weak var itemNameLabel: UILabel! {
         didSet {
             itemNameLabel.text = "データなし"
@@ -31,8 +40,10 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var itemEndPeriod: UILabel! {
         didSet {
-            itemEndPeriod.text = ""
+            itemEndPeriod.text = "データなし"
+            itemEndPeriod.textColor = UIColor(rgb: 0x751717)
             itemEndPeriod.font = .systemFont(ofSize: 14, weight: .medium)
+            
         }
     }
     
@@ -60,8 +71,26 @@ class ItemCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configure() {
+    // cellのconfigure
+    func configure(with imageData: Data, hasDate endDate: String) {
+        // ただのData()のまま (写真のイメージがないもの)
+        if imageData == Data() {
+            itemImageView.image = nil
+            itemImageView.backgroundColor = UIColor.systemGray5
+            labelOnImage.isHidden = false
+        } else {
+            itemImageView.backgroundColor = .clear
+            labelOnImage.isHidden = true
+            let hasImage = UIImage(data: imageData)
+            itemImageView.image = hasImage!
+        }
         
+        if endDate != "" {
+            itemEndPeriod.text = endDate
+            itemEndPeriod.textColor = UIColor.black.withAlphaComponent(0.8)
+        } else {
+            return
+        }
         
         
     }

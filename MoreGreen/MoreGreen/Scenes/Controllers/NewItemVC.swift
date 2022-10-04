@@ -34,9 +34,7 @@ class NewItemVC: UIViewController {
     typealias PhotoType = (itemImage: Data, periodImage: Data)
     
     // ⚠️まだ、使うかどうか決めてない変数
-    var itemImage = UIImage()
-    var takeItemImage = false
-    
+    var imageData = Data()
     var endPeriodText = ""
     var recognizeState = false
     var failState = false
@@ -49,6 +47,8 @@ class NewItemVC: UIViewController {
     var imageScaleX: CGFloat?
     var imageScaleY: CGFloat?
     var hasCoreData = false
+    var isPhotoResized = false
+    var onceDeleted = false
     
     // imageの賞味期限や消費期限のconfigureのための変数
     
@@ -80,6 +80,7 @@ class NewItemVC: UIViewController {
         super.viewWillAppear(animated)
         setNavigationBar()
         fetchCoreData()
+        createItemTableView.reloadData()
         // navigation画面遷移によるnavigation barの隠しをfalseにする
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.loadViewIfNeeded()
@@ -108,11 +109,24 @@ class NewItemVC: UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
+    // viewWillAppearでviewが表示される寸前に行う処理をここのメソッドで記入
     func fetchCoreData() {
         if let hasData = selectedItemList {
-            imageConfigure(with: hasData.itemImage ?? Data(), index: 0)
+            if let hasImageData = hasData.itemImage {
+                imageData = hasImageData
+            } else {
+                return
+            }
+            
+            if let hasEndDate = hasData.endDate {
+                endPeriodText = hasEndDate
+            } else {
+                return
+            }
+            createItemTableView.reloadData()
         } else {
-            hasCoreData = false
+            // CoreDataのデータがないなら、そのままreturn
+            return
         }
     }
     
@@ -132,11 +146,9 @@ class NewItemVC: UIViewController {
     // cameraVCから写真を撮った後は、最初にここから始まる
     // 別にこのメソッドがなくてm動いている
     func fetchImageData(with imageData: Data, index cellIndex: Int) {
-        if cellIndex == 0 {
-            // photoDataのimageを変えるだけで、tableViewをreloadDataすれば、更新される
-            self.photoData[cellIndex] = imageData
-        } else {
-            self.photoData[cellIndex] = imageData
+        self.photoData[cellIndex] = imageData
+        if cellIndex == 1 {
+            // endDateのperiodConfigureだけは、presenterを用いるので、メソッドを使う
             self.periodConfigure(with: imageData, index: cellIndex)
         }
         
@@ -152,16 +164,16 @@ class NewItemVC: UIViewController {
 private extension NewItemVC {
     // TODO: imageは2週類ある
     // 1つ目:　商品の写真だけを保存
-    func imageConfigure(with imageData: Data, index cellIndex: Int) {
-        print("image configure")
-        print(takeItemImage)
-
-        let indexPath = IndexPath(row: cellIndex, section: cellIndex)
-        let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
-        let image = UIImage(data: imageData)
-        cell.itemPhoto = image ?? UIImage()
-        createItemTableView.reloadData()
-    }
+    // ⚠️imageと商品の名前も認証を行うつもりである
+//    func imageConfigure(with imageData: Data, index cellIndex: Int) {
+//        print("image configure")
+//
+//        let indexPath = IndexPath(row: cellIndex, section: cellIndex)
+//        let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
+//        let image = UIImage(data: imageData)
+//        cell.itemPhoto = image ?? UIImage()
+//        createItemTableView.reloadData()
+//    }
     
     // 🔥Json parsingを用いて、imageをparsingする
     // 2つ目: OCR結果を用いて、賞味期限の表示
@@ -182,7 +194,7 @@ private extension NewItemVC {
     func periodImageLoad(with imageData: Data) {
         presenter.loadItemInfo(from: imageData.base64EncodedString())
     }
-    // カメラ撮影の権限をcheckするメソッド
+    // ⚠️カメラ撮影の権限をcheckするメソッド
     func requestCameraPermission() {
         AVCaptureDevice.requestAccess(for: .video) { (granted: Bool) in
             if granted {
@@ -194,7 +206,7 @@ private extension NewItemVC {
     }
     
     func setImagePhotoEventAlert() -> UIAlertController {
-        let alert = UIAlertController(title: "", message: "写真の更新", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "写真の更新を行います。", message: "", preferredStyle: .actionSheet)
         
         let newPhoto = UIAlertAction(title: "写真変更", style: .default) { _ in
             self.moveAgainToTakePhoto()
@@ -228,7 +240,13 @@ private extension NewItemVC {
     
     func imageCancelAction() {
         // data型に初期化
-        photoData[0] = Data()
+        // ⚠️更新を行わないと、dataが削除されないようにしたい
+        if let hasData = selectedItemList {
+            hasData.itemImage = Data()
+        } else {
+            photoData[0] = Data()
+        }
+        
         createItemTableView.reloadData()
     }
 }
@@ -311,15 +329,22 @@ extension NewItemVC: ButtonDelegate {
         }
         
         if failState {
-            object.endDate = "データなし"
+            object.endDate = ""
         } else {
             object.endDate = endPeriodText
         }
+        
         object.curDate = Date()
         object.uuid = UUID()
         //imageDataは、itemの写真だけを入れるから、photoData[0]を格納する
         // selectedされたとき、fetchimageすればいい
-        object.itemImage = photoData[0]
+        
+        //　なにもデータがない時 (Data()の初期化のまま)
+        if photoData[0] != Data() {
+            object.itemImage = photoData[0]
+        } else {
+            object.itemImage = Data()
+        }
         
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         appDelegate.saveContext()
@@ -372,6 +397,7 @@ extension NewItemVC: ButtonDelegate {
         } catch {
             print(error)
         }
+        
         
         self.delegate?.addNewItemInfo()
         
@@ -456,26 +482,20 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
+            // dataで渡す形
             
             if let hasData = selectedItemList {
-                if let hasItemImage = hasData.itemImage {
-                    let fetchImage = UIImage(data: hasItemImage)!
-                    cell.imageData = hasItemImage
-                    cell.itemPhoto = fetchImage
-                    cell.configure(with: fetchImage, scaleX: imageScaleX, scaleY: imageScaleY)
-                }
-                
+                // configureを通して、imageをfetchするので、ifの分岐は要らない
+                cell.configure(with: hasData.itemImage ?? Data(), scaleX: imageScaleX, scaleY: imageScaleY)
+                cell.imageData = hasData.itemImage ?? Data()
             } else {
+                // CoreDataにない時
                 let imageData = photoData[indexPath.row]
-                let resultImage = UIImage(data: photoData[indexPath.row])
                 
-                if let hasImage = resultImage {
-                    cell.imageData = imageData
-                    cell.itemPhoto = hasImage
-                    cell.configure(with: hasImage, scaleX: imageScaleX, scaleY: imageScaleY)
+                if isPhotoResized {
+                    cell.configure(with: imageData, scaleX: imageScaleX, scaleY: imageScaleY)
                 } else {
-                    cell.imageData = imageData
-                    cell.configure(with: resultImage, scaleX: 1.0, scaleY: 1.0)
+                    cell.configure(with: imageData, scaleX: 1.0, scaleY: 1.0)
                 }
             }
             
@@ -523,7 +543,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
                 cell.deleteButton.isHidden = true
             }
             
-            //商品のimageデータとperiodデータ両方ともないと create button 押せないように
+            //商品のimageデータとperiodデータ両方ともない(Data()の初期化のまま)と create button 押せないように
             if photoData[0] == Data() && photoData[1] == Data() {
                 cell.createButton.isEnabled = false
                 cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
@@ -556,6 +576,7 @@ extension NewItemVC: CameraVCDelegate {
 // この機能は反映されない
 extension NewItemVC: ResizePhotoDelegate {
     func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat) {
+        isPhotoResized = true
         imageScale = imageScale?.scaledBy(x: x, y: y)
         imageScaleX = x
         imageScaleY = y

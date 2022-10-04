@@ -18,8 +18,6 @@ protocol ResizePhotoDelegate: AnyObject {
     func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat)
 }
 
-
-
 class PhotoResultVC: UIViewController {
     // NewItemVCからimage写真データを受け取る変数
     var resultImageData: Data?

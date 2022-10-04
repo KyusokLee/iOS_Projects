@@ -23,6 +23,12 @@
                             <constraint firstAttribute="height" constant="70" id="br5-6R-WPD"/>
                         </constraints>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T7U-m9-sgo">
+                        <rect key="frame" x="15" y="40" width="60" height="20.333333333333329"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OpH-5j-LIy">
                         <rect key="frame" x="90" y="15" width="243" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -57,12 +63,16 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="W9u-Re-Fqf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="0iA-dR-tuf"/>
+                    <constraint firstItem="W9u-Re-Fqf" firstAttribute="trailing" secondItem="T7U-m9-sgo" secondAttribute="trailing" constant="5" id="5mj-Ar-jck"/>
                     <constraint firstItem="JQ0-Fl-UL2" firstAttribute="leading" secondItem="W9u-Re-Fqf" secondAttribute="trailing" constant="10" id="6xJ-tr-dUq"/>
                     <constraint firstItem="OpH-5j-LIy" firstAttribute="leading" secondItem="W9u-Re-Fqf" secondAttribute="trailing" constant="10" id="BDN-gv-JeZ"/>
                     <constraint firstItem="cgU-MA-Abz" firstAttribute="bottom" secondItem="W9u-Re-Fqf" secondAttribute="bottom" id="D0d-V3-stJ"/>
                     <constraint firstItem="JQ0-Fl-UL2" firstAttribute="bottom" secondItem="W9u-Re-Fqf" secondAttribute="bottom" id="E38-jF-gdA"/>
                     <constraint firstItem="5Lp-6c-4NZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OpH-5j-LIy" secondAttribute="bottom" constant="10" id="FLE-5a-Izp"/>
+                    <constraint firstItem="T7U-m9-sgo" firstAttribute="centerY" secondItem="W9u-Re-Fqf" secondAttribute="centerY" id="FyL-v0-EiI"/>
                     <constraint firstItem="OpH-5j-LIy" firstAttribute="top" secondItem="W9u-Re-Fqf" secondAttribute="top" id="G32-ww-7L0"/>
+                    <constraint firstItem="T7U-m9-sgo" firstAttribute="centerX" secondItem="W9u-Re-Fqf" secondAttribute="centerX" id="GuB-hK-wbS"/>
+                    <constraint firstItem="T7U-m9-sgo" firstAttribute="leading" secondItem="W9u-Re-Fqf" secondAttribute="leading" constant="5" id="ONg-w9-mgn"/>
                     <constraint firstItem="cgU-MA-Abz" firstAttribute="leading" secondItem="5Lp-6c-4NZ" secondAttribute="trailing" constant="10" id="bUK-PF-dsc"/>
                     <constraint firstAttribute="bottom" secondItem="W9u-Re-Fqf" secondAttribute="bottom" constant="15" id="cP0-hE-5AC"/>
                     <constraint firstItem="5Lp-6c-4NZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="JQ0-Fl-UL2" secondAttribute="trailing" constant="15" id="g7c-X5-A1A"/>
@@ -78,6 +88,7 @@
                 <outlet property="itemEndPeriod" destination="JQ0-Fl-UL2" id="7TD-XD-Y9a"/>
                 <outlet property="itemImageView" destination="W9u-Re-Fqf" id="pOu-Ev-klg"/>
                 <outlet property="itemNameLabel" destination="OpH-5j-LIy" id="7GW-mN-NwC"/>
+                <outlet property="labelOnImage" destination="T7U-m9-sgo" id="Uq3-L3-WUb"/>
                 <outlet property="showDetailButton" destination="cgU-MA-Abz" id="Zxx-ZI-Jfi"/>
             </connections>
             <point key="canvasLocation" x="154.61538461538461" y="36.255924170616112"/>

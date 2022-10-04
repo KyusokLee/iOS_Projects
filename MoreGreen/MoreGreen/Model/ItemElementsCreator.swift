@@ -29,31 +29,36 @@ enum TargetType: RegexPattern {
     // \s: 空白
     // \s?: 空白があってもなくても大丈夫
     // 2022-12-21, 22-12-21, 22-03-03, 22 - 03 - 03, (何らかの文字 2022 - 12 - 22), (何らかの文字 22 - 12 - 22)に対応させる正規式
-    case endDateHyphen = "(\\s?(20[0-9]{2}|(2|3)[0-9])\\s?)\\-(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\-(\\s?([1-9]|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    case endDateHyphen = "(\\s?(20[0-9]{2}|((2|3)[0-9]){0,1})\\s?)\\-(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\-(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
     // . 形式の日付
     // 上記の例と同様に、　.を区切りにしたテキストを認識させる
-    case endDateDot = "(\\s?(20[0-9]{2}|(2|3)[0-9])\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    case endDateDot = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\.(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    
+    // 日付の長さを正しく認識させるための正規式
+    case endDateLength = "\\s?(\\d{2,4}-\\d{1,2}-\\d{1,2})"
 }
 
 struct ItemElementsCreator {
     // 賞味期限や消費期限の日付情報の生成
     func create(from recognizedString: String) -> EndDate {
         let texts = recognizedString.components(separatedBy: "\n")
-
+        
         // TODO: ⚠️認識したい変数をここで定義
         var endDate: String?
 
         texts.forEach {
             // ハイフン形式の日付の認識
             let endDateHyphenRegex = try! NSRegularExpression(pattern: TargetType.endDateHyphen.rawValue)
-            if let _ = endDateHyphenRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
-                endDate = $0
+            if let result = endDateHyphenRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+                print($0)
+                endDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
             
             // . 形式の日付の認識
             let endDateDotRegex = try! NSRegularExpression(pattern: TargetType.endDateDot.rawValue)
-            if let _ = endDateDotRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
-                endDate = $0
+            if let result = endDateDotRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+                print($0)
+                endDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
         }
         

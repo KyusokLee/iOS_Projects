@@ -40,6 +40,7 @@ class ItemImageCell: UITableViewCell {
             // configurationを用いても、変わらなかった
             
             resultItemImageView.layer.cornerRadius = 8
+            resultItemImageView.contentMode = .scaleAspectFill
             self.resultItemImageView.isUserInteractionEnabled = true
             // 長押しのgesture
             addImageViewLongTapGesture()
@@ -92,23 +93,24 @@ class ItemImageCell: UITableViewCell {
     
     // ⚠️NewItemVCとどのように繋げるかがちょっと難しい
     // 商品のimageがあるときだけ、呼び出すメソッド
-    func configure(with image: UIImage?, scaleX x: CGFloat?, scaleY y: CGFloat?) {
-        if let hasImage = image {
+    func configure(with imageData: Data, scaleX x: CGFloat?, scaleY y: CGFloat?) {
+        // なにもないとき
+        if imageData == Data() {
+            imagePlusButton.isHidden = false
+            resultItemImageView.image = nil
+            resultItemImageView.backgroundColor = UIColor.systemGray5
+        } else {
+            // 初期化のData()以外のデータが入っているとき
+            self.imageData = imageData
             imagePlusButton.isHidden = true
-            resultItemImageView.contentMode = .scaleAspectFill
             resultItemImageView.backgroundColor = .clear
-            let itemImage = hasImage
-            resultItemImageView.image = itemImage
+            let image = UIImage(data: imageData)
+            resultItemImageView.image = image!
+            self.itemPhoto = image!
             
             if x != nil || y != nil {
                 resultItemImageView.transform = (resultItemImageView.transform).scaledBy(x: x!, y: y!)
             }
-        } else {
-            if imagePlusButton.isHidden {
-                imagePlusButton.isHidden = false
-            }
-            resultItemImageView.image = nil
-            resultItemImageView.backgroundColor = UIColor.systemGray5
         }
         
         self.layoutIfNeeded()
