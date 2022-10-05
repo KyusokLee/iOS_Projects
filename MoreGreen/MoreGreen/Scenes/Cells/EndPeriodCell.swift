@@ -7,7 +7,8 @@
 
 import UIKit
 
-// MARK: Buttonをなくして、+ pictogramで修正してもいいかも！
+// TODO: 賞味期限を直接入力も可能にする
+// TODO: 賞味期限をカレンダーから選ぶようにする
 
 protocol EndPeriodCellDelegate {
     func takeEndPeriodScreen()
@@ -54,6 +55,8 @@ class EndPeriodCell: UITableViewCell {
     }
     
     var delegate: EndPeriodCellDelegate?
+    // ⚠️使うかどうかはまだ未定
+    var endPeriodText = ""
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -75,7 +78,11 @@ class EndPeriodCell: UITableViewCell {
     
     func configure(with endDate: String, checkState state: Bool, failure fail: Bool) {
         
-        endPeriodDataLabel.text = endDate
+        if endDate == "" {
+            endPeriodDataLabel.text = "データがありません"
+        } else {
+            endPeriodDataLabel.text = endDate
+        }
         
         if !state {
             // 認証に失敗

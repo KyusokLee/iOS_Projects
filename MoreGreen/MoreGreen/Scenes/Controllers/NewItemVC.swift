@@ -17,7 +17,7 @@ import CoreData
 // ⚠️Error: CameraVCからPopViewControllerしたとき、navigationBarが表示されない
 
 // MARK: 🔥⚠️現在layoutの警告がでるところ -> HomeVCのcardView, NewItemVCの '写真を撮る'のボタン -> 今後直す予定
-
+// TODO: ⚠️もっと、cleanなコードにrefactoringすること🔥
 
 protocol NewItemVCDelegate: AnyObject {
     func addNewItemInfo()
@@ -111,15 +111,18 @@ class NewItemVC: UIViewController {
     
     // viewWillAppearでviewが表示される寸前に行う処理をここのメソッドで記入
     func fetchCoreData() {
+        // coreDataがある場合、その情報をphotoDataに格納し、TableViewCellのデータをfetchするようにする
         if let hasData = selectedItemList {
             if let hasImageData = hasData.itemImage {
                 imageData = hasImageData
+//                photoData[0] = imageData
             } else {
                 return
             }
             
             if let hasEndDate = hasData.endDate {
                 endPeriodText = hasEndDate
+//                photoData[1] = imageData
             } else {
                 return
             }
@@ -260,8 +263,16 @@ extension NewItemVC: ItemImageCellDelegate {
     //　撮った写真を確認できるようにして、また、写真を撮り直すことも可能とするメソッド
     func tapImageViewEvent() {
         // indexが0の写真を見せるので、固定的に0を記入した
-        let resultImageVC = PhotoResultVC.instantiate(with: photoData[0])
-        resultImageVC.resultImageData = photoData[0]
+        var itemImageData = Data()
+        
+        if let hasImageData = selectedItemList?.itemImage {
+            itemImageData = hasImageData
+        } else {
+            itemImageData = photoData[0]
+        }
+        
+        let resultImageVC = PhotoResultVC.instantiate(with: itemImageData)
+        resultImageVC.resultImageData = itemImageData
         
         resultImageVC.modalPresentationStyle = .overCurrentContext
         self.present(resultImageVC, animated: true)
@@ -382,7 +393,11 @@ extension NewItemVC: ButtonDelegate {
         do {
             let loadedData = try context.fetch(fetchRequest)
             
-            loadedData.first?.itemImage = photoData[0]
+            if let hasImage = selectedItemList?.itemImage {
+                loadedData.first?.itemImage = hasImage
+            } else {
+                loadedData.first?.itemImage = photoData[0]
+            }
             
             if failState {
                 loadedData.first?.endDate = "データなし"
@@ -484,10 +499,36 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             // dataで渡す形
             
+            // ⚠️CoreDataとのfetchをした後、そのまま、cellに返すように
+            // TODO: ここの部分をrefactoringする必要があると考える
             if let hasData = selectedItemList {
                 // configureを通して、imageをfetchするので、ifの分岐は要らない
-                cell.configure(with: hasData.itemImage ?? Data(), scaleX: imageScaleX, scaleY: imageScaleY)
-                cell.imageData = hasData.itemImage ?? Data()
+                print(hasData)
+                
+                //CoreDataがあったとしても、写真を変えることができるので、imageDataがあるかどうかを確認して、再びfetchを行う
+                // CoreDataに入っているやつ
+                if hasData.itemImage != Data() {
+                    if photoData[indexPath.row] != Data() {
+                        cell.configure(with: photoData[indexPath.row], scaleX: imageScaleX, scaleY: imageScaleY)
+                        cell.imageData = photoData[indexPath.row]
+                    } else {
+                        // ItemListのcellから受け取るか、写真がない
+                        let imageData = hasData.itemImage ?? Data()
+                        cell.configure(with: imageData, scaleX: imageScaleX, scaleY: imageScaleY)
+                        cell.imageData = imageData
+                    }
+                } else {
+                    //写真の更新を行う -> 初期化された場合
+                    // 写真の更新を行い -> 写真を新しく撮った
+                    if photoData[indexPath.row] != Data() {
+                        cell.configure(with: photoData[indexPath.row], scaleX: imageScaleX, scaleY: imageScaleY)
+                        cell.imageData = photoData[indexPath.row]
+                    } else {
+                        // 写真がない
+                        cell.configure(with: Data(), scaleX: imageScaleX, scaleY: imageScaleY)
+                        cell.imageData = Data()
+                    }
+                }
             } else {
                 // CoreDataにない時
                 let imageData = photoData[indexPath.row]
@@ -509,15 +550,28 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             cell.delegate = self
             
             if let hasData = selectedItemList {
-                if let hasEndDate = hasData.endDate {
+                // CoreDataのデータをfetchするように
+                if hasData.endDate != "" {
+                    // ""これもendDataがあることになる
                     // endDateが必ずあるときだけ、この処理をするので、checkStateは直ちにtrueにしてあげた
-                    let fetchEndDate = hasEndDate
+                    let fetchEndDate = hasData.endDate!
                     cell.configure(with: fetchEndDate, checkState: true, failure: false)
+                } else {
+                    // endDateが入ってないとき
+                    // Data()があるけど、endDateは入ってない
+                    // endPeriodTextが""になっている
+                    print("no period data")
+                    cell.configure(with: self.endPeriodText, checkState: false, failure: true)
+                    
                 }
-            }
-            
-            // 何もないとき
-            if endPeriodText.count != 0 {
+            } else {
+                // CoreDataではなく、新しいitemを作成するとき
+                // ここの処理をする
+                if photoData[1] == Data() {
+                    
+                } else {
+                    
+                }
                 cell.configure(with: endPeriodText, checkState: recognizeState, failure: failState)
             }
             

@@ -10,6 +10,8 @@ import CoreData
 
 // itemListから、newItemへの入りでエラーが生じる　(うまく画面が反映されない)
 
+// TODO: ⚠️新しく作成したItemcellが直ちに反映されないことがある
+
 class ItemListVC: UIViewController {
     
     @IBOutlet weak var itemListTableView: UITableView!
@@ -23,6 +25,13 @@ class ItemListVC: UIViewController {
         registerCell()
         newItemVC.delegate = self
 //        newItemVC.makeDelegate = self
+        fetchData()
+        itemListTableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchData()
         itemListTableView.reloadData()
     }

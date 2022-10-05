@@ -34,6 +34,10 @@ enum TargetType: RegexPattern {
     // 上記の例と同様に、　.を区切りにしたテキストを認識させる
     case endDateDot = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\.(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
     
+    // /で区切られている日付の認識
+    // 確認済み
+    case endDateSlash = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\/(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\/(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    
     // 日付の長さを正しく認識させるための正規式
     case endDateLength = "\\s?(\\d{2,4}-\\d{1,2}-\\d{1,2})"
 }
@@ -57,6 +61,12 @@ struct ItemElementsCreator {
             // . 形式の日付の認識
             let endDateDotRegex = try! NSRegularExpression(pattern: TargetType.endDateDot.rawValue)
             if let result = endDateDotRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+                print($0)
+                endDate = ($0 as NSString).substring(with: result.range(at: 0))
+            }
+            
+            let endDateSlashRegex = try! NSRegularExpression(pattern: TargetType.endDateSlash.rawValue)
+            if let result = endDateSlashRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
                 print($0)
                 endDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
