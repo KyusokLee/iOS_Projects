@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+// TODO: ⚠️ここのlayoutで警告が出てる
 class HomeCardViewCell: UITableViewCell {
     
     @IBOutlet weak var cardView: UIView! {
@@ -32,7 +34,7 @@ class HomeCardViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layoutIfNeeded()
+        self.contentView.layoutIfNeeded()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

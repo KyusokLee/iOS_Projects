@@ -62,10 +62,6 @@ class NewItemVC: UIViewController {
         print("Create new item list with camera OCR and barcode")
         print(photoData)
         
-        if let hasItemList = selectedItemList {
-            print(hasItemList)
-        }
-        
         setUpTableView()
         registerCell()
         photoResultVC.delegate = self
@@ -130,6 +126,53 @@ class NewItemVC: UIViewController {
         } else {
             // CoreDataのデータがないなら、そのままreturn
             return
+        }
+    }
+    
+    func customCurrentDateFormat(divider str: String) -> String {
+        let formatter = DateFormatter()
+        let curDate = Date()
+        
+        if str == "" {
+            // endDateが空のままだと、curDateの変換はDefaultで-にする
+            formatter.dateFormat = "yyyy-MM-dd"
+            return formatter.string(from: curDate)
+        } else {
+            formatter.dateFormat = "yyyy\(str)MM\(str)dd"
+            return formatter.string(from: curDate)
+        }
+    }
+    
+    func customEndDateFormat(endDate dateString: String, with divider: String) -> String {
+        // mapでString配列にしてから、returnするときにjoinedで一つの文字列にする作業を行なった
+        
+        var changedStr = dateString.map{ String($0) }
+        if changedStr.first == " " {
+            changedStr.remove(at: 0)
+        }
+        
+        if dateString == "" {
+            return ""
+        } else {
+            var dividerCount = 1
+            
+            for i in 0..<changedStr.count {
+                if changedStr[i] == divider {
+                    switch dividerCount {
+                    case 1:
+                        changedStr[i] = "年 "
+                        dividerCount += 1
+                    case 2:
+                        changedStr[i] = "月 "
+                        dividerCount = 0
+                    default:
+                        break
+                    }
+                }
+            }
+            
+            changedStr.append("日")
+            return changedStr.joined(separator: "")
         }
     }
     
@@ -204,6 +247,7 @@ private extension NewItemVC {
                 print("camera: 権限許可")
             } else {
                 print("camera: 権限拒否")
+                // TODO: ⚠️　デバイスの設定から変更することが可能にする
             }
         }
     }
@@ -339,12 +383,36 @@ extension NewItemVC: ButtonDelegate {
             return
         }
         
+        // endDateの区別文字に合わせて、保存するendDateのStringを異なる形でCoreDataに保存する
+        var divider = ""
+        var curDateString = ""
+        
+        // MARK: ✍️ここの部分でendDateをCoreDateに保存するように
+        // curDateStringとendDate(string型)のdata格納はここの分岐で行うようにした
         if failState {
             object.endDate = ""
+            // endDateがないデータであれば(itemImageだけある場合)、default値としてcurDateをHyphenを入れた値で保存する
+            divider = "-"
+            curDateString = self.customCurrentDateFormat(divider: divider)
         } else {
-            object.endDate = endPeriodText
+            if endPeriodText.contains(".") {
+                divider = "."
+            }
+            
+            if endPeriodText.contains("-") {
+                divider = "-"
+            }
+            
+            if endPeriodText.contains("/") {
+                divider = "/"
+            }
+            
+            curDateString = self.customCurrentDateFormat(divider: divider)
+            object.endDate = customEndDateFormat(endDate: endPeriodText, with: divider)
         }
         
+        // ⚠️Stringとして保存した方がDDayなどの日付の差の計算が容易である
+        object.curDateString = curDateString
         object.curDate = Date()
         object.uuid = UUID()
         //imageDataは、itemの写真だけを入れるから、photoData[0]を格納する
@@ -468,20 +536,21 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             return UITableView.automaticDimension
         case 2:
-            return 100
+            return UITableView.automaticDimension
         default:
             return 0
         }
     }
     
+    // ❗️estimatedHeightは実際より大きく設定しましょう
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return UITableView.automaticDimension
+            return 400
         case 1:
-            return UITableView.automaticDimension
+            return 350
         case 2:
-            return UITableView.automaticDimension
+            return 200
         default:
             return 0
         }

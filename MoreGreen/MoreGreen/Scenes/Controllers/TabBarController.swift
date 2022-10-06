@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 // MARK: APP logic
 // カメラで商品の写真を撮る
 // MVP🔥🔥 1-1(1). 商品のイメージを取るように
@@ -24,6 +25,10 @@ class TabBarController: UITabBarController {
     let addButton = UIButton(type: .custom)
     let buttonHeight: CGFloat = 65
     
+    // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
+    var itemList = [ItemList]()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 影の部分はまだ、実装してない
@@ -32,8 +37,25 @@ class TabBarController: UITabBarController {
         setUpTabBarItems()
         setUpMiddleButton()
         setMiddleButtonConstraints()
+        fetchData()
         
         self.delegate = self
+    }
+    
+    func fetchData() {
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+                
+        let context = appDelegate.persistentContainer.viewContext
+        do {
+            self.itemList = try context.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
+        
+        print(itemList)
+        itemList.forEach { item in
+            print(item.endDate!)
+        }
     }
     
     // tabBarのUIをCustomize
@@ -151,7 +173,7 @@ class TabBarController: UITabBarController {
         addButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
         addButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor).isActive = true
         addButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: heightDifference).isActive = true
-        self.view.layoutIfNeeded()
+        // subViewがないのに、layoutIfNeededをすることは正しくなかった
     }
 //
     @objc func addButtonAction(sender: UIButton) {

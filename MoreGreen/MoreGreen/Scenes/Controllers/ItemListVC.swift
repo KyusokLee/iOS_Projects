@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 // itemListから、newItemへの入りでエラーが生じる　(うまく画面が反映されない)
+// Ddayは、CurretDayと登録した日付との差を計算する頻繁に変動する値であるため、CoreDataに入れずに計算して、cellをconfigureするlogicにした。
 
 // TODO: ⚠️新しく作成したItemcellが直ちに反映されないことがある
 
@@ -25,8 +26,6 @@ class ItemListVC: UIViewController {
         registerCell()
         newItemVC.delegate = self
 //        newItemVC.makeDelegate = self
-        fetchData()
-        itemListTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,13 +55,31 @@ class ItemListVC: UIViewController {
         } catch {
             print(error)
         }
+        
+        fetchCurrentDate()
     }
     
     // ⚠️アプリを開いたときのcurrent dateとitemの賞味期限の差を求め、D-Dayをfetchする
+    //ここで、全部currentDateに変える作業をする
+    // ただし、fetchDataの後にする
     func fetchCurrentDate() {
+        guard !itemList.isEmpty else {
+            return
+        }
         
+//        let formatter = DateFormatter()
+//        formatter.dateFormat = "yyyy-MM-dd"
+        
+        itemList.forEach { item in
+            print(item.curDate!)
+            print(item.endDate!)
+//            if let hasCurDate = item.curDate {
+//                let dateString = formatter.string(from: hasCurDate)
+//                item.curDate = formatter.date(from: dateString)
+//                print(item.curDate)
+//            }
+        }
     }
-
 }
 
 extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
@@ -72,7 +89,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+        return 120
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

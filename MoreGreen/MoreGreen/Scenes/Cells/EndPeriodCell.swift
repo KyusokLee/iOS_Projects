@@ -78,9 +78,7 @@ class EndPeriodCell: UITableViewCell {
     
     func configure(with endDate: String, checkState state: Bool, failure fail: Bool) {
         
-        if endDate == "" {
-            endPeriodDataLabel.text = "データがありません"
-        } else {
+        if endDate != "" {
             endPeriodDataLabel.text = endDate
         }
         

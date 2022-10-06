@@ -38,6 +38,15 @@ class ItemCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var dateTitle: UILabel! {
+        didSet {
+            dateTitle.text = "賞味期限:"
+            dateTitle.font = .systemFont(ofSize: 14, weight: .medium)
+            dateTitle.textColor = UIColor.black
+        }
+    }
+    
+    
     @IBOutlet weak var itemEndPeriod: UILabel! {
         didSet {
             itemEndPeriod.text = "データなし"

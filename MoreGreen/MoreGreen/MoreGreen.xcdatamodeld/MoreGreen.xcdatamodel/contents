@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G72" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ItemList" representedClassName="ItemList" syncable="YES" codeGenerationType="class">
         <attribute name="curDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="curDateString" optional="YES" attributeType="String"/>
         <attribute name="endDate" optional="YES" attributeType="String"/>
         <attribute name="itemImage" optional="YES" attributeType="Binary"/>
         <attribute name="itemName" optional="YES" attributeType="String"/>

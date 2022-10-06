@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: Buttonをなくして、+ pictogramで修正してもいいかも！
 // MARK: image の方は、long press gestrueに変える
+// Layoutの警告: imageViewのTop Spaceが、なぜか、itemImageCreateLabelのtopになっていて、contentViewがlayoutをestimatedできないのが原因であった
 
 protocol ItemImageCellDelegate {
     func takeImagePhotoScreen()

@@ -24,13 +24,13 @@ class HomeVC: UIViewController {
         homeTableView.reloadData()
         updateViewConstraints()
     }
-    
-    private func setUpTableView() {
+        
+    func setUpTableView() {
         homeTableView.delegate = self
         homeTableView.dataSource = self
     }
     
-    private func registerCell() {
+    func registerCell() {
         homeTableView.register(UINib(nibName: "HomeCardViewCell", bundle: nil), forCellReuseIdentifier: "HomeCardViewCell")
     }
 
@@ -42,10 +42,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-            return 1
-        }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
@@ -54,11 +50,14 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return 0
         }
     }
-    
+
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 200
+            // これを200にすると、すごい警告でるのに、TablieViewCellのnibで設定したcellの高さより大きくすると、errorが出なくなった
+            // 理由: estimatedHeightは見積りで実際の値より大きくすることで、パソコンが認識することが可能となるっぽい
+            // この見積もりの値と実際の値を比較し、調整を行う流れになるようだ
+            return 250
         default:
             return 0
         }
@@ -76,7 +75,5 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
     }
-
-
 }
 
