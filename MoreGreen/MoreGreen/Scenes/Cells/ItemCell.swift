@@ -12,8 +12,11 @@ enum isShowed {
     case showed
 }
 
+protocol ItemCellDelegate: AnyObject {
+    func showDetailItemInfo()
+}
+
 class ItemCell: UITableViewCell {
-    
     @IBOutlet weak var itemImageView: UIImageView! {
         didSet {
             itemImageView.layer.masksToBounds = true
@@ -63,25 +66,35 @@ class ItemCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var showDetailButton: UIButton!
+    // customButtonを class継承することにし、button のtouch領域を増やした6666
+    @IBOutlet weak var showDetailButton: UIButton! {
+        didSet {
+            let buttonImage = UIImage(systemName: "chevron.down.square")?.withTintColor(UIColor(rgb: 0x81C784), renderingMode: .alwaysOriginal)
+            
+            showDetailButton.setImage(buttonImage, for: .normal)
+        }
+    }
     
     var calendar = Calendar.current
     var currentDate = Date()
+    var detailButtonState: isShowed = .normal
+    var dayCountArray = [Int]()
+    weak var delegate: ItemCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
     // cellのconfigure
-    func configure(with imageData: Data, hasDate endDate: String) {
+    func configure(with imageData: Data, hasDate endDate: String, dayCount dateArray: [Int]) {
         // ただのData()のまま (写真のイメージがないもの)
         if imageData == Data() {
             itemImageView.image = nil
@@ -101,22 +114,36 @@ class ItemCell: UITableViewCell {
             return
         }
         
+        if !dateArray.isEmpty {
+            
+        } else {
+            itemEndDDay.text = "データなし"
+            itemEndDDay.textColor = UIColor.systemGray3.withAlphaComponent(0.7)
+        }
+        
         
     }
     
-//    func setDateFormat() {
-//        if let dateString = 
-//        let dateFormatter = DateFormatter()
-//        var daysCount: Int = 0
-//        
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        dateFormatter.date(f)
-//        
-//        
-//    }
-    
-    
-    @IBAction func showDetailItemInfo(_ sender: Any) {
-        print("button click")
+    private func fetchDayCount(dayArray array: [Int]) {
+        
     }
+    
+    //    func setDateFormat() {
+    //        if let dateString =
+    //        let dateFormatter = DateFormatter()
+    //        var daysCount: Int = 0
+    //
+    //        dateFormatter.dateFormat = "yyyy-MM-dd"
+    //        dateFormatter.date(f)
+    //
+    //
+    //    }
+    
+    @IBAction func tabShowItemDetail(_ sender: Any) {
+        print("detail Button Clicked")
+        self.delegate?.showDetailItemInfo()
+    }
+    
 }
+
+

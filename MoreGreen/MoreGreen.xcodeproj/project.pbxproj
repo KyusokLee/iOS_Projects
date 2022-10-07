@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		940B0F9928F03AF8003AFE8C /* UIButton_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */; };
+		940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */; };
 		94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */; };
 		94122FF328DC60DF004DEED6 /* Fonts_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF228DC60DF004DEED6 /* Fonts_extension.swift */; };
 		94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF428DC6613004DEED6 /* TabBarController.swift */; };
@@ -54,6 +56,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton_extension.swift; sourceTree = "<group>"; };
+		940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showItemInfoDetailButton.swift; sourceTree = "<group>"; };
 		94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_Extension.swift; sourceTree = "<group>"; };
 		94122FF228DC60DF004DEED6 /* Fonts_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts_extension.swift; sourceTree = "<group>"; };
 		94122FF428DC6613004DEED6 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 				949B2AEA28DDBE1B0053E70B /* UITabBar_extension.swift */,
 				9460320628E328C300C4E0C9 /* UIImage_Extension.swift */,
 				94D8A99728EB0CA100703FCF /* Date_Extension.swift */,
+				940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -251,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				94AF3E6B28DC874700502C5B /* CustomTabBar.swift */,
+				940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -357,11 +363,13 @@
 				94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */,
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
 				942007D228DDDA020092B699 /* CameraVC.swift in Sources */,
+				940B0F9928F03AF8003AFE8C /* UIButton_extension.swift in Sources */,
 				9460320328E2E18800C4E0C9 /* ImageResponse.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemVC.swift in Sources */,
 				94F4F98A28E6F94000245EB1 /* PhotoResultVC.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */,
+				940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */,
 				9460320128E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift in Sources */,
 				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
 				942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */,

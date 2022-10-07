@@ -20,6 +20,9 @@ class ItemListVC: UIViewController {
     var itemList = [ItemList]()
     var newItemVC = NewItemVC()
     
+    // それぞれのcellのDdayを計算したものが格納される配列
+    var dayCount = [[Int]]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
@@ -56,6 +59,7 @@ class ItemListVC: UIViewController {
             print(error)
         }
         
+        // DDayの設定のために、currentDateを常に求めるようにした
         fetchCurrentDate()
     }
     
@@ -67,18 +71,84 @@ class ItemListVC: UIViewController {
             return
         }
         
-//        let formatter = DateFormatter()
-//        formatter.dateFormat = "yyyy-MM-dd"
-        
         itemList.forEach { item in
-            print(item.curDate!)
+            print(item.curDateString ?? "No curDateString")
             print(item.endDate!)
-//            if let hasCurDate = item.curDate {
-//                let dateString = formatter.string(from: hasCurDate)
-//                item.curDate = formatter.date(from: dateString)
-//                print(item.curDate)
-//            }
+            
+            var endDateIntArray = [Int]()
+            endDateIntArray = endDateStringSplitToInt(Date: item.endDate)
+            
+            if endDateIntArray.isEmpty {
+                // endDateが""であり、DateIntArrayが[]であったら、dayCount配列に空列[]を格納
+                dayCount.append([])
+            } else {
+                // 年, 月, 日 の3つの要素があれば、ddayを行う
+                if endDateIntArray.count == 3 {
+                    let customDateComponents = DateComponents(year: endDateIntArray[0], month: endDateIntArray[1], day: endDateIntArray[2])
+                    let endDate = Calendar.current.date(from: customDateComponents)!
+                    let offsetComps = Calendar.current.dateComponents([.year, .month, .day], from: Date(), to: endDate)
+                    if case let (y?, m?, d?) = (offsetComps.year, offsetComps.month, offsetComps.day) {
+                        print("\(y)年 \(m)月 \(d)日ほど差があります。")
+                        dayCount.append([y, m, d])
+                    }
+                }
+            }
         }
+        
+        print(dayCount)
+    }
+    
+    func endDateStringSplitToInt(Date endDate: String?) -> [Int] {
+        guard let hasEndDate = endDate else {
+            return []
+        }
+        
+        if hasEndDate == "" {
+            return []
+        }
+        
+        let endDateArray = hasEndDate.split(separator: " ").map { String($0) }
+        
+        guard endDateArray.count == 3 else {
+            return []
+        }
+        
+        let endDateSplitArray = endDateArray.joined().map { String($0) }
+        
+        var resultIntDateArray = [Int]()
+        var year = ""
+        var month = ""
+        var day = ""
+        var index = 0
+        
+        for i in 0..<endDateSplitArray.count {
+            print(endDateSplitArray[i])
+            if endDateSplitArray[i] == "年" {
+                for j in 0..<i {
+                    year += endDateSplitArray[j]
+                }
+                //　iだと、"年"から始まるので、効率ではないと考えた
+                index = i + 1
+            } else if endDateSplitArray[i] == "月" {
+                for j in index..<i {
+                    month += endDateSplitArray[j]
+                }
+                index = i + 1
+            } else if endDateSplitArray[i] == "日" {
+                for j in index..<i {
+                    day += endDateSplitArray[j]
+                }
+            } else {
+                continue
+            }
+        }
+        
+        resultIntDateArray = [Int(year)!, Int(month)!, Int(day)!]
+        return resultIntDateArray
+    }
+    
+    func fetchEndDateCount(dayArray array: [Int]) {
+        
     }
 }
 
@@ -89,7 +159,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
+        return 105
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -98,28 +168,17 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
+        cell.delegate = self
         
         let cellImageData = itemList[indexPath.row].itemImage ?? Data()
         let cellEndPeriod = itemList[indexPath.row].endDate ?? ""
+        let cellDayCountArray = dayCount[indexPath.row]
         
-        cell.configure(with: cellImageData, hasDate: cellEndPeriod)
+        cell.dayCountArray = cellDayCountArray
         
-        
-//        if let dateString = itemList[indexPath.row].endDate {
-//            let formatter = ISO8601DateFormatter()
-//            
-//            if let isoDate = formatter.date(from: dateString) {
-//                let customFormatter = DateFormatter()
-//                customFormatter.dateFormat = "yyyy年 MM月 dd日"
-//                
-//                let customDateString = customFormatter.string(from: isoDate)
-//                
-//                cell.itemEndPeriod.text = customDateString
-//            }
-//            
-//        }
-        
-        
+        // ここでは、configureだけした
+        // ここで、計算して入れてもいい
+        cell.configure(with: cellImageData, hasDate: cellEndPeriod, dayCount: cellDayCountArray)
         
         return cell
     }
@@ -170,5 +229,11 @@ extension ItemListVC: ButtonDelegate {
     func didFinishDeleteData() {
         self.itemListTableView.reloadData()
         updateViewConstraints()
+    }
+}
+
+extension ItemListVC: ItemCellDelegate {
+    func showDetailItemInfo() {
+        print("tap detail button")
     }
 }

@@ -21,6 +21,7 @@ protocol ItemImageCellDelegate {
 class ItemImageCell: UITableViewCell {
     var imageData: Data?
     var itemPhoto = UIImage()
+    var bottomExplainText = ""
     
     @IBOutlet weak var itemImageCreateLabel: UILabel! {
         didSet {
