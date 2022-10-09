@@ -7,6 +7,12 @@
 
 import UIKit
 
+// CellのUI処理logic
+// MARK: 🔥一回処理を行なった後、UIはそのIBOutletのデータを保持することになる。
+// そのため、全てのcaseについて、configure（cellのデータに合わせたimageやlabelのデータ変更）をしっかりと分岐しないと、データがおかしくなることがわかった。
+// 例えば、このアプリだと、現在の日付が 2022/10/09だとすると、2022/10/27まで 18日ある
+// この時、新しくデータを生成して、保存するときに日にちの処理を行なってあげないと、前に処理したIBOutletのデータが勝手にfetchされることになる。 ---> D-18ではなく　D + 3になっている
+
 enum isShowed {
     case normal
     case showed
@@ -61,8 +67,9 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var itemEndDDay: UILabel! {
         didSet {
-            itemEndDDay.text = "D - "
+            itemEndDDay.text = "データなし"
             itemEndDDay.font = .systemFont(ofSize: 14, weight: .bold)
+            itemEndDDay.textColor = UIColor.systemGray3.withAlphaComponent(0.7)
         }
     }
     
@@ -79,6 +86,7 @@ class ItemCell: UITableViewCell {
     var currentDate = Date()
     var detailButtonState: isShowed = .normal
     var dayCountArray = [Int]()
+    var dDayText = ""
     weak var delegate: ItemCellDelegate?
     
     override func awakeFromNib() {
@@ -111,11 +119,13 @@ class ItemCell: UITableViewCell {
             itemEndPeriod.text = endDate
             itemEndPeriod.textColor = UIColor.black.withAlphaComponent(0.8)
         } else {
-            return
+            itemEndPeriod.text = "データなし"
+            itemEndPeriod.textColor = UIColor(rgb: 0x751717)
+            itemEndPeriod.font = .systemFont(ofSize: 14, weight: .medium)
         }
         
         if !dateArray.isEmpty {
-            
+            fetchDayCount(dayArray: dateArray)
         } else {
             itemEndDDay.text = "データなし"
             itemEndDDay.textColor = UIColor.systemGray3.withAlphaComponent(0.7)
@@ -124,20 +134,58 @@ class ItemCell: UITableViewCell {
         
     }
     
+    // TODO: ⚠️DDayCountを行うメソッド
     private func fetchDayCount(dayArray array: [Int]) {
+        guard array.count == 3 else {
+            return
+        }
         
+        // endDate締切が今日であるとき
+        if array[0] == 0 && array[1] == 0 && array[2] == 0 {
+            itemEndDDay.text = "D - 0"
+            itemEndDDay.textColor = UIColor.systemRed.withAlphaComponent(0.7)
+        } else {
+            if array[0] >= 1 {
+                itemEndDDay.text = "D - 1年以上"
+                itemEndDDay.textColor = UIColor(rgb: 0x36B700)
+            } else {
+                // 1年内の期間もしくは、過ぎた期間
+                if array[0] == 0 {
+                    // 1年内の期間
+                    if array[1] >= 1 {
+                        itemEndDDay.text = "D - 1ヶ月以上"
+                        itemEndDDay.textColor = UIColor(rgb: 0x36B700)
+                    } else if array[1] == 0 {
+                        // もう過ぎているとき
+                        if array[2] < 0 {
+                            // 絶対値
+                            let absInt = abs(array[2])
+                            itemEndDDay.text = "D + \(absInt)"
+                            itemEndDDay.textColor = UIColor.red
+                        } else {
+                            itemEndDDay.text = "D - \(array[2])"
+                            itemEndDDay.textColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.7)
+                        }
+                    } else if array[1] < 0 {
+                        itemEndDDay.text = "1ヶ月以上経過"
+                        itemEndDDay.textColor = UIColor(rgb: 0x751717).withAlphaComponent(0.7)
+                    }
+                } else if array[0] < 0 {
+                    // 1年以上過ぎた場合
+                    itemEndDDay.text = "1年以上経過"
+                    itemEndDDay.textColor = UIColor(rgb: 0x751717).withAlphaComponent(0.7)
+                }
+            }
+            
+//            // もう過ぎているとき
+//            if array[2] < 0 {
+//                // 絶対値
+//                let absInt = abs(array[2])
+//                itemEndDDay.text = "D + \(absInt)"
+//                itemEndDDay.textColor = UIColor.red
+//            }
+        }
     }
-    
-    //    func setDateFormat() {
-    //        if let dateString =
-    //        let dateFormatter = DateFormatter()
-    //        var daysCount: Int = 0
-    //
-    //        dateFormatter.dateFormat = "yyyy-MM-dd"
-    //        dateFormatter.date(f)
-    //
-    //
-    //    }
     
     @IBAction func tabShowItemDetail(_ sender: Any) {
         print("detail Button Clicked")

@@ -80,6 +80,12 @@ class EndPeriodCell: UITableViewCell {
         
         if endDate != "" {
             endPeriodDataLabel.text = endDate
+        } else {
+            // endDate が ""のとき　（データなし）の時
+            endPeriodDataLabel.text = "日付が表示されます"
+            endPeriodDataLabel.font = .systemFont(ofSize: 17, weight: .bold)
+            endPeriodDataLabel.textColor = UIColor.systemGray3
+            return
         }
         
         if !state {

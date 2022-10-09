@@ -151,6 +151,14 @@ class NewItemVC: UIViewController {
             changedStr.remove(at: 0)
         }
         
+        print(changedStr)
+        // yearが22とか21などの２桁の数字である場合
+        // 先頭から0, 2を入れることで、 2022, 2021などに変換してから保存するように
+        if changedStr[2] == divider {
+            changedStr.insert("0", at: 0)
+            changedStr.insert("2", at: 0)
+        }
+        
         if dateString == "" {
             return ""
         } else {
@@ -444,6 +452,7 @@ extension NewItemVC: ButtonDelegate {
         self.dismiss(animated: true)
     }
     
+    // TODO: 🔥更新の部分で、errorが生じた
     func didFinishUpdateData() {
         print("update")
         guard let hasData = selectedItemList else {
@@ -460,6 +469,9 @@ extension NewItemVC: ButtonDelegate {
         
         do {
             let loadedData = try context.fetch(fetchRequest)
+            // endDateの区別文字に合わせて、保存するendDateのStringを異なる形でCoreDataに保存する
+            var divider = ""
+            var curDateString = ""
             
             if let hasImage = selectedItemList?.itemImage {
                 loadedData.first?.itemImage = hasImage
@@ -467,11 +479,36 @@ extension NewItemVC: ButtonDelegate {
                 loadedData.first?.itemImage = photoData[0]
             }
             
+            // MARK: ✍️ここの部分でendDateをCoreDateに保存するように
+            // curDateStringとendDate(string型)のdata格納はここの分岐で行うようにした
             if failState {
-                loadedData.first?.endDate = "データなし"
+                loadedData.first?.endDate = ""
+                // endDateがないデータであれば(itemImageだけある場合)、default値としてcurDateをHyphenを入れた値で保存する
+                divider = "-"
+                curDateString = self.customCurrentDateFormat(divider: divider)
             } else {
-                loadedData.first?.endDate = endPeriodText
+                if endPeriodText.contains(".") {
+                    divider = "."
+                }
+                
+                if endPeriodText.contains("-") {
+                    divider = "-"
+                }
+                
+                if endPeriodText.contains("/") {
+                    divider = "/"
+                }
+                
+                curDateString = self.customCurrentDateFormat(divider: divider)
+                loadedData.first?.endDate = customEndDateFormat(endDate: endPeriodText, with: divider)
             }
+            
+//            if failState {
+//                loadedData.first?.endDate = "データなし"
+//            } else {
+//                loadedData.first?.endDate = endPeriodText
+//            }
+            loadedData.first?.curDateString = curDateString
             loadedData.first?.curDate = Date()
             
             let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
@@ -481,9 +518,7 @@ extension NewItemVC: ButtonDelegate {
             print(error)
         }
         
-        
         self.delegate?.addNewItemInfo()
-        
         self.dismiss(animated: true)
     }
     
@@ -615,6 +650,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             
         case 1:
             // ⚠️途中の段階: 賞味期限のcellでの処理をもっと書く必要がある
+            // TODO: 🔥CoreDataにあるデータの場合、文字が反映されないerrorが生じた
             let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
             cell.delegate = self
             
@@ -623,8 +659,15 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
                 if hasData.endDate != "" {
                     // ""これもendDataがあることになる
                     // endDateが必ずあるときだけ、この処理をするので、checkStateは直ちにtrueにしてあげた
-                    let fetchEndDate = hasData.endDate!
-                    cell.configure(with: fetchEndDate, checkState: true, failure: false)
+                    
+                    if hasData.endDate! == self.endPeriodText {
+                        let fetchEndDate = hasData.endDate!
+                        cell.configure(with: fetchEndDate, checkState: true, failure: false)
+                    } else {
+                        // CoreDataのendDateと新しく撮ったendDateが異なる場合
+                        let fetchEndDate = self.endPeriodText
+                        cell.configure(with: fetchEndDate, checkState: recognizeState, failure: failState)
+                    }
                 } else {
                     // endDateが入ってないとき
                     // Data()があるけど、endDateは入ってない
@@ -641,7 +684,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     
                 }
-                cell.configure(with: endPeriodText, checkState: recognizeState, failure: failState)
+                cell.configure(with: self.endPeriodText, checkState: recognizeState, failure: failState)
             }
             
             cell.selectionStyle = .none
@@ -716,6 +759,7 @@ extension NewItemVC: ItemInfoView {
         
         self.recognizeState = true
         self.endPeriodText = endDate.endDate ?? unrecognizedMsg
+        print(self.endPeriodText)
         
         if self.endPeriodText == unrecognizedMsg {
             failState = true

@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Delayさせると、app全体をdelayさせる意味なので、HIGではおすすめしない方法らしい
 //        // Delayをする
 //        Thread.sleep(forTimeInterval: 2.0)
-        
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
 
@@ -81,5 +82,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner])
+    }
 }
 
