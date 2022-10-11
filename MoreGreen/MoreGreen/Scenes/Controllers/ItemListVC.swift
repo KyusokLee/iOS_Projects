@@ -67,7 +67,14 @@ class ItemListVC: UIViewController {
         let alarmContent = UNMutableNotificationContent()
         alarmContent.title = "今日もMoreGreenを一緒に家の商品を管理しましょう！"
         alarmContent.body = "登録した商品をチェックしましょう:"
-        alarmContent.userInfo = ["targetScene": "splach"]
+        alarmContent.sound = UNNotificationSound.default
+        alarmContent.userInfo = ["targetScene": "splash"]
+        
+        // TODO: ⚠️DateComponentsの指定 (CoreDataに合わせて設定するつもり)
+        var dateComponentsDay = DateComponents()
+        dateComponentsDay.day = 10
+        dateComponentsDay.hour = 13
+        
         
         // alarmがtriggerされる時間の設定
         let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .hour], from: Date()), repeats: false)
@@ -77,7 +84,7 @@ class ItemListVC: UIViewController {
         if UserDefaults.standard.bool(forKey: "wantAlarm") {
             userNofificationCenter.add(request) { (error) in
                 if error != nil {
-                    print(error!)
+                    print(error.debugDescription)
                 }
             }
         }
