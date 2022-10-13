@@ -50,6 +50,10 @@ class NewItemVC: UIViewController {
     var isPhotoResized = false
     var onceDeleted = false
     
+    //⚠️賞味期限の文字認証を行う間に、ユーザの認識touchを受け取らないように
+    var isDoingRecognize = false
+    weak var loadingView: UIView?
+    
     // imageの賞味期限や消費期限のconfigureのための変数
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -107,24 +111,25 @@ class NewItemVC: UIViewController {
     
     // viewWillAppearでviewが表示される寸前に行う処理をここのメソッドで記入
     func fetchCoreData() {
+        print("cc")
         // coreDataがある場合、その情報をphotoDataに格納し、TableViewCellのデータをfetchするようにする
         if let hasData = selectedItemList {
+            print("lets do fetch")
             if let hasImageData = hasData.itemImage {
                 imageData = hasImageData
 //                photoData[0] = imageData
-            } else {
-                return
             }
             
             if let hasEndDate = hasData.endDate {
+                print("has endDate")
                 endPeriodText = hasEndDate
 //                photoData[1] = imageData
-            } else {
-                return
             }
+            
             createItemTableView.reloadData()
         } else {
             // CoreDataのデータがないなら、そのままreturn
+            print("no data")
             return
         }
     }
@@ -201,6 +206,7 @@ class NewItemVC: UIViewController {
     // 別にこのメソッドがなくてm動いている
     func fetchImageData(with imageData: Data, index cellIndex: Int) {
         self.photoData[cellIndex] = imageData
+        
         if cellIndex == 1 {
             // endDateのperiodConfigureだけは、presenterを用いるので、メソッドを使う
             self.periodConfigure(with: imageData, index: cellIndex)
@@ -212,6 +218,60 @@ class NewItemVC: UIViewController {
     
     func resizeImageData(with imageData: Data) {
         
+    }
+    
+    // 賞味期限の文字認識が終わるまで、loadingViewを表示する
+    func showLoadingView(loadAPI doRecognize: Bool) {
+        guard doRecognize else {
+            return
+        }
+        
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        
+        if let hasLoadingView = self.loadingView {
+            window?.addSubview(hasLoadingView)
+        } else {
+            let loadingView = UIView(frame: UIScreen.main.bounds)
+            loadingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            
+            let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+            activityIndicator.center = loadingView.center
+            activityIndicator.color = UIColor.white
+            activityIndicator.style = UIActivityIndicatorView.Style.large
+            activityIndicator.hidesWhenStopped = true
+            activityIndicator.startAnimating()
+            
+            loadingView.addSubview(activityIndicator)
+            
+            let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 300))
+            titleLabel.center = CGPoint(x: activityIndicator.frame.origin.x + activityIndicator.frame.size.width / 2, y: activityIndicator.frame.origin.y + 90)
+            titleLabel.textColor = UIColor.white
+            titleLabel.textAlignment = .center
+            titleLabel.text = "ただいま、文字認識を処理中です..."
+            loadingView.addSubview(titleLabel)
+            
+            window?.addSubview(loadingView)
+            self.loadingView = loadingView
+        }
+    }
+    
+    func hideLoadView(_ loadView: UIView?, loadAPI doRecognize: Bool) {
+        print("hide load!")
+        guard !doRecognize else {
+            return
+        }
+        
+        print("do Hide load!")
+        
+        if let hasLoadView = loadView {
+            DispatchQueue.main.async {
+                hasLoadView.removeFromSuperview()
+            }
+        } else {
+            return
+        }
     }
 }
 
@@ -232,6 +292,7 @@ private extension NewItemVC {
     // 🔥Json parsingを用いて、imageをparsingする
     // 2つ目: OCR結果を用いて、賞味期限の表示
     func periodConfigure(with imageData: Data, index cellIndex: Int) {
+        
         print("period configure")
         presenter = ItemInfoViewPresenter(
             jsonParser: EndDateJSONParser(itemInfoCreater: ItemElementsCreator()),
@@ -239,7 +300,18 @@ private extension NewItemVC {
             itemView: self
         )
         // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
-        periodImageLoad(with: imageData)
+        // MARK: 🔥⚠️賞味期限のimageをloadして、賞味期限の文字を表示する処理をここで、行う
+        
+        if !isDoingRecognize {
+            // DoingRecognizeをtrueに
+            isDoingRecognize = true
+            self.showLoadingView(loadAPI: isDoingRecognize)
+            
+            // periodImageLoadが終わるまで、hideLoadViewをいないから、syncとasyncで実装できそう
+            DispatchQueue.main.async {
+                self.periodImageLoad(with: imageData)
+            }
+        }
     }
     
     // 🔥画面への反映速度が遅い: loadをimageをここでやると、案の定画面への反映速度が若干遅かった
@@ -452,7 +524,6 @@ extension NewItemVC: ButtonDelegate {
         self.dismiss(animated: true)
     }
     
-    // TODO: 🔥更新の部分で、errorが生じた
     func didFinishUpdateData() {
         print("update")
         guard let hasData = selectedItemList else {
@@ -677,6 +748,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
                     
                 }
             } else {
+                // TODO: 🔥文字認識に失敗したとき、"文字認識に失敗した日として表示される"ことを防ぐ
                 // CoreDataではなく、新しいitemを作成するとき
                 // ここの処理をする
                 if photoData[1] == Data() {
@@ -730,6 +802,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
 // delegateがなぜかここに映らない
 extension NewItemVC: CameraVCDelegate {
     // CameraVCで撮った写真を反映させる
+    // Cameraを取った後は、このメソッドを処理する
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
         print("didFinishTakePhoto!")
         
@@ -766,7 +839,9 @@ extension NewItemVC: ItemInfoView {
         } else {
             failState = false
         }
-        
+        //🔥loadingViewをhideする処理をここで呼び出す
+        self.isDoingRecognize = false
+        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
     
@@ -774,6 +849,9 @@ extension NewItemVC: ItemInfoView {
     func networkError() {
         self.recognizeState = false
         self.endPeriodText = "ネットワークアクセスに失敗しました"
+        //🔥loadingViewをhideする処理をここで呼び出す
+        self.isDoingRecognize = false
+        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
     
@@ -781,6 +859,10 @@ extension NewItemVC: ItemInfoView {
     func failToRecognize() {
         self.recognizeState = false
         self.endPeriodText = "文字認識に失敗しました"
+        self.failState = true
+        //🔥loadingViewをhideする処理をここで呼び出す
+        self.isDoingRecognize = false
+        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
 }

@@ -176,14 +176,6 @@ class ItemCell: UITableViewCell {
                     itemEndDDay.textColor = UIColor(rgb: 0x751717).withAlphaComponent(0.7)
                 }
             }
-            
-//            // もう過ぎているとき
-//            if array[2] < 0 {
-//                // 絶対値
-//                let absInt = abs(array[2])
-//                itemEndDDay.text = "D + \(absInt)"
-//                itemEndDDay.textColor = UIColor.red
-//            }
         }
     }
     

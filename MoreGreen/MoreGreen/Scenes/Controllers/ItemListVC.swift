@@ -37,7 +37,7 @@ class ItemListVC: UIViewController {
         registerCell()
         newItemVC.delegate = self
         requestAuthPushNoti()
-//        newItemVC.makeDelegate = self
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -50,7 +50,6 @@ class ItemListVC: UIViewController {
     }
     
     // Pushアラームのメソッド
-    
     func requestAuthPushNoti() {
         let pushNotiOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
         userNofificationCenter.requestAuthorization(options: pushNotiOptions) { (success, error) in
@@ -61,6 +60,7 @@ class ItemListVC: UIViewController {
         
     }
     
+    // TODO: ⚠️途中の段階
     func requestSendPushNoti() {
 //        userNofificationCenter.removeAllPendingNotificationRequests()
         
@@ -259,16 +259,6 @@ class ItemListVC: UIViewController {
         guard endDateArray.count == 3 else {
             return []
         }
-        
-//        // 22とか21などの２桁の数字で年が表示されているのであれば、2022とかに変える
-//        // 年という文字を含めてcountは3となる
-//        if endDateArray[0].count == 3 {
-//            let yearStr = String(endDateArray[0].last!)
-//            var yearIntDate = Int(String(endDateArray[0].popLast()!))!
-//            yearIntDate += 2000
-//            let strDate = String(yearIntDate)
-//            endDateArray[0] = strDate + yearStr
-//        }
         
         let endDateSplitArray = endDateArray.joined().map { String($0) }
         print(endDateSplitArray)

@@ -44,9 +44,11 @@ enum TargetType: RegexPattern {
     case endDateLength = "\\s?(\\d{2,4}-\\d{1,2}-\\d{1,2})"
     
     //MARK: ⚠️数字と日本語が混ざっているものを認識させたい
+    // ⚠️途中の段階 -> 漢字を読み取ると、hyphenや.などの認証がおかしくなっている
     // 例えば、2022年 10月 17日のような文字を認識させたいと思っている
     //　一応認識はなんとなくできるようになった
-    case endDateJapanese = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\p{Han}{0,1}\\s?(([1-9]|0[1-9]|1[0-2])\\s?)\\p{Han}{0,1}\\s?(([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1])\\p{Han}{0,1}\\s?)"
+    case endDateJapanese = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\p{Han}{0,1}(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\p{Han}{0,1}(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1])\\s?)\\p{Han}{0,1}"
+    
     
 //    case testKanji = "^\\p{Han}{1,3}\\s?\\p{Han}{1,3}$"
 }
@@ -80,19 +82,13 @@ struct ItemElementsCreator {
                 endDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
             
-//            // MARK: 🔥⚠️日本語が混ざっている文字を認識したい
-            // 日本語の正規式を追加すると、hyphenや.などの認識がうまくいかなくなる
+////            // MARK: 🔥⚠️日本語が混ざっている文字を認識したい
+//             //日本語の正規式を追加すると、hyphenや.などの認識がうまくいかなくなる
 //            // p{Han}が認識されてないかもしれない --> 分析中
 //            // ⚠️日が 8、または、Bとして認識される
 //            let endDateJapaneseRegex = try! NSRegularExpression(pattern: TargetType.endDateJapanese.rawValue)
 //            if let result = endDateJapaneseRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
 //                print("Japanese recognize")
-//                print($0)
-//                endDate = ($0 as NSString).substring(with: result.range(at: 0))
-//            }
-            
-//            let testKanjiRegex = try! NSRegularExpression(pattern: TargetType.testKanji.rawValue)
-//            if let result = testKanjiRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
 //                print($0)
 //                endDate = ($0 as NSString).substring(with: result.range(at: 0))
 //            }
