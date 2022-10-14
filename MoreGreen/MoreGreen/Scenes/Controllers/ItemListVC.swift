@@ -24,6 +24,7 @@ class ItemListVC: UIViewController {
     var itemListCount = 0
     var newItemVC = NewItemVC()
     // alarm 通知のための変数
+    // UNUserNotificationCenter : アプリ、または、アプリのextensionからアラームに関連する全ての活動を管理する中央オブジェクトである
     let userNofificationCenter = UNUserNotificationCenter.current()
     
     
@@ -31,13 +32,18 @@ class ItemListVC: UIViewController {
     var dayCount = [[Int]]()
     var dateFetchCount = 0
     
+    // ⚠️今週に賞味期限が切れるitemの数
+    var willEndThisWeekCount = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
         registerCell()
         newItemVC.delegate = self
         requestAuthPushNoti()
-        
+        fetchData()
+        print("今週締切: \(willEndThisWeekCount)")
+        requestSendPushNoti()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,9 +57,11 @@ class ItemListVC: UIViewController {
     
     // Pushアラームのメソッド
     func requestAuthPushNoti() {
-        let pushNotiOptions = UNAuthorizationOptions(arrayLiteral: [.alert, .badge, .sound])
-        userNofificationCenter.requestAuthorization(options: pushNotiOptions) { (success, error) in
+        let pushNotiOptions = UNAuthorizationOptions(arrayLiteral: [.badge, .sound, .alert])
+        
+        userNofificationCenter.requestAuthorization(options: pushNotiOptions) { (granted, error) in
             if let hasError = error {
+                // アラームrequestのError
                 print(#function, hasError)
             }
         }
@@ -65,27 +73,39 @@ class ItemListVC: UIViewController {
 //        userNofificationCenter.removeAllPendingNotificationRequests()
         
         let alarmContent = UNMutableNotificationContent()
-        alarmContent.title = "今日もMoreGreenを一緒に家の商品を管理しましょう！"
-        alarmContent.body = "登録した商品をチェックしましょう:"
+        alarmContent.title = "MoreGreen"
+        alarmContent.body = "今日もMoreGreenと一緒に家の商品を管理しませんか？\n"
+        alarmContent.body += "今週に賞味期限が切れる商品が \(willEndThisWeekCount)個あります。"
+        alarmContent.badge = 1
         alarmContent.sound = UNNotificationSound.default
-        alarmContent.userInfo = ["targetScene": "splash"]
+        // pushアラームを受けるときに、通知されるデータ
+//        //userInfoを用いて、deep linkの実装が可能
+//        alarmContent.userInfo = ["targetScene": "splash"]
         
         // TODO: ⚠️DateComponentsの指定 (CoreDataに合わせて設定するつもり)
-        var dateComponentsDay = DateComponents()
-        dateComponentsDay.day = 10
-        dateComponentsDay.hour = 13
-        
-        
+        // 毎朝、9時にalarmがくるように設定した
+        let dateComponentsDay = DateComponents(
+            calendar: Calendar.current,
+            hour: 21,
+            minute: 30
+        )
+
+        print(dateComponentsDay)
+        print("curDate: \(Calendar.current.dateComponents([.day, .hour, .minute], from: Date()))")
+
         // alarmがtriggerされる時間の設定
-        let trigger = UNCalendarNotificationTrigger(dateMatching: Calendar.current.dateComponents([.day, .hour], from: Date()), repeats: false)
+        // 特定の時間及び日付にアラーム通知をpushするtrigger
+        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponentsDay, repeats: true)
         
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: alarmContent, trigger: trigger)
+        // ⚠️timeIntervalにする場合は、最低限60秒以上じゃないといけないらしい
+        // push alarmの通知が正常にくることを確認した
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: seconds, repeats: true)
+        let uuidString = UUID().uuidString
+        let request = UNNotificationRequest(identifier: uuidString, content: alarmContent, trigger: trigger)
         
-        if UserDefaults.standard.bool(forKey: "wantAlarm") {
-            userNofificationCenter.add(request) { (error) in
-                if error != nil {
-                    print(error.debugDescription)
-                }
+        userNofificationCenter.add(request) { (error) in
+            if let hasError = error {
+                print(hasError.localizedDescription)
             }
         }
     }
@@ -102,6 +122,8 @@ class ItemListVC: UIViewController {
         itemListTableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
     }
     
+    // fetchDataをした後に、requestSendメソッドを呼び出すようにする
+    // ⚠️🔥こうすることで、backGroundでもitemの数を表示することができた
     func fetchData() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
                 
@@ -117,6 +139,7 @@ class ItemListVC: UIViewController {
         print(itemList)
         itemListCount = self.itemList.count
         fetchCurrentDate()
+        countNearEndDateItem()
     }
     
     // ⚠️アプリを開いたときのcurrent dateとitemの賞味期限の差を求め、D-Dayをfetchする
@@ -294,6 +317,29 @@ class ItemListVC: UIViewController {
         
         resultIntDateArray = [Int(year)!, Int(month)!, Int(day)!]
         return resultIntDateArray
+    }
+    
+    // TODO: ⚠️今週に賞味期限が切れるitemを数えて -> alarmに送るためのメソッド
+    func countNearEndDateItem() {
+        guard !dayCount.isEmpty else {
+            return
+        }
+        
+        for i in 0..<dayCount.count {
+            guard dayCount[i].count == 3 else {
+                continue
+            }
+            
+            if 0 <= dayCount[i][2] && dayCount[i][2] <= 7 {
+                willEndThisWeekCount += 1
+            } else if dayCount[i][2] < 0 {
+                willEndThisWeekCount -= 1
+            }
+        }
+        
+        if willEndThisWeekCount < 0 {
+            willEndThisWeekCount = 0
+        }
     }
     
 //    // TODO: ⚠️ここで、Ddayをcountして、cellに渡す

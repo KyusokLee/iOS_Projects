@@ -16,10 +16,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        // Delayさせると、app全体をdelayさせる意味なので、HIGではおすすめしない方法らしい
+        // ⚠️Delayさせると、app全体をdelayさせる意味なので、HIGではおすすめしない方法らしい
 //        // Delayをする
 //        Thread.sleep(forTimeInterval: 2.0)
+        
+        // 🔥 Foreground alarm: アプリが現在ユーザに表示されているときにも、アラームがくるように設定
         UNUserNotificationCenter.current().delegate = self
+//        application.registerForRemoteNotifications()
         return true
     }
 
@@ -85,8 +88,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+    // willPresent関連メソッド: NotificationCenterに送る前にどのようなhandlingを行うか
+    // ここでは、banner, list, badge, soundを表示させるようにした
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.list, .banner])
+        
+        if #available(iOS 14.0, *) {
+            completionHandler([[.banner, .list, .sound]])
+        } else {
+            completionHandler([[.alert, .sound]])
+        }
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        // deep link処理のとき、以下の _の値で処理
+        let _ = response.notification.request.content.userInfo
+        
+//        // ⚠️途中の段階: 以下、pushアラームをタブした時、特定のページに移動するようにするlogic
+//        let application = UIApplication.shared
+        
+        
+        
+        
+        completionHandler()
     }
 }
 

@@ -184,7 +184,11 @@ class NewItemVC: UIViewController {
                 }
             }
             
-            changedStr.append("日")
+            // CoreDataに登録するとき、"日"という文字が追加され続けるため、if文を設けた
+            if changedStr.last != "日" {
+                changedStr.append("日")
+            }
+            
             return changedStr.joined(separator: "")
         }
     }
