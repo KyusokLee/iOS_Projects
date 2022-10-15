@@ -151,12 +151,16 @@ class NewItemVC: UIViewController {
     func customEndDateFormat(endDate dateString: String, with divider: String) -> String {
         // mapでString配列にしてから、returnするときにjoinedで一つの文字列にする作業を行なった
         
+        // imageの写真だけ撮ったときは、""をreturnするように
+        guard dateString != "" else {
+            return ""
+        }
+        
         var changedStr = dateString.map{ String($0) }
+        
         if changedStr.first == " " {
             changedStr.remove(at: 0)
         }
-        
-        print(changedStr)
         // yearが22とか21などの２桁の数字である場合
         // 先頭から0, 2を入れることで、 2022, 2021などに変換してから保存するように
         if changedStr[2] == divider {

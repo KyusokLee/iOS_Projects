@@ -106,8 +106,8 @@ class TabBarController: UITabBarController {
         let fourthViewController = UIStoryboard(name: "SettingsVC", bundle: nil).instantiateViewController(withIdentifier: "SettingsVC")
         
         firstViewController.title = "Home"
-        secondViewController.title = "Item List"
-        thirdViewController.title = "City Info"
+        secondViewController.title = "商品リスト"
+        thirdViewController.title = "地域情報"
         fourthViewController.title = "Setting"
         
         firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
@@ -134,7 +134,7 @@ class TabBarController: UITabBarController {
         
         
         navigationHome.navigationBar.prefersLargeTitles = true
-        navigationItemList.navigationBar.prefersLargeTitles = true
+        navigationItemList.navigationBar.prefersLargeTitles = false
         navigationCreate.navigationBar.prefersLargeTitles = true
         navigationCity.navigationBar.prefersLargeTitles = true
         navigationSetting.navigationBar.prefersLargeTitles = true
