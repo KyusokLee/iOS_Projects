@@ -131,28 +131,34 @@ class ItemListVC: UIViewController {
     
     // TODO: ⚠️途中の段階
     func requestSendPushNoti() {
-//        userNofificationCenter.removeAllPendingNotificationRequests()
+        userNofificationCenter.removeAllPendingNotificationRequests()
         
         let alarmContent = UNMutableNotificationContent()
         alarmContent.title = "MoreGreen"
         alarmContent.body = "今日もMoreGreenと一緒に家の商品を管理しませんか？\n"
         alarmContent.body += "今週に賞味期限が切れる商品が \(willEndThisWeekCount)個あります。"
-        alarmContent.badge = 1
+        
+        let newNumber = UserDefaults.standard.integer(forKey: "AppBadgeNumber") + 1
+        UserDefaults.standard.set(newNumber, forKey: "AppBadgeNumber")
+        
+        // こうすることで、アラームが来る度に badgeが+1になる
+        alarmContent.badge = (newNumber) as NSNumber
         alarmContent.sound = UNNotificationSound.default
         // pushアラームを受けるときに、通知されるデータ
 //        //userInfoを用いて、deep linkの実装が可能
 //        alarmContent.userInfo = ["targetScene": "splash"]
         
         // TODO: ⚠️DateComponentsの指定 (CoreDataに合わせて設定するつもり)
-        // 毎朝、9時にalarmがくるように設定した
+        // 毎朝、9時00分00秒にalarmがくるように設定した
         let dateComponentsDay = DateComponents(
             calendar: Calendar.current,
             hour: 9,
-            minute: 0
+            minute: 0,
+            second: 0
         )
 
         print(dateComponentsDay)
-        print("curDate: \(Calendar.current.dateComponents([.day, .hour, .minute], from: Date()))")
+        print("curDate: \(Calendar.current.dateComponents([.day, .hour, .minute, .second], from: Date()))")
 
         // alarmがtriggerされる時間の設定
         // 特定の時間及び日付にアラーム通知をpushするtrigger

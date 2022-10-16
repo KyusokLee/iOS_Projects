@@ -133,7 +133,7 @@ class TabBarController: UITabBarController {
         let navigationSetting = UINavigationController(rootViewController: fourthViewController)
         
         
-        navigationHome.navigationBar.prefersLargeTitles = true
+        navigationHome.navigationBar.prefersLargeTitles = false
         navigationItemList.navigationBar.prefersLargeTitles = false
         navigationCreate.navigationBar.prefersLargeTitles = true
         navigationCity.navigationBar.prefersLargeTitles = true
