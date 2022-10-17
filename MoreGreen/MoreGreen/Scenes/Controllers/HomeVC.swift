@@ -16,6 +16,9 @@ import UIKit
 class HomeVC: UIViewController {
     
     @IBOutlet weak var homeTableView: UITableView!
+    var itemList = [ItemList]()
+    var sortedItemList = [ItemList]()
+    var itemListCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +34,13 @@ class HomeVC: UIViewController {
         homeTableView.delegate = self
         homeTableView.dataSource = self
 //        homeTableView.separatorStyle = .none
+        homeTableView.sectionHeaderTopPadding = .zero
+        homeTableView.sectionFooterHeight = .zero
     }
     
     func registerCell() {
         homeTableView.register(UINib(nibName: "HomeCardViewCell", bundle: nil), forCellReuseIdentifier: "HomeCardViewCell")
+        homeTableView.register(UINib(nibName: "HomeItemCell", bundle: nil), forCellReuseIdentifier: "HomeItemCell")
         // Custom Headerのregister
         homeTableView.register(UINib(nibName: "HomeCustomHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "HomeCustomHeader")
     }
@@ -66,14 +72,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     // sectionごとのheaderの高さの設定
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 1 {
-            return 70
+            return 50
         } else {
-            return 1
+            return homeTableView.sectionHeaderTopPadding
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 1
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -99,7 +101,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             return nil
         case 1:
             let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HomeCustomHeader") as! HomeCustomHeader
-            header.backgroundColor = UIColor.green
+            
+            //ios14以降のbackground colorの設定方法
+            var backgroundConfiguration = UIBackgroundConfiguration.listPlainHeaderFooter()
+            backgroundConfiguration.backgroundColor = UIColor.white
+            header.backgroundConfiguration = backgroundConfiguration
             
             return header
         default:
@@ -115,7 +121,10 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
             return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCardViewCell", for: indexPath) as! HomeCardViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HomeItemCell", for: indexPath) as! HomeItemCell
+            // sortedされたItemListを渡す
+            cell.configure(with: sortedItemList)
+            
             
             cell.selectionStyle = .none
 

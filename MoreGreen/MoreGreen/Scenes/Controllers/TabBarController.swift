@@ -66,7 +66,8 @@ class TabBarController: UITabBarController {
         tabBar.tintColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.85)
         // tabbarの選択されてないときの基本色
         tabBar.unselectedItemTintColor = .label
-        tabBar.layer.cornerRadius = 23
+        // tabBarを丸くすることのメリットを見つけ出すことができないため、消す
+//        tabBar.layer.cornerRadius = 23
         tabBar.layer.masksToBounds = true
         tabBar.layer.borderColor = UIColor.lightGray.cgColor
         tabBar.layer.borderWidth = 0.4

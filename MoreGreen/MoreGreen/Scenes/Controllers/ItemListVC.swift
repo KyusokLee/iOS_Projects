@@ -431,15 +431,46 @@ class ItemListVC: UIViewController {
         }
         
         // TODO: ⚠️dateSumArrayをindexの和が小さい順にsortする
+        // 期限が過ぎたら、一番上に出てくる
         dateSumArray.sort(by: { $0.sum < $1.sum })
         
-        while dateSumArray.first?.sum == 0 {
-            let firstValue = dateSumArray.removeFirst()
-            dateSumArray.append(firstValue)
+        // dataがないitem情報を格納した配列
+        var noEndDateArray = [(index: Int, sum: Int)]()
+        // 🔥while文を効率よく回すためのindex
+        var index = 0
+        
+        while dateSumArray[index].sum <= 0 {
+            if dateSumArray[index].sum == 0 && sortQueue[dateSumArray[index].index].isEmpty {
+                // EndDateのものがない要素の処理
+                let firstValue = dateSumArray.remove(at: index)
+                noEndDateArray.append(firstValue)
+            } else if dateSumArray.first!.sum < 0 {
+                // 賞味期限がもう切れているものの処理
+                let firstValue = dateSumArray.removeFirst()
+                dateSumArray.append(firstValue)
+            } else if dateSumArray.first!.sum == 0 && !sortQueue[dateSumArray.first!.index].isEmpty {
+                //MARK: ⚠️Error->最初から d-0であり、dataがあるものだったら、処理を終了させることになる
+                
+                index += 1
+                
+                if dateSumArray[index].sum > 0 {
+                    break
+                } else {
+                    continue
+                }
+            }
         }
         
         print(dateSumArray)
+        print(noEndDateArray)
         
+        // EndDateがないものを一番下に入れる
+        // 何も入っていないときは、処理を無視するように
+        if !noEndDateArray.isEmpty {
+            dateSumArray += noEndDateArray
+        }
+        
+        print(dateSumArray)
         // 上記までは、正しくソートされている
         
         //TODO: 🔥次は、itemListのデータをdateSumArrayのindexに合わせて並び替えを行う
@@ -485,14 +516,48 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         var cellEndPeriod = ""
         var cellDayCountArray = [Int]()
         
+        // TODO: ⚠️Ddayの状況に合わせて、cellの背景色を違くする処理を追加
+        
         if displayType == .registerSort {
             cellImageData = itemList[indexPath.row].itemImage ?? Data()
             cellEndPeriod = itemList[indexPath.row].endDate ?? ""
             cellDayCountArray = dayCount[indexPath.row]
+            
+            let daySum = cellDayCountArray.reduce(0, +)
+            
+            // ⚠️ERROR: itemCellでbackgroundColorを行うと、正しく表示されない
+            // 🌈解決策: ここで、背景色の設定を行うようにした
+            if daySum < 0 {
+                cell.backgroundColor = UIColor(rgb: 0x751717).withAlphaComponent(0.1)
+            } else if daySum == 0 {
+                if cellDayCountArray.isEmpty {
+                    cell.backgroundColor = UIColor.white
+                } else {
+                    cell.backgroundColor = UIColor(rgb: 0xFFB74D).withAlphaComponent(0.1)
+                }
+            } else {
+                cell.backgroundColor = UIColor.white
+            }
         } else {
             cellImageData = sortedItemList[indexPath.row].itemImage ?? Data()
             cellEndPeriod = sortedItemList[indexPath.row].endDate ?? ""
             cellDayCountArray = sortedDayCount[indexPath.row]
+            
+            let daySum = cellDayCountArray.reduce(0, +)
+            
+            // ⚠️ERROR: ここでbackgroundColorを行うと、正しく表示されない
+            // 🌈解決策: cell.configureで背景の色も行うようにする
+            if daySum < 0 {
+                cell.backgroundColor = UIColor(rgb: 0x751717).withAlphaComponent(0.1)
+            } else if daySum == 0 {
+                if cellDayCountArray.isEmpty {
+                    cell.backgroundColor = UIColor.white
+                } else {
+                    cell.backgroundColor = UIColor(rgb: 0xFFB74D).withAlphaComponent(0.1)
+                }
+            } else {
+                cell.backgroundColor = UIColor.white
+            }
         }
         
         // ここでは、configureだけした
