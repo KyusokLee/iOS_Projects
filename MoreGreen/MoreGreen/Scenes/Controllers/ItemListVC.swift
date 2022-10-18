@@ -51,6 +51,8 @@ class ItemListVC: UIViewController {
     var sortedDayCount = [[Int]]()
     var sortedItemList = [ItemList]()
     
+    // TODO: ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
+    
     var dateFetchCount = 0
     
     // ⚠️今週に賞味期限が切れるitemの数
@@ -76,7 +78,10 @@ class ItemListVC: UIViewController {
         print(itemList)
         print(dateFetchCount)
         fetchData()
-        itemListTableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.itemListTableView.reloadData()
+        }
     }
     
     func setNavigationBar() {
@@ -91,9 +96,10 @@ class ItemListVC: UIViewController {
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
+    // MARK: ⚠️処理logicを追加する予定
     func itemDisplayType() {
         if displayType == .registerSort {
-            
+            itemListTableView.reloadData()
         } else {
             itemListTableView.reloadData()
         }
@@ -396,6 +402,7 @@ class ItemListVC: UIViewController {
             }
         }
         
+        // MARK: ⚠️ここの部分修正する必要ある
         if willEndThisWeekCount < 0 {
             willEndThisWeekCount = 0
         }
@@ -404,7 +411,7 @@ class ItemListVC: UIViewController {
         sortCoreDataByNearestEndDate()
     }
     
-    // TODO: ⚠️🔥CoreDataをfetchしてから、賞味期限が早い順に並び替える時に使うためのメソッド
+    //🔥CoreDataをfetchしてから、賞味期限が早い順に並び替える時に使うためのメソッド
     func sortCoreDataByNearestEndDate() {
         guard !dayCount.isEmpty else {
             return
@@ -436,6 +443,8 @@ class ItemListVC: UIViewController {
         
         // dataがないitem情報を格納した配列
         var noEndDateArray = [(index: Int, sum: Int)]()
+        // endDateが過ぎているものの配列
+        var overEndDateArray = [(index: Int, sum: Int)]()
         // 🔥while文を効率よく回すためのindex
         var index = 0
         
@@ -447,7 +456,8 @@ class ItemListVC: UIViewController {
             } else if dateSumArray.first!.sum < 0 {
                 // 賞味期限がもう切れているものの処理
                 let firstValue = dateSumArray.removeFirst()
-                dateSumArray.append(firstValue)
+                // 先頭から入れることで、D + 2のitemが D + 1の後ろに来る
+                overEndDateArray.insert(firstValue, at: 0)
             } else if dateSumArray.first!.sum == 0 && !sortQueue[dateSumArray.first!.index].isEmpty {
                 //MARK: ⚠️Error->最初から d-0であり、dataがあるものだったら、処理を終了させることになる
                 
@@ -463,6 +473,11 @@ class ItemListVC: UIViewController {
         
         print(dateSumArray)
         print(noEndDateArray)
+        
+        // 先に endDateが過ぎているものをdateSumArrayに足す
+        if !overEndDateArray.isEmpty {
+            dateSumArray += overEndDateArray
+        }
         
         // EndDateがないものを一番下に入れる
         // 何も入っていないときは、処理を無視するように

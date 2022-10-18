@@ -27,8 +27,11 @@ class EndPeriodCell: UITableViewCell {
     @IBOutlet weak var endPeriodView: UIView! {
         didSet {
             endPeriodView.backgroundColor = .clear
-            endPeriodView.layer.borderColor = UIColor(rgb: 0x36B700).cgColor
-            endPeriodView.layer.borderWidth = 0.5
+            //MARK: ⚠️こうすると、下部線のwidthだけが太くなる
+            endPeriodView.layer.addBorder(arrEdges: [.top, .bottom], color: UIColor(rgb: 0x115293), width: 1)
+            // 上と下だけ線を引きたいので、extensionのCALayerを用いて、メソッドを呼び出す
+//            endPeriodView.layer.borderColor = UIColor(rgb: 0x36B700).cgColor
+//            endPeriodView.layer.borderWidth = 0.5
         }
     }
     

@@ -26,6 +26,10 @@
 		942007D828DDE10D0092B699 /* EndDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D728DDE10D0092B699 /* EndDate.swift */; };
 		942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D928DDE6740092B699 /* ItemImageCell.swift */; };
 		942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007DA28DDE6740092B699 /* ItemImageCell.xib */; };
+		9431254728FE9CAD00405692 /* CALayer_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9431254628FE9CAD00405692 /* CALayer_Extension.swift */; };
+		943EED2128FEB92100566648 /* sortedItemListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2028FEB92100566648 /* sortedItemListModel.swift */; };
+		943EED2328FEBE3B00566648 /* ItemViewPresenterByBarcode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2228FEBE3B00566648 /* ItemViewPresenterByBarcode.swift */; };
+		943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2428FECE2300566648 /* CarouselFlowLayout.swift */; };
 		94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8D28D9F75C001C8BBB /* AppDelegate.swift */; };
 		94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */; };
 		94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94449A9628D9F75C001C8BBB /* MoreGreen.xcdatamodeld */; };
@@ -81,6 +85,10 @@
 		942007D728DDE10D0092B699 /* EndDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndDate.swift; sourceTree = "<group>"; };
 		942007D928DDE6740092B699 /* ItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCell.swift; sourceTree = "<group>"; };
 		942007DA28DDE6740092B699 /* ItemImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemImageCell.xib; sourceTree = "<group>"; };
+		9431254628FE9CAD00405692 /* CALayer_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CALayer_Extension.swift; sourceTree = "<group>"; };
+		943EED2028FEB92100566648 /* sortedItemListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sortedItemListModel.swift; sourceTree = "<group>"; };
+		943EED2228FEBE3B00566648 /* ItemViewPresenterByBarcode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewPresenterByBarcode.swift; sourceTree = "<group>"; };
+		943EED2428FECE2300566648 /* CarouselFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselFlowLayout.swift; sourceTree = "<group>"; };
 		94449A8A28D9F75C001C8BBB /* MoreGreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoreGreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449A8D28D9F75C001C8BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				942007D528DDE0A20092B699 /* ItemViewPresenter.swift */,
+				943EED2228FEBE3B00566648 /* ItemViewPresenterByBarcode.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -170,6 +179,7 @@
 				9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */,
 				9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */,
 				946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */,
+				943EED2028FEB92100566648 /* sortedItemListModel.swift */,
 				94122FEE28DC5F59004DEED6 /* Entity */,
 			);
 			path = Model;
@@ -180,6 +190,7 @@
 			children = (
 				942007D728DDE10D0092B699 /* EndDate.swift */,
 				9460320228E2E18800C4E0C9 /* ImageResponse.swift */,
+				943EED2428FECE2300566648 /* CarouselFlowLayout.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -196,6 +207,7 @@
 				9460320628E328C300C4E0C9 /* UIImage_Extension.swift */,
 				94D8A99728EB0CA100703FCF /* Date_Extension.swift */,
 				940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */,
+				9431254628FE9CAD00405692 /* CALayer_Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -368,6 +380,7 @@
 				94D8A99828EB0CA100703FCF /* Date_Extension.swift in Sources */,
 				942007D828DDE10D0092B699 /* EndDate.swift in Sources */,
 				949B2AE128DDA2420053E70B /* SettingsVC.swift in Sources */,
+				943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */,
 				94122FF328DC60DF004DEED6 /* Fonts_extension.swift in Sources */,
 				9472C8B728DF2B24004E4348 /* HomeCardViewCell.swift in Sources */,
 				946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */,
@@ -390,14 +403,17 @@
 				941BF55E28FC38B6006C8E28 /* HomeItemCollectionViewCell.swift in Sources */,
 				94F4F98A28E6F94000245EB1 /* PhotoResultVC.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
+				943EED2328FEBE3B00566648 /* ItemViewPresenterByBarcode.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */,
 				940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */,
 				9460320128E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift in Sources */,
 				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
+				943EED2128FEB92100566648 /* sortedItemListModel.swift in Sources */,
 				942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */,
 				9460320528E2E4DC00C4E0C9 /* ItemElementsCreator.swift in Sources */,
 				941BF55A28FC380E006C8E28 /* HomeItemCell.swift in Sources */,
 				941BF55128FC1EDD006C8E28 /* HomeCustomHeader.swift in Sources */,
+				9431254728FE9CAD00405692 /* CALayer_Extension.swift in Sources */,
 				9472C8B028DF03E8004E4348 /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

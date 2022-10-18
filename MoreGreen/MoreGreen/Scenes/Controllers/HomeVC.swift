@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 // TODO: ⚠️Home VCの方で、Layout 警告がでてる
 // heightを消すことで、一つのエラーを無くなった
@@ -17,8 +18,11 @@ class HomeVC: UIViewController {
     
     @IBOutlet weak var homeTableView: UITableView!
     var itemList = [ItemList]()
+    
+    // 新しいmodelを作ってもいいかも！
     var sortedItemList = [ItemList]()
     var itemListCount = 0
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +48,33 @@ class HomeVC: UIViewController {
         // Custom Headerのregister
         homeTableView.register(UINib(nibName: "HomeCustomHeader", bundle: nil), forHeaderFooterViewReuseIdentifier: "HomeCustomHeader")
     }
+    
+    // coreDataからデータを抽出するためのlogic
+    //　まずは、CoreDataをfetch
+    func fetchData() {
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+                
+        let context = appDelegate.persistentContainer.viewContext
+        do {
+            self.itemList = try context.fetch(fetchRequest)
+            // ここで、一回sortedItemListもfetchするように
+            self.sortedItemList = try context.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
+        
+        // DDayの設定のために、currentDateを常に求めるようにした
+        // CoreData上の問題はなかった -> ItemCellのfetchに問題があるようだ
+        // この時点で、itemListにCoreDataのItemListが格納されることになる
+        print(itemList)
+        print(sortedItemList)
+        itemListCount = self.itemList.count
+        
+//        fetchCurrentDate()
+//        countNearEndDateItem()
+    }
+    
+    
 
 
 }
@@ -87,7 +118,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             // この見積もりの値と実際の値を比較し、調整を行う流れになるようだ
             return 250
         case 1:
-            return 200
+            return 220
         default:
             return 0
         }
@@ -124,8 +155,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeItemCell", for: indexPath) as! HomeItemCell
             // sortedされたItemListを渡す
             cell.configure(with: sortedItemList)
-            
-            
             cell.selectionStyle = .none
 
             return cell

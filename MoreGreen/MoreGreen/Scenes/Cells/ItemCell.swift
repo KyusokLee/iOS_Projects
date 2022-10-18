@@ -13,6 +13,8 @@ import UIKit
 // 例えば、このアプリだと、現在の日付が 2022/10/09だとすると、2022/10/27まで 18日ある
 // この時、新しくデータを生成して、保存するときに日にちの処理を行なってあげないと、前に処理したIBOutletのデータが勝手にfetchされることになる。 ---> D-18ではなく　D + 3になっている
 
+// TODO: ⚠️ItemCellの部分で、layout Errorが生じた -> 修正予定
+
 enum isShowed {
     case normal
     case showed
