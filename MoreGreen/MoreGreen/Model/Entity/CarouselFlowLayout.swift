@@ -7,6 +7,7 @@
 
 import UIKit
 
+// collectionView Cellを横方向にscrollするときに、animationやUIにeffectを与えるために、作成した Custom FlowLayout
 class CarouselFlowLayout: UICollectionViewFlowLayout {
     private var firstTime: Bool = false
     public var spacing: CGFloat = 15
@@ -22,6 +23,8 @@ class CarouselFlowLayout: UICollectionViewFlowLayout {
         }
         
         let collectionViewSize = hasCollectionView.bounds
+        print(collectionViewSize)
+        
         
         itemSize = CGSize(width: 150, height: 180)
         

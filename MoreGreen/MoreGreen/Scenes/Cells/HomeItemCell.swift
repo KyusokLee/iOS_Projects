@@ -12,7 +12,8 @@ import UIKit
 class HomeItemCell: UITableViewCell {
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
-    private var sortedItemList = [ItemList]()
+    private var filteredItemList = [ItemList]()
+    private var filteredDayCount = [Int]()
     
     private let cellWidth: Int = 150
     private let cellHeight: Int = 180
@@ -46,8 +47,12 @@ class HomeItemCell: UITableViewCell {
     }
     
     // collectionViewに入れるデータをここで、configure
-    func configure(with model: [ItemList]) {
-        self.sortedItemList = model
+    func configure(with model: [ItemList], dayArray array: [Int]) {
+        self.filteredItemList = model
+        self.filteredDayCount = array
+        
+        print("filteredDayCount: \(filteredDayCount)")
+        
         itemCollectionView.reloadData()
     }
     
@@ -55,17 +60,15 @@ class HomeItemCell: UITableViewCell {
 
 extension HomeItemCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return filteredItemList.count
     }
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 5
-    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeItemCollectionViewCell", for: indexPath) as! HomeItemCollectionViewCell
-//        let item = sortedItemList[indexPath.row]
-//
-//        cell.configure(userDate: item)
+        let item = filteredItemList[indexPath.row]
+        let dayDifference = filteredDayCount[indexPath.row]
+
+        cell.configure(userData: item, dayDifference: dayDifference)
         
         return cell
     }

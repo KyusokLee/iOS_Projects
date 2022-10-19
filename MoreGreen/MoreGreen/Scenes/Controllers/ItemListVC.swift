@@ -52,6 +52,7 @@ class ItemListVC: UIViewController {
     var sortedItemList = [ItemList]()
     
     // TODO: ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
+    var itemsWillEndList = [ItemList]()
     
     var dateFetchCount = 0
     
