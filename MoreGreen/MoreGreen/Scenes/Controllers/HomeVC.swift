@@ -423,7 +423,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
             // この見積もりの値と実際の値を比較し、調整を行う流れになるようだ
             return 250
         case 1:
-            return 220
+            return 250
         default:
             return 0
         }

@@ -582,11 +582,6 @@ extension NewItemVC: ButtonDelegate {
                 loadedData.first?.endDate = customEndDateFormat(endDate: endPeriodText, with: divider)
             }
             
-//            if failState {
-//                loadedData.first?.endDate = "データなし"
-//            } else {
-//                loadedData.first?.endDate = endPeriodText
-//            }
             loadedData.first?.curDateString = curDateString
             loadedData.first?.curDate = Date()
             

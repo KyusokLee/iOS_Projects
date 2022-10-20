@@ -78,10 +78,10 @@ extension HomeItemCell: UICollectionViewDelegate, UICollectionViewDataSource {
 extension HomeItemCell: UICollectionViewDelegateFlowLayout {
     // CollectionView Cellのsize設定
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 160, height: 180)
+        return CGSize(width: 150, height: 210)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 7
+        return 15
     }
 }

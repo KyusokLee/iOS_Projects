@@ -118,8 +118,13 @@ class ItemListVC: UIViewController {
             break
         }
         
-        let startIndex = IndexPath(row: 0, section: 0)
-        self.itemListTableView.scrollToRow(at: startIndex, at: .top, animated: true)
+        // CoreDataに何も格納されてないのであれば、Scrollの処理を無視するように
+        // 理由: tableViewに何も入っていないと、scrollToRowがcrackを発生する
+        if !itemList.isEmpty {
+            let startIndex = IndexPath(row: 0, section: 0)
+            self.itemListTableView.scrollToRow(at: startIndex, at: .top, animated: true)
+        }
+        
         itemListTableView.reloadData()
     }
     
@@ -145,6 +150,8 @@ class ItemListVC: UIViewController {
         alarmContent.body = "今日もMoreGreenと一緒に家の商品を管理しませんか？\n"
         alarmContent.body += "今週に賞味期限が切れる商品が \(willEndThisWeekCount)個あります。"
         
+        // MARK: ⚠️ここで、badgeの数が思う通りに表示されないエラーが生じた
+        // 今後、修正するつもり
         let newNumber = UserDefaults.standard.integer(forKey: "AppBadgeNumber") + 1
         UserDefaults.standard.set(newNumber, forKey: "AppBadgeNumber")
         
@@ -603,6 +610,43 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         self.present(navigationNewItemVC, animated: true) {
             tableView.deselectRow(at: indexPath, animated: true)
         }
+    }
+    
+    // 🔥TableView CellのSwipe処理に関するメソッド
+    // 左スワイプ (1: 固定, 2: 未定??)
+    // 削除する時は、alertも一緒に表示するように
+    // 実装完了
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let fix = UIContextualAction(style: .normal, title: nil) { (action, view, nil) in
+            print("fix!")
+        }
+        
+        fix.image = UIImage(systemName: "pin.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+        fix.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.7)
+        
+        let actionConfigure = UISwipeActionsConfiguration(actions: [fix])
+        actionConfigure.performsFirstActionWithFullSwipe = false
+        
+        return actionConfigure
+    }
+    
+    // 右スワイプ (1:消費済み、2:削除)
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "削除") { (action, view, nil) in
+            print("delete")
+        }
+        
+        // 消費済みを押すと、cellになんらかのUIを表示するようにしたい
+        let isConsumpted = UIContextualAction(style: .normal, title: "消費済み") { (action, view, nil) in
+            print("is consumpted")
+        }
+        
+        isConsumpted.backgroundColor = UIColor(rgb: 0x388E3C).withAlphaComponent(0.7)
+        
+        let actionConfigure = UISwipeActionsConfiguration(actions: [delete, isConsumpted])
+        actionConfigure.performsFirstActionWithFullSwipe = false
+        
+        return actionConfigure
     }
 }
 

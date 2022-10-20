@@ -18,14 +18,14 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var itemNameLabel: UILabel! {
         didSet {
-            itemNameLabel.font = .systemFont(ofSize: 14, weight: .medium)
+            itemNameLabel.font = .systemFont(ofSize: 14, weight: .bold)
             itemNameLabel.textColor = UIColor.black.withAlphaComponent(0.7)
         }
     }
     
     @IBOutlet weak var itemDdayLabel: UILabel! {
         didSet {
-            itemDdayLabel.font = .systemFont(ofSize: 14, weight: .medium)
+            itemDdayLabel.font = .systemFont(ofSize: 14, weight: .bold)
             itemDdayLabel.textColor = UIColor(rgb: 0x36B700)
         }
     }
@@ -38,18 +38,17 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         setCellLayout()
     }
     
     func setCellLayout() {
-        self.contentView.layer.cornerRadius = 8
-        self.contentView.layer.borderColor = UIColor.systemGray3.cgColor
-        self.contentView.layer.borderWidth = 1
+        self.layer.cornerRadius = 8
+        self.layer.borderColor = UIColor.systemGray3.cgColor
+        self.layer.borderWidth = 0.3
         // ここを、trueにすることで、CollectionView cell自体を丸くすることが可能
-        self.contentView.clipsToBounds = true
+        self.clipsToBounds = true
     }
     
     //　cell の中にあるviewのlayoutを調整する
@@ -64,9 +63,6 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
         let itemName = itemList.itemName
         let dayDifference = day
         
-        print("itemName: \(itemName)")
-        print("day: \(dayDifference)")
-        
         if image == Data() {
             itemImageView.image = nil
             itemImageView.backgroundColor = UIColor.systemGray5
@@ -77,8 +73,24 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
             itemImageView.image = UIImage(data: itemList.itemImage ?? Data())
         }
         
+        if dayDifference == 0 {
+            itemDdayLabel.textColor = UIColor.systemRed.withAlphaComponent(0.7)
+        } else if 1 <= dayDifference && dayDifference <= 3 {
+            itemDdayLabel.textColor = UIColor(rgb: 0xFF9800).withAlphaComponent(0.7)
+        } else {
+            itemDdayLabel.textColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.7)
+        }
+        
+        if itemName == nil {
+            itemNameLabel.textColor = UIColor.systemGray3.withAlphaComponent(0.7)
+        } else {
+            itemNameLabel.textColor = UIColor.black.withAlphaComponent(0.7)
+        }
+        
         itemNameLabel.text = itemName ?? "No Data"
         itemDdayLabel.text = "D - \(dayDifference)"
+        
+        self.layoutIfNeeded()
     }
 
 }
