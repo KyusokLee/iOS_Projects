@@ -18,6 +18,8 @@ import CoreData
 // 解決策: CoreDataをfilteringすれば、いい話だった！
 // 方法: CoreDataのUpdateする時によく使う -> Predicateを用いてfetchする
 
+// TODO: Sticky header viewを実装する予定
+
 class HomeVC: UIViewController {
     
     @IBOutlet weak var homeTableView: UITableView!

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9406C2E6290159F4002FA72B /* ItemListHeaderPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */; };
 		940B0F9928F03AF8003AFE8C /* UIButton_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */; };
 		940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */; };
 		94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */; };
@@ -66,6 +67,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListHeaderPageModel.swift; sourceTree = "<group>"; };
 		940B0F9828F03AF8003AFE8C /* UIButton_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIButton_extension.swift; sourceTree = "<group>"; };
 		940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showItemInfoDetailButton.swift; sourceTree = "<group>"; };
 		94122FF028DC5FE7004DEED6 /* UIColor_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor_Extension.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */,
 				946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */,
 				943EED2028FEB92100566648 /* sortedItemListModel.swift */,
+				9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */,
 				94122FEE28DC5F59004DEED6 /* Entity */,
 			);
 			path = Model;
@@ -403,6 +406,7 @@
 				941BF55E28FC38B6006C8E28 /* HomeItemCollectionViewCell.swift in Sources */,
 				94F4F98A28E6F94000245EB1 /* PhotoResultVC.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
+				9406C2E6290159F4002FA72B /* ItemListHeaderPageModel.swift in Sources */,
 				943EED2328FEBE3B00566648 /* ItemViewPresenterByBarcode.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor_Extension.swift in Sources */,
 				940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */,

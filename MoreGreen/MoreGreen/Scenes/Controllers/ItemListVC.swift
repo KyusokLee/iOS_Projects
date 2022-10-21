@@ -14,7 +14,9 @@ import UserNotifications
 // itemListから、newItemへの入りでエラーが生じる　(うまく画面が反映されない)
 // Ddayは、CurretDayと登録した日付との差を計算する頻繁に変動する値であるため、CoreDataに入れずに計算して、cellをconfigureするlogicにした。
 
-// TODO: ⚠️締切順にtableViewを更新する機能を開発する
+// TODO: 🔥⚠️Sticky Tab layout header viewを実装する予定
+// ちょっと難しい
+// 全体、開封済み、消費済み、期限切れの準にするつもり
 
 enum DisplayType {
     case registerSort
@@ -22,7 +24,7 @@ enum DisplayType {
 }
 
 class ItemListVC: UIViewController {
-    
+    @IBOutlet weak var stickyHeaderPagingView: UIView!
     @IBOutlet weak var itemListTableView: UITableView!
     @IBOutlet weak var itemDisplayTypeSegment: UISegmentedControl! {
         didSet {
@@ -31,7 +33,17 @@ class ItemListVC: UIViewController {
         }
     }
     
+    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
+    
+    
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
+    var pageViewController = UIPageViewController()
+    var pageModel = PageModel()
+    let tabsCount = 4
+//    let tabsCount = 4; #warning ("< 1 causes Crash!")
+    
     var itemList = [ItemList]()
     var itemListCount = 0
     var newItemVC = NewItemVC()
@@ -202,6 +214,12 @@ class ItemListVC: UIViewController {
     func registerCell() {
         itemListTableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
     }
+    
+//    func setUpPagingViewController() {
+//        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+//        pageViewController.dataSource = self
+//        pageViewController.delegate = self
+//    }
     
     // fetchDataをした後に、requestSendメソッドを呼び出すようにする
     // ⚠️🔥こうすることで、backGroundでもitemの数を表示することができた
@@ -649,6 +667,21 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         return actionConfigure
     }
 }
+
+//// pagingVC関連メソッド
+//extension ItemList: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+//    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+//        if let currentVCIndex = pageModel.pages {
+//
+//        }
+//    }
+//
+//    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+//        <#code#>
+//    }
+//
+//
+//}
 
 // tableViewの更新を行う
 extension ItemListVC: NewItemVCDelegate {

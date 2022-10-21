@@ -17,12 +17,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gJj-JG-obh">
-                                <rect key="frame" x="0.0" y="31" width="390" height="639"/>
+                                <rect key="frame" x="0.0" y="91" width="390" height="579"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nkh-vK-vcg">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
+                                <color key="backgroundColor" systemColor="systemGray3Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="uCW-lk-Yca"/>
+                                </constraints>
+                            </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Anw-f2-FuS">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="32"/>
+                                <rect key="frame" x="0.0" y="60" width="390" height="32"/>
                                 <segments>
                                     <segment title="登録順"/>
                                     <segment title="賞味期限順"/>
@@ -37,9 +44,12 @@
                         <constraints>
                             <constraint firstItem="gJj-JG-obh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="22B-w2-rVS"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="gJj-JG-obh" secondAttribute="trailing" id="2ij-Bo-W9g"/>
-                            <constraint firstItem="gJj-JG-obh" firstAttribute="top" secondItem="Anw-f2-FuS" secondAttribute="bottom" id="35J-Vi-XCb"/>
+                            <constraint firstItem="gJj-JG-obh" firstAttribute="top" secondItem="Anw-f2-FuS" secondAttribute="bottom" id="484-1h-VUo"/>
+                            <constraint firstItem="Anw-f2-FuS" firstAttribute="top" secondItem="Nkh-vK-vcg" secondAttribute="bottom" id="ZBV-eS-bIP"/>
                             <constraint firstItem="Anw-f2-FuS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cbn-3O-Tz1"/>
-                            <constraint firstItem="Anw-f2-FuS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="hrq-aE-ser"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Nkh-vK-vcg" secondAttribute="trailing" id="jPe-8a-dqL"/>
+                            <constraint firstItem="Nkh-vK-vcg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="oGe-zR-ayM"/>
+                            <constraint firstItem="Nkh-vK-vcg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="pxs-xp-nQZ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="gJj-JG-obh" secondAttribute="bottom" id="t37-5q-10e"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Anw-f2-FuS" secondAttribute="trailing" id="ytC-oD-qVf"/>
                         </constraints>
@@ -48,8 +58,10 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
+                        <outlet property="headerViewHeightConstraint" destination="uCW-lk-Yca" id="gnK-S2-j4h"/>
                         <outlet property="itemDisplayTypeSegment" destination="Anw-f2-FuS" id="PVE-TH-uSt"/>
-                        <outlet property="itemListTableView" destination="gJj-JG-obh" id="nmM-02-AVy"/>
+                        <outlet property="itemListTableView" destination="gJj-JG-obh" id="60e-JB-DBV"/>
+                        <outlet property="stickyHeaderPagingView" destination="Nkh-vK-vcg" id="J4m-fl-Poc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -60,6 +72,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray3Color">
+            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
