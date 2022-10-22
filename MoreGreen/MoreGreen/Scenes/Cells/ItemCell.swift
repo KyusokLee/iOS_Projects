@@ -20,6 +20,11 @@ enum isShowed {
     case showed
 }
 
+enum isPinned {
+    case normal
+    case pinned
+}
+
 protocol ItemCellDelegate: AnyObject {
     func showDetailItemInfo()
 }
@@ -48,6 +53,21 @@ class ItemCell: UITableViewCell {
             itemNameLabel.font = .systemFont(ofSize: 16, weight: .medium)
         }
     }
+    
+    @IBOutlet weak var pinImage: UIImageView! {
+        didSet {
+            let image = UIImage(systemName: "pin")?.withTintColor(UIColor(rgb: 0x81C784), renderingMode: .alwaysOriginal)
+            
+            pinImage.image = image
+            
+            if pinState == .normal {
+                pinImage.isHidden = true
+            } else {
+                pinImage.isHidden = false
+            }
+        }
+    }
+    
     
     @IBOutlet weak var dateTitle: UILabel! {
         didSet {
@@ -87,6 +107,7 @@ class ItemCell: UITableViewCell {
     var calendar = Calendar.current
     var currentDate = Date()
     var detailButtonState: isShowed = .normal
+    var pinState: isPinned = .normal
     var dayCountArray = [Int]()
     var dDayText = ""
     weak var delegate: ItemCellDelegate?
