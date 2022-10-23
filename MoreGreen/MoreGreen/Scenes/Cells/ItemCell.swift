@@ -56,7 +56,9 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var pinImage: UIImageView! {
         didSet {
-            let image = UIImage(systemName: "pin")?.withTintColor(UIColor(rgb: 0x81C784), renderingMode: .alwaysOriginal)
+            pinImage.backgroundColor = .clear
+            
+            let image = UIImage(systemName: "pin")?.withTintColor(UIColor.systemGray3, renderingMode: .alwaysOriginal)
             
             pinImage.image = image
             
@@ -126,6 +128,8 @@ class ItemCell: UITableViewCell {
     
     // cellのconfigure
     func configure(with imageData: Data, hasDate endDate: String, dayCount dateArray: [Int]) {
+        
+        print(pinState)
         // ただのData()のまま (写真のイメージがないもの)
         if imageData == Data() {
             itemImageView.image = nil

@@ -38,7 +38,7 @@ class ItemListVC: UIViewController {
     
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var pageViewController = UIPageViewController()
     var pageModel = PageModel()
     let tabsCount = 4
@@ -62,6 +62,11 @@ class ItemListVC: UIViewController {
     // MARK: ⚠️Error -> ただのdateだけソートすると、coredataの値が正しく格納されないから、新たなitemListを設けることにした
     var sortedDayCount = [[Int]]()
     var sortedItemList = [ItemList]()
+    
+    // TODO: 🔥⚠️CoreDataに格納されているindexとpinされたかどうかを格納するためのtuple型の配列
+    var pinnedQueue = [(index: Int, pinned: Bool)]()
+    var pinnedItemList = [ItemList]()
+    
     
     // TODO: ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
     var itemsWillEndList = [ItemList]()
@@ -527,6 +532,61 @@ class ItemListVC: UIViewController {
         print(sortedDayCount)
         print(sortedItemList)
     }
+    
+    // TODO: 🔥pinのボタンを押されたら呼び出されるメソッド
+    // 既存のtableViewから当てはまるindexを削除し、そのデータを一番上に格納する作業
+    // CoreDataと関わっているため、複雑
+    func sortCoreDateByPinState() {
+        // displayTypeによって、固定されるCellのcoreDataは異なるデータが格納されている
+        if displayType == .registerSort {
+            
+        } else {
+            
+        }
+        
+        
+    }
+    
+    // swipeでdeleteを押したら呼び出されるメソッド
+    func setDeleteCellAlert(selectedItem item: ItemList) -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "商品のデータを消しますか?", preferredStyle: .alert)
+        let back = UIAlertAction(title: "戻る", style: .cancel) { _ in
+            print("modoru!")
+        }
+        
+        let delete = UIAlertAction(title: "削除", style: .destructive) { _ in
+            print("delete!")
+            self.doCellDelete(selectedItem: item)
+        }
+        
+        alert.addAction(back)
+        alert.addAction(delete)
+        
+        return alert
+    }
+    
+    func doCellDelete(selectedItem item: ItemList) {
+        guard let hasUUID = item.uuid else {
+            return
+        }
+        
+        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        
+        do {
+            let loadedData = try context.fetch(fetchRequest)
+            if let loadFirstData = loadedData.first {
+                context.delete(loadFirstData)
+                appDelegate.saveContext()
+            }
+        } catch {
+            print(error)
+        }
+        
+        self.itemListTableView.reloadData()
+        updateViewConstraints()
+    }
 }
 
 extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
@@ -635,12 +695,43 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     // 削除する時は、alertも一緒に表示するように
     // 実装完了
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let fix = UIContextualAction(style: .normal, title: nil) { (action, view, nil) in
-            print("fix!")
+        
+        // tableViewは共通のものであるため、indexPathの指定は、分岐しなくてもいいようだ
+        // しかし、そのCellにPinのイメージを反映しないといけないので、cellの指定が必要
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
+        
+        if displayType == .registerSort {
+            print(indexPath.row)
+        } else {
+            print(indexPath.row)
         }
         
-        fix.image = UIImage(systemName: "pin.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
-        fix.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.7)
+        
+        let fix = UIContextualAction(style: .normal, title: nil) { (action, view, nil) in
+            if cell.pinState == .normal {
+                print("fix!")
+                cell.pinState = .pinned
+            } else {
+                print("no fix!")
+                cell.pinState = .normal
+            }
+            
+            // itemListを並び変える作業をする
+            // -> pinされたものを一番上に表示
+            // ->　pinされたものを元の位置に戻す作業は、fetchの部分で行う
+            
+            
+        }
+        
+        if cell.pinState == .normal {
+            fix.image = UIImage(systemName: "pin.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            fix.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.7)
+        } else {
+            fix.image = UIImage(systemName: "pin.slash.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
+            fix.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.7)
+        }
+        
         
         let actionConfigure = UISwipeActionsConfiguration(actions: [fix])
         actionConfigure.performsFirstActionWithFullSwipe = false
@@ -650,10 +741,19 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     
     // 右スワイプ (1:消費済み、2:削除)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        var targetItem: ItemList?
+        
         let delete = UIContextualAction(style: .destructive, title: "削除") { (action, view, nil) in
             print("delete")
+            if self.displayType == .registerSort {
+                targetItem = self.itemList[indexPath.row]
+            } else {
+                targetItem = self.sortedItemList[indexPath.row]
+            }
         }
         
+        print(targetItem)
         // 消費済みを押すと、cellになんらかのUIを表示するようにしたい
         let isConsumpted = UIContextualAction(style: .normal, title: "消費済み") { (action, view, nil) in
             print("is consumpted")
@@ -663,6 +763,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         
         let actionConfigure = UISwipeActionsConfiguration(actions: [delete, isConsumpted])
         actionConfigure.performsFirstActionWithFullSwipe = false
+//        self.present(setDeleteCellAlert(selectedItem: targetItem), animated: true)
         
         return actionConfigure
     }

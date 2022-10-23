@@ -67,7 +67,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GLT-Ww-Xxa">
-                        <rect key="frame" x="141.33333333333334" y="15" width="20" height="20"/>
+                        <rect key="frame" x="134.33333333333334" y="15" width="20" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="D5I-r0-glv"/>
                             <constraint firstAttribute="height" constant="20" id="VJv-nO-o59"/>
@@ -78,7 +78,7 @@
                     <constraint firstItem="W9u-Re-Fqf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="0iA-dR-tuf"/>
                     <constraint firstItem="W9u-Re-Fqf" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="0jn-kS-nlh"/>
                     <constraint firstItem="W9u-Re-Fqf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="3Td-Am-Qzf"/>
-                    <constraint firstItem="GLT-Ww-Xxa" firstAttribute="leading" secondItem="OpH-5j-LIy" secondAttribute="trailing" constant="10" id="5jY-kh-05U"/>
+                    <constraint firstItem="GLT-Ww-Xxa" firstAttribute="leading" secondItem="OpH-5j-LIy" secondAttribute="trailing" constant="3" id="5jY-kh-05U"/>
                     <constraint firstItem="W9u-Re-Fqf" firstAttribute="trailing" secondItem="T7U-m9-sgo" secondAttribute="trailing" constant="5" id="5mj-Ar-jck"/>
                     <constraint firstItem="OpH-5j-LIy" firstAttribute="leading" secondItem="W9u-Re-Fqf" secondAttribute="trailing" constant="10" id="BDN-gv-JeZ"/>
                     <constraint firstItem="cgU-MA-Abz" firstAttribute="bottom" secondItem="W9u-Re-Fqf" secondAttribute="bottom" id="D0d-V3-stJ"/>
