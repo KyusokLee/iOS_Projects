@@ -584,6 +584,7 @@ class ItemListVC: UIViewController {
             print(error)
         }
         
+        self.fetchData()
         self.itemListTableView.reloadData()
         updateViewConstraints()
     }
@@ -708,7 +709,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         
-        let fix = UIContextualAction(style: .normal, title: nil) { (action, view, nil) in
+        let fix = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
             if cell.pinState == .normal {
                 print("fix!")
                 cell.pinState = .pinned
@@ -721,7 +722,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
             // -> pinされたものを一番上に表示
             // ->　pinされたものを元の位置に戻す作業は、fetchの部分で行う
             
-            
+            completion(true)
         }
         
         if cell.pinState == .normal {
@@ -741,29 +742,32 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
     
     // 右スワイプ (1:消費済み、2:削除)
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         var targetItem: ItemList?
         
-        let delete = UIContextualAction(style: .destructive, title: "削除") { (action, view, nil) in
+        let delete = UIContextualAction(style: .destructive, title: "削除") { (action, view, completion) in
             print("delete")
             if self.displayType == .registerSort {
                 targetItem = self.itemList[indexPath.row]
+                self.present(self.setDeleteCellAlert(selectedItem: targetItem!), animated: true)
             } else {
                 targetItem = self.sortedItemList[indexPath.row]
+                self.present(self.setDeleteCellAlert(selectedItem: targetItem!), animated: true)
             }
+            
+//            self.present(setDeleteCellAlert(selectedItem: targetItem), animated: true)
+            completion(true)
         }
         
-        print(targetItem)
         // 消費済みを押すと、cellになんらかのUIを表示するようにしたい
-        let isConsumpted = UIContextualAction(style: .normal, title: "消費済み") { (action, view, nil) in
+        let isConsumpted = UIContextualAction(style: .normal, title: "消費済み") { (action, view, completion) in
             print("is consumpted")
+            completion(true)
         }
         
         isConsumpted.backgroundColor = UIColor(rgb: 0x388E3C).withAlphaComponent(0.7)
         
         let actionConfigure = UISwipeActionsConfiguration(actions: [delete, isConsumpted])
         actionConfigure.performsFirstActionWithFullSwipe = false
-//        self.present(setDeleteCellAlert(selectedItem: targetItem), animated: true)
         
         return actionConfigure
     }
