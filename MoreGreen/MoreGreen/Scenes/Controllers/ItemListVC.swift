@@ -18,6 +18,10 @@ import UserNotifications
 // ちょっと難しい
 // 全体、開封済み、消費済み、期限切れの準にするつもり
 
+// TODO: ⚠️🔥　(途中の段階)_ pin固定の状態をapp自体に保存させたいんで、CoreDataを用いる
+
+
+
 enum DisplayType {
     case registerSort
     case endDateSort
