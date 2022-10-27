@@ -18,6 +18,9 @@ import CoreData
 
 // MARK: 🔥⚠️現在layoutの警告がでるところ -> HomeVCのcardView, NewItemVCの '写真を撮る'のボタン -> 今後直す予定
 // TODO: ⚠️もっと、cleanなコードにrefactoringすること🔥
+// TODO: 1_ 商品の名前を直接記入できるようにする
+// TODO: 2_漢字が混ざっている数字 (例：2022年10月)が Vision API (GCP)で認証できない　->　regex Expのコードの問題か、他の方法を探し中
+// TODO: 3_ HIGを参考して、UIの改善に取り組む
 
 protocol NewItemVCDelegate: AnyObject {
     func addNewItemInfo()

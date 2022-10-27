@@ -17,8 +17,9 @@ import CoreData
 // TODO: 🔥もっと、綺麗なコードにrefactoringする予定 -> itemListのCoreData反映から、表示させたいCoreDataだけをHomeVCに表示したい
 // 解決策: CoreDataをfilteringすれば、いい話だった！
 // 方法: CoreDataのUpdateする時によく使う -> Predicateを用いてfetchする
-
-// TODO: Sticky header viewを実装する予定
+// TODO: 1_Sticky header viewを実装する予定
+// TODO: 2_Collective Cellをクリックすると詳細情報のViewをpresentするように
+// TODO: 3_TableViewの3番目のcellには、グラフ統計を見せる予定
 
 class HomeVC: UIViewController {
     
