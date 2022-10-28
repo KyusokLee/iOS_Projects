@@ -8,19 +8,6 @@
 import Foundation
 
 
-// 日付を比較し、D-dayを表す
-extension Date {
-    public func dateCompare(fromDate: Date) -> String {
-        var dDayDateMessage: String = ""
-        let result: ComparisonResult = self.compare(fromDate)
-        
-        
-        
-        
-        return dDayDateMessage
-    }
-}
-
 // ⚠️まだ途中の段階
 extension String {
     func toDate() -> Date? { //"yyyy-MM-dd HH:mm:ss"

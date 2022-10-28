@@ -24,6 +24,15 @@ class EndPeriodCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var itemNameTextField: UITextField! {
+        didSet {
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]
+            
+            itemNameTextField.attributedPlaceholder = NSAttributedString(string: "商品名を入力", attributes: attributes)
+        }
+    }
+    
+    
     @IBOutlet weak var endPeriodView: UIView! {
         didSet {
             endPeriodView.backgroundColor = .clear

@@ -20,6 +20,8 @@ import CoreData
 // TODO: 1_Sticky header viewを実装する予定
 // TODO: 2_Collective Cellをクリックすると詳細情報のViewをpresentするように
 // TODO: 3_TableViewの3番目のcellには、グラフ統計を見せる予定
+// TODO: 4_ HomeVCのところで、Push アラームをするようにしたい
+// -> 理由: 7日以内に締め切れる商品だけアラーム通知するようにするには、ItemListVCよりここのVCでの処理がより簡単である
 
 class HomeVC: UIViewController {
     

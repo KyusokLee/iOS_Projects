@@ -69,8 +69,8 @@ class TabBarController: UITabBarController {
         // tabBarを丸くすることのメリットを見つけ出すことができないため、消す
 //        tabBar.layer.cornerRadius = 23
         tabBar.layer.masksToBounds = true
-        tabBar.layer.borderColor = UIColor.lightGray.cgColor
-        tabBar.layer.borderWidth = 0.4
+//        tabBar.layer.borderColor = UIColor.lightGray.cgColor
+//        tabBar.layer.borderWidth = 0.4
     }
     
     private func setTabBarShadow() {

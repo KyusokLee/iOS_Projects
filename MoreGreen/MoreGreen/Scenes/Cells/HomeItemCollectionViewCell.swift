@@ -11,6 +11,8 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var itemImageView: UIImageView! {
         didSet {
+            itemImageView.layer.cornerRadius = 8
+            
             itemImageView.contentMode = .scaleAspectFill
             itemImageView.backgroundColor = UIColor.systemGray5
         }
@@ -40,13 +42,12 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        // Nibファイルが準備できたら、呼び出されるため、ここでcellのborderなどの枠を生成する
         setCellLayout()
     }
     
     func setCellLayout() {
         self.layer.cornerRadius = 8
-        self.layer.borderColor = UIColor.systemGray3.cgColor
-        self.layer.borderWidth = 0.3
         // ここを、trueにすることで、CollectionView cell自体を丸くすることが可能
         self.clipsToBounds = true
     }
