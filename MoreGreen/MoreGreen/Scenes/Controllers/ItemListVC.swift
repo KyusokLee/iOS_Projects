@@ -475,7 +475,7 @@ class ItemListVC: UIViewController {
         // TODO: ⚠️dateSumArrayをindexの和が小さい順にsortする
         // 期限が過ぎたら、一番上に出てくる
         dateSumArray.sort(by: { $0.sum < $1.sum })
-        
+        print("dateSumArray: \(dateSumArray)")
         // dataがないitem情報を格納した配列
         var noEndDateArray = [(index: Int, sum: Int)]()
         // endDateが過ぎているものの配列
@@ -493,11 +493,11 @@ class ItemListVC: UIViewController {
                 let firstValue = dateSumArray.removeFirst()
                 // 先頭から入れることで、D + 2のitemが D + 1の後ろに来る
                 overEndDateArray.insert(firstValue, at: 0)
-            } else if dateSumArray.first!.sum == 0 && !sortQueue[dateSumArray.first!.index].isEmpty {
+            } else if dateSumArray[index].sum == 0 && !sortQueue[dateSumArray[index].index].isEmpty {
                 //MARK: ⚠️Error->最初から d-0であり、dataがあるものだったら、処理を終了させることになる
-                
+
                 index += 1
-                
+                // TODO: ⚠️ ここで、index out of range error が生じた
                 if dateSumArray[index].sum > 0 {
                     break
                 } else {
