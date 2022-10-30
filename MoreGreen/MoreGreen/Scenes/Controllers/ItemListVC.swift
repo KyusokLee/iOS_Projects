@@ -18,9 +18,7 @@ import UserNotifications
 // ちょっと難しい
 // 全体、開封済み、消費済み、期限切れの準にするつもり
 
-// TODO: ⚠️🔥　(途中の段階)_ pin固定の状態をapp自体に保存させたいんで、CoreDataを用いる
-
-
+// TODO: ⚠️🔥　(途中の段階)_ pin固定の状態をapp自体に保存させたいので、CoreDataを用いる
 
 enum DisplayType {
     case registerSort
@@ -475,7 +473,6 @@ class ItemListVC: UIViewController {
         // TODO: ⚠️dateSumArrayをindexの和が小さい順にsortする
         // 期限が過ぎたら、一番上に出てくる
         dateSumArray.sort(by: { $0.sum < $1.sum })
-        print("dateSumArray: \(dateSumArray)")
         // dataがないitem情報を格納した配列
         var noEndDateArray = [(index: Int, sum: Int)]()
         // endDateが過ぎているものの配列
@@ -483,7 +480,7 @@ class ItemListVC: UIViewController {
         // 🔥while文を効率よく回すためのindex
         var index = 0
         
-        while dateSumArray[index].sum <= 0 {
+        while !dateSumArray.isEmpty && dateSumArray[index].sum <= 0 {
             if dateSumArray[index].sum == 0 && sortQueue[dateSumArray[index].index].isEmpty {
                 // EndDateのものがない要素の処理
                 let firstValue = dateSumArray.remove(at: index)
@@ -494,21 +491,22 @@ class ItemListVC: UIViewController {
                 // 先頭から入れることで、D + 2のitemが D + 1の後ろに来る
                 overEndDateArray.insert(firstValue, at: 0)
             } else if dateSumArray[index].sum == 0 && !sortQueue[dateSumArray[index].index].isEmpty {
+                // EndDateの情報が入っており、dateSumArrayのsumが0である
                 //MARK: ⚠️Error->最初から d-0であり、dataがあるものだったら、処理を終了させることになる
-
                 index += 1
                 // TODO: ⚠️ ここで、index out of range error が生じた
+                // 理由: sumが0の要素が一番最後にあるとき、errorが生じたと考える
+                // 🌈解決: whileの条件に !dateSumArray.isEmptyを書くことで、エラーを無くした
                 if dateSumArray[index].sum > 0 {
+                    // 次の要素のsumが０より大きかったら、while文を出る
                     break
                 } else {
+                    // 次の要素のsumが0であるか、または、０より小さかったら、while文をcontinueする
                     continue
                 }
             }
         }
-        
-        print(dateSumArray)
-        print(noEndDateArray)
-        
+       
         // 先に endDateが過ぎているものをdateSumArrayに足す
         if !overEndDateArray.isEmpty {
             dateSumArray += overEndDateArray
@@ -520,9 +518,6 @@ class ItemListVC: UIViewController {
             dateSumArray += noEndDateArray
         }
         
-        print(dateSumArray)
-        // 上記までは、正しくソートされている
-        
         //TODO: 🔥次は、itemListのデータをdateSumArrayのindexに合わせて並び替えを行う
         // sortedDayCountも、tableViewのreloadに使うため、ここで、データを格納するようにした
         sortedDayCount = Array(repeating: Array(repeating: Int(), count: 3), count: itemList.count)
@@ -532,9 +527,6 @@ class ItemListVC: UIViewController {
             sortedItemList[i] = itemList[dateSumArray[i].index]
             sortedDayCount[i] = sortQueue[dateSumArray[i].index]
         }
-        
-        print(sortedDayCount)
-        print(sortedItemList)
     }
     
     // TODO: 🔥pinのボタンを押されたら呼び出されるメソッド

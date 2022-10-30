@@ -12,15 +12,24 @@ import UIKit
 
 protocol EndPeriodCellDelegate {
     func takeEndPeriodScreen()
+    func writeItemName(textField: UITextField)
 }
 
 class EndPeriodCell: UITableViewCell {
     
-    @IBOutlet weak var endPeriodtitleLabel: UILabel! {
+    @IBOutlet weak var itemNameTitleLabel: UILabel! {
         didSet {
-            endPeriodtitleLabel.text = "賞味期限"
-            endPeriodtitleLabel.textColor = UIColor.systemGray
-            endPeriodtitleLabel.font = .systemFont(ofSize: 17, weight: .medium)
+            itemNameTitleLabel.text = "商品名"
+            itemNameTitleLabel.textColor = UIColor.systemGray
+            itemNameTitleLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        }
+    }
+    
+    @IBOutlet weak var endPeriodTitleLabel: UILabel! {
+        didSet {
+            endPeriodTitleLabel.text = "賞味期限"
+            endPeriodTitleLabel.textColor = UIColor.systemGray
+            endPeriodTitleLabel.font = .systemFont(ofSize: 17, weight: .medium)
         }
     }
     
@@ -29,6 +38,7 @@ class EndPeriodCell: UITableViewCell {
             let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]
             
             itemNameTextField.attributedPlaceholder = NSAttributedString(string: "商品名を入力", attributes: attributes)
+            itemNameTextField.addTarget(self, action: #selector(textFieldEdited), for: .editingChanged)
         }
     }
     
@@ -37,10 +47,8 @@ class EndPeriodCell: UITableViewCell {
         didSet {
             endPeriodView.backgroundColor = .clear
             //MARK: ⚠️こうすると、下部線のwidthだけが太くなる
-            endPeriodView.layer.addBorder(arrEdges: [.top, .bottom], color: UIColor(rgb: 0x115293), width: 1)
+            endPeriodView.layer.addBorder(arrEdges: [.top, .bottom], color: UIColor.systemGray3.withAlphaComponent(0.7), width: 1)
             // 上と下だけ線を引きたいので、extensionのCALayerを用いて、メソッドを呼び出す
-//            endPeriodView.layer.borderColor = UIColor(rgb: 0x36B700).cgColor
-//            endPeriodView.layer.borderWidth = 0.5
         }
     }
     
@@ -68,6 +76,7 @@ class EndPeriodCell: UITableViewCell {
     
     var delegate: EndPeriodCellDelegate?
     // ⚠️使うかどうかはまだ未定
+    var itemName = ""
     var endPeriodText = ""
 
     override func awakeFromNib() {
@@ -85,6 +94,12 @@ class EndPeriodCell: UITableViewCell {
         // カメラを撮りますかの写真がでるように
         print("take a endPeriod image text ocr")
         self.delegate?.takeEndPeriodScreen()
+    }
+    
+    @objc func textFieldEdited(textField: UITextField) {
+        // UIがあっても、他のVCでアクセス可能だった
+        // delegateをしたからだと思う
+        self.delegate?.writeItemName(textField: textField)
     }
     
     

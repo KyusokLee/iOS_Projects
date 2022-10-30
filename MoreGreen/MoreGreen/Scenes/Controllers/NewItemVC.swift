@@ -39,6 +39,7 @@ class NewItemVC: UIViewController {
     
     // ⚠️まだ、使うかどうか決めてない変数
     var imageData = Data()
+    var itemName = ""
     var endPeriodText = ""
     var recognizeState = false
     var failState = false
@@ -63,14 +64,14 @@ class NewItemVC: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var selectedItemList: ItemList?
     weak var delegate: NewItemVCDelegate?
-//    weak var makeDelegate: NewItemMakeDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Create new item list with camera OCR and barcode")
         print(photoData)
         
-        
+        addKeyboardObserver()
+        dismissKeyboardByTap()
         setUpTableView()
         registerCell()
         photoResultVC.delegate = self
@@ -89,6 +90,28 @@ class NewItemVC: UIViewController {
         // navigation画面遷移によるnavigation barの隠しをfalseにする
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.loadViewIfNeeded()
+    }
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(noti: Notification) {
+        
+    }
+    
+    @objc func keyboardWillHide(noti: Notification) {
+        
+    }
+    
+    func dismissKeyboardByTap() {
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func setUpTableView() {
@@ -445,6 +468,14 @@ extension NewItemVC: ItemImageCellDelegate {
 }
 
 extension NewItemVC: EndPeriodCellDelegate {
+    func writeItemName(textField: UITextField) {
+        if let hasText = textField.text {
+            itemName = hasText
+            print("itemName: \(itemName)")
+        }
+        
+    }
+    
     func takeEndPeriodScreen() {
         requestCameraPermission()
         
