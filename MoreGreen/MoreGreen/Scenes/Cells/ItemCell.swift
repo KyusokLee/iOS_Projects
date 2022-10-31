@@ -49,7 +49,6 @@ class ItemCell: UITableViewCell {
     
     @IBOutlet weak var itemNameLabel: UILabel! {
         didSet {
-            itemNameLabel.text = "データなし"
             itemNameLabel.font = .systemFont(ofSize: 16, weight: .medium)
         }
     }
@@ -127,9 +126,17 @@ class ItemCell: UITableViewCell {
     }
     
     // cellのconfigure
-    func configure(with imageData: Data, hasDate endDate: String, dayCount dateArray: [Int]) {
+    func configure(with imageData: Data, hasItemName itemName: String, hasDate endDate: String, dayCount dateArray: [Int]) {
         
         print(pinState)
+        if itemName == "" {
+            itemNameLabel.text = "データなし"
+            itemNameLabel.textColor = UIColor.systemGray.withAlphaComponent(0.7)
+        } else {
+            itemNameLabel.text = itemName
+            itemNameLabel.textColor = UIColor.black
+        }
+        
         // ただのData()のまま (写真のイメージがないもの)
         if imageData == Data() {
             itemImageView.image = nil

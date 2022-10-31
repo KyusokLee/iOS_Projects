@@ -15,6 +15,11 @@ protocol EndPeriodCellDelegate {
     func writeItemName(textField: UITextField)
 }
 
+enum ItemNameEdit {
+    case isEditing
+    case normal
+}
+
 class EndPeriodCell: UITableViewCell {
     
     @IBOutlet weak var itemNameTitleLabel: UILabel! {
@@ -22,6 +27,14 @@ class EndPeriodCell: UITableViewCell {
             itemNameTitleLabel.text = "商品名"
             itemNameTitleLabel.textColor = UIColor.systemGray
             itemNameTitleLabel.font = .systemFont(ofSize: 17, weight: .medium)
+        }
+    }
+    
+    @IBOutlet weak var editButton: UIButton! {
+        didSet {
+            // default Button Image
+            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
+            editButton.setImage(image, for: .normal)
         }
     }
     
@@ -35,9 +48,13 @@ class EndPeriodCell: UITableViewCell {
     
     @IBOutlet weak var itemNameTextField: UITextField! {
         didSet {
-            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
             
+            // placeHolderの設定
             itemNameTextField.attributedPlaceholder = NSAttributedString(string: "商品名を入力", attributes: attributes)
+            
+            itemNameTextField.font = .systemFont(ofSize: 17, weight: .bold)
+            
             itemNameTextField.addTarget(self, action: #selector(textFieldEdited), for: .editingChanged)
         }
     }
@@ -47,7 +64,11 @@ class EndPeriodCell: UITableViewCell {
         didSet {
             endPeriodView.backgroundColor = .clear
             //MARK: ⚠️こうすると、下部線のwidthだけが太くなる
-            endPeriodView.layer.addBorder(arrEdges: [.top, .bottom], color: UIColor.systemGray3.withAlphaComponent(0.7), width: 1)
+            endPeriodView.layer.masksToBounds = true
+            endPeriodView.layer.cornerRadius = 8
+            endPeriodView.layer.borderColor = UIColor.systemGray3.withAlphaComponent(0.7).cgColor
+            endPeriodView.layer.borderWidth = 1
+//            endPeriodView.layer.addBorder(arrEdges: [.top, .bottom], color: UIColor.systemGray3.withAlphaComponent(0.7), width: 1)
             // 上と下だけ線を引きたいので、extensionのCALayerを用いて、メソッドを呼び出す
         }
     }
@@ -78,6 +99,9 @@ class EndPeriodCell: UITableViewCell {
     // ⚠️使うかどうかはまだ未定
     var itemName = ""
     var endPeriodText = ""
+    var buttonClicked: ItemNameEdit = .normal
+    // 使うかどうかはまだ未定
+    private var editButtonClicked: Bool = false
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -96,14 +120,98 @@ class EndPeriodCell: UITableViewCell {
         self.delegate?.takeEndPeriodScreen()
     }
     
+    // MARK: ⚠️Edit Buttonをタップ
+    @IBAction func tapEditButton(_ sender: Any) {
+        guard itemNameTextField.text != "" else {
+            return
+        }
+        
+        // buttonStateを変える処理のみをここに記入
+        if buttonClicked == .normal {
+            buttonClicked = .isEditing
+            setEditButtonConstraints()
+            setEditButtonImage()
+            
+            if !itemNameTextField.isUserInteractionEnabled {
+                itemNameTextField.isUserInteractionEnabled = true
+                itemNameTextField.resignFirstResponder()
+            }
+        } else {
+            buttonClicked = .normal
+            setEditButtonConstraints()
+            setEditButtonImage()
+            
+            if itemNameTextField.isUserInteractionEnabled {
+                itemNameTextField.isUserInteractionEnabled = false
+            }
+        }
+        
+        if itemNameTextField.text == "未記入" {
+            itemNameTextField.text = ""
+            itemNameTextField.textColor = UIColor.black.withAlphaComponent(0.8)
+        }
+    }
+    
     @objc func textFieldEdited(textField: UITextField) {
         // UIがあっても、他のVCでアクセス可能だった
         // delegateをしたからだと思う
         self.delegate?.writeItemName(textField: textField)
     }
     
+    // Edit Buttonのconstraintsを更新
+    func setEditButtonConstraints() {
+        if buttonClicked == .isEditing {
+            // Buttonのimageを変更 ->入力完了のimageを表示
+            editButton.translatesAutoresizingMaskIntoConstraints = false
+            editButton.leftAnchor.constraint(equalTo: self.itemNameTitleLabel.rightAnchor, constant: 8).isActive = true
+            editButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        } else {
+            // 入力完了 -> 元のbutton imageを返す
+            editButton.translatesAutoresizingMaskIntoConstraints = false
+            editButton.leftAnchor.constraint(equalTo: self.itemNameTitleLabel.rightAnchor, constant: 8).isActive = true
+            editButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+        }
+        self.updateConstraintsIfNeeded()
+    }
     
-    func configure(with endDate: String, checkState state: Bool, failure fail: Bool) {
+    func setEditButtonImage() {
+        switch buttonClicked {
+        case .normal:
+            editButton.setTitle(nil, for: .normal)
+            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
+            editButton.setImage(image, for: .normal)
+        case .isEditing:
+            editButton.setImage(nil, for: .normal)
+            editButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+            editButton.setTitle("入力完了", for: .normal)
+        }
+        
+        self.layoutIfNeeded()
+    }
+    
+    func configure(with endDate: String, itemName itemTitle: String?, checkState state: Bool, failure fail: Bool) {
+        
+        //MARK: itemTitleとeditButtonを関連づける処理を追加
+        if itemTitle == nil {
+            // 何も記入されていないとき
+            // PlaceHolderのみが表示されるようになる
+            itemNameTextField.text = nil
+            editButton.isHidden = true
+            itemNameTextField.isUserInteractionEnabled = true
+        } else {
+            // 記入されているとき
+            if itemTitle == "" {
+                // 空白のまま、保存してしまったとき (ミスを防ぐ処理)
+                // もしくは、商品名を記入せずんに保存したとき
+                itemNameTextField.text = "未記入"
+                itemNameTextField.textColor = UIColor(rgb: 0x751717).withAlphaComponent(0.7)
+            } else {
+                itemNameTextField.text = itemTitle
+                itemNameTextField.textColor = UIColor.black.withAlphaComponent(0.8)
+            }
+            editButton.isHidden = false
+            itemNameTextField.isUserInteractionEnabled = false
+        }
         
         if endDate != "" {
             endPeriodDataLabel.text = endDate

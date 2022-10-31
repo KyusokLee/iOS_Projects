@@ -39,7 +39,7 @@ class NewItemVC: UIViewController {
     
     // ⚠️まだ、使うかどうか決めてない変数
     var imageData = Data()
-    var itemName = ""
+    var itemName: String? = ""
     var endPeriodText = ""
     var recognizeState = false
     var failState = false
@@ -152,6 +152,15 @@ class NewItemVC: UIViewController {
                 print("has endDate")
                 endPeriodText = hasEndDate
 //                photoData[1] = imageData
+            }
+            
+            if let hasItemName = hasData.itemName {
+                print("has ItemName")
+                if hasItemName == "" {
+                    itemName = "未記入"
+                } else {
+                    itemName = hasItemName
+                }
             }
             
             createItemTableView.reloadData()
@@ -467,18 +476,19 @@ extension NewItemVC: ItemImageCellDelegate {
     }
 }
 
+// EndPeriodCell Delegate関連
+// TextField関連メソッドあり
 extension NewItemVC: EndPeriodCellDelegate {
     func writeItemName(textField: UITextField) {
         if let hasText = textField.text {
             itemName = hasText
-            print("itemName: \(itemName)")
+            print("itemName: \(String(describing: itemName))")
         }
         
     }
     
     func takeEndPeriodScreen() {
         requestCameraPermission()
-        
         let cameraVC = CameraVC.instantiate()
         cameraVC.cellIndex = 1
         cameraVC.delegate = self
@@ -536,6 +546,7 @@ extension NewItemVC: ButtonDelegate {
         }
         
         // ⚠️Stringとして保存した方がDDayなどの日付の差の計算が容易である
+        object.itemName = itemName
         object.curDateString = curDateString
         object.curDate = Date()
         object.uuid = UUID()
@@ -618,6 +629,7 @@ extension NewItemVC: ButtonDelegate {
                 loadedData.first?.endDate = customEndDateFormat(endDate: endPeriodText, with: divider)
             }
             
+            loadedData.first?.itemName = itemName
             loadedData.first?.curDateString = curDateString
             loadedData.first?.curDate = Date()
             
@@ -761,32 +773,57 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             // ⚠️途中の段階: 賞味期限のcellでの処理をもっと書く必要がある
             // TODO: 🔥CoreDataにあるデータの場合、文字が反映されないerrorが生じた
+            // MARK: 🔥itemNameで少しエラーが生じる
             let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
             cell.delegate = self
             
+            // CoreDataがあるとき (ItemListのcellのclickよりviewをpresentした場合)
             if let hasData = selectedItemList {
                 // CoreDataのデータをfetchするように
+                if let hasItemName = hasData.itemName {
+                    var isOnlySpaceStr = true
+                    let splitName = hasItemName.map { String($0) }
+                    
+                    for i in 0..<splitName.count {
+                        if splitName[i] != " " {
+                            isOnlySpaceStr = false
+                            break
+                        }
+                    }
+                    
+                    if isOnlySpaceStr {
+                        // 保存できないように！
+                    } else {
+                        // 保存できるように！
+                    }
+                    
+                    self.itemName = hasItemName
+                    
+                } else {
+                    // itemNameがない時 (nil)
+                    self.itemName = hasData.itemName
+                }
+                
                 if hasData.endDate != "" {
                     // ""これもendDataがあることになる
                     // endDateが必ずあるときだけ、この処理をするので、checkStateは直ちにtrueにしてあげた
                     
                     if hasData.endDate! == self.endPeriodText {
                         let fetchEndDate = hasData.endDate!
-                        cell.configure(with: fetchEndDate, checkState: true, failure: false)
+                        cell.configure(with: fetchEndDate, itemName: self.itemName, checkState: true, failure: false)
                     } else {
                         // CoreDataのendDateと新しく撮ったendDateが異なる場合
                         let fetchEndDate = self.endPeriodText
-                        cell.configure(with: fetchEndDate, checkState: recognizeState, failure: failState)
+                        cell.configure(with: fetchEndDate, itemName: self.itemName,  checkState: recognizeState, failure: failState)
                     }
                 } else {
                     // endDateが入ってないとき
                     // Data()があるけど、endDateは入ってない
                     // endPeriodTextが""になっている
-                    print("no period data")
-                    cell.configure(with: self.endPeriodText, checkState: false, failure: true)
-                    
+                    cell.configure(with: self.endPeriodText, itemName: self.itemName,  checkState: false, failure: true)
                 }
             } else {
+                // CoreDataがないとき (新しく商品登録を行う場合)
                 // TODO: 🔥文字認識に失敗したとき、"文字認識に失敗した日として表示される"ことを防ぐ
                 // CoreDataではなく、新しいitemを作成するとき
                 // ここの処理をする
@@ -795,12 +832,13 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
                 } else {
                     
                 }
-                cell.configure(with: self.endPeriodText, checkState: recognizeState, failure: failState)
+                
+                self.itemName = nil
+                cell.configure(with: self.endPeriodText, itemName: self.itemName,  checkState: recognizeState, failure: failState)
             }
             
             cell.selectionStyle = .none
             return cell
-            
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
             cell.delegate = self

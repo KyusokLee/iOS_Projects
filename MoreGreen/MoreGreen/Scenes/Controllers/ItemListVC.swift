@@ -610,6 +610,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
         cell.delegate = self
         
+        var cellItemName = ""
         var cellImageData = Data()
         var cellEndPeriod = ""
         var cellDayCountArray = [Int]()
@@ -617,6 +618,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         // TODO: ⚠️Ddayの状況に合わせて、cellの背景色を違くする処理を追加
         
         if displayType == .registerSort {
+            cellItemName = itemList[indexPath.row].itemName ?? ""
             cellImageData = itemList[indexPath.row].itemImage ?? Data()
             cellEndPeriod = itemList[indexPath.row].endDate ?? ""
             cellDayCountArray = dayCount[indexPath.row]
@@ -637,6 +639,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
                 cell.backgroundColor = UIColor.white
             }
         } else {
+            cellItemName = sortedItemList[indexPath.row].itemName ?? ""
             cellImageData = sortedItemList[indexPath.row].itemImage ?? Data()
             cellEndPeriod = sortedItemList[indexPath.row].endDate ?? ""
             cellDayCountArray = sortedDayCount[indexPath.row]
@@ -660,7 +663,7 @@ extension ItemListVC: UITableViewDelegate, UITableViewDataSource {
         
         // ここでは、configureだけした
         // ここで、計算して入れてもいい
-        cell.configure(with: cellImageData, hasDate: cellEndPeriod, dayCount: cellDayCountArray)
+        cell.configure(with: cellImageData, hasItemName: cellItemName, hasDate: cellEndPeriod, dayCount: cellDayCountArray)
         
         return cell
     }
