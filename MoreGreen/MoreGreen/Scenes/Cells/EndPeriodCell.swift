@@ -21,7 +21,6 @@ enum ItemNameEdit {
 }
 
 class EndPeriodCell: UITableViewCell {
-    
     @IBOutlet weak var itemNameTitleLabel: UILabel! {
         didSet {
             itemNameTitleLabel.text = "商品名"
@@ -32,9 +31,10 @@ class EndPeriodCell: UITableViewCell {
     
     @IBOutlet weak var editButton: UIButton! {
         didSet {
-            // default Button Image
-            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
-            editButton.setImage(image, for: .normal)
+            // ここにimageを入れると、ずっとimageが表示される問題になる
+            editButton.autoresizingMask = [.flexibleWidth]
+            editButton.titleLabel?.autoresizingMask = [.flexibleWidth]
+            setEditButtonImage()
         }
     }
     
@@ -122,6 +122,7 @@ class EndPeriodCell: UITableViewCell {
     
     // MARK: ⚠️Edit Buttonをタップ
     @IBAction func tapEditButton(_ sender: Any) {
+        // 商品名のとこに、何も入力されていないのであれば、returnするように (Errorの回避)
         guard itemNameTextField.text != "" else {
             return
         }
@@ -129,7 +130,6 @@ class EndPeriodCell: UITableViewCell {
         // buttonStateを変える処理のみをここに記入
         if buttonClicked == .normal {
             buttonClicked = .isEditing
-            setEditButtonConstraints()
             setEditButtonImage()
             
             if !itemNameTextField.isUserInteractionEnabled {
@@ -138,7 +138,6 @@ class EndPeriodCell: UITableViewCell {
             }
         } else {
             buttonClicked = .normal
-            setEditButtonConstraints()
             setEditButtonImage()
             
             if itemNameTextField.isUserInteractionEnabled {
@@ -158,35 +157,52 @@ class EndPeriodCell: UITableViewCell {
         self.delegate?.writeItemName(textField: textField)
     }
     
-    // Edit Buttonのconstraintsを更新
+    func setEditButtonImage() {
+        // EditButtonImageを設定する前に、constraintsを設定するように
+        setEditButtonConstraints()
+        
+        switch buttonClicked {
+        case .normal:
+            // MARK: imageを無くすことはできた
+            editButton.setTitle("", for: .normal)
+            
+            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
+            editButton.setImage(image, for: .normal)
+        case .isEditing:
+            // MARK: ⚠️titleが正しく表示されない
+            editButton.setImage(UIImage(), for: .normal)
+            
+            // MARK: 🔥 Labelは、正しく表示されていた
+            editButton.setTitle("入力完了", for: .normal)
+            editButton.setTitleColor(UIColor(rgb: 0x2196F3), for: .normal)
+            editButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+        }
+        
+        self.layoutIfNeeded()
+    }
+    
+    // TODO: Edit Buttonのconstraintsを更新
     func setEditButtonConstraints() {
         if buttonClicked == .isEditing {
             // Buttonのimageを変更 ->入力完了のimageを表示
             editButton.translatesAutoresizingMaskIntoConstraints = false
-            editButton.leftAnchor.constraint(equalTo: self.itemNameTitleLabel.rightAnchor, constant: 8).isActive = true
+            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+            
+            editButton.leftAnchor.constraint(equalTo: editButton.leftAnchor).isActive = true
+            editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -100).isActive = true
             editButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
+            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 70).isActive = true
         } else {
             // 入力完了 -> 元のbutton imageを返す
             editButton.translatesAutoresizingMaskIntoConstraints = false
-            editButton.leftAnchor.constraint(equalTo: self.itemNameTitleLabel.rightAnchor, constant: 8).isActive = true
+            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+            
+            editButton.leftAnchor.constraint(equalTo: editButton.leftAnchor).isActive = true
+            editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -100).isActive = true
             editButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 25).isActive = true
         }
         self.updateConstraintsIfNeeded()
-    }
-    
-    func setEditButtonImage() {
-        switch buttonClicked {
-        case .normal:
-            editButton.setTitle(nil, for: .normal)
-            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
-            editButton.setImage(image, for: .normal)
-        case .isEditing:
-            editButton.setImage(nil, for: .normal)
-            editButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
-            editButton.setTitle("入力完了", for: .normal)
-        }
-        
-        self.layoutIfNeeded()
     }
     
     func configure(with endDate: String, itemName itemTitle: String?, checkState state: Bool, failure fail: Bool) {
