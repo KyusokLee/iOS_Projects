@@ -95,6 +95,9 @@ class EndPeriodCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var editButtonLeftAnchor: NSLayoutConstraint!
+    
+    
     var delegate: EndPeriodCellDelegate?
     // ⚠️使うかどうかはまだ未定
     var itemName = ""
@@ -159,15 +162,15 @@ class EndPeriodCell: UITableViewCell {
     
     func setEditButtonImage() {
         // EditButtonImageを設定する前に、constraintsを設定するように
-        setEditButtonConstraints()
         
         switch buttonClicked {
         case .normal:
             // MARK: imageを無くすことはできた
             editButton.setTitle("", for: .normal)
             
-            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.9), renderingMode: .alwaysOriginal)
+            let image = UIImage(systemName: "square.and.pencil")?.withTintColor(UIColor.black.withAlphaComponent(0.4), renderingMode: .alwaysOriginal)
             editButton.setImage(image, for: .normal)
+            setEditButtonConstraints()
         case .isEditing:
             // MARK: ⚠️titleが正しく表示されない
             editButton.setImage(UIImage(), for: .normal)
@@ -176,31 +179,36 @@ class EndPeriodCell: UITableViewCell {
             editButton.setTitle("入力完了", for: .normal)
             editButton.setTitleColor(UIColor(rgb: 0x2196F3), for: .normal)
             editButton.titleLabel?.font = .systemFont(ofSize: 17, weight: .medium)
+            setEditButtonConstraints()
         }
         
         self.layoutIfNeeded()
     }
     
     // TODO: Edit Buttonのconstraintsを更新
+    // ⚠️ここで、ずっとconstraintsのエラーが生じる..
     func setEditButtonConstraints() {
+        // 🔥TODO: Button Constraintsで問題が生じ、Button のTitle Labelが正しく表示されずに縦に並べるようになった
         if buttonClicked == .isEditing {
-            // Buttonのimageを変更 ->入力完了のimageを表示
-            editButton.translatesAutoresizingMaskIntoConstraints = false
-            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
-            
-            editButton.leftAnchor.constraint(equalTo: editButton.leftAnchor).isActive = true
-            editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -100).isActive = true
-            editButton.widthAnchor.constraint(equalToConstant: 70).isActive = true
-            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 70).isActive = true
+//            editButton.translatesAutoresizingMaskIntoConstraints = false
+//            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+//            editButton.clipsToBounds = true
+//
+//            editButton.widthAnchor.constraint(equalToConstant: 55).isActive = true
+//            // Buttonのimageを変更 ->入力完了のimageを表示
+//            // Button上のtitleの場合、UILabelの上にtextが書かれることを確認した
+//            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 55).isActive = true
+            editButton.titleLabel?.adjustsFontSizeToFitWidth = true
         } else {
             // 入力完了 -> 元のbutton imageを返す
-            editButton.translatesAutoresizingMaskIntoConstraints = false
-            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
-            
-            editButton.leftAnchor.constraint(equalTo: editButton.leftAnchor).isActive = true
-            editButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -100).isActive = true
-            editButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
-            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 25).isActive = true
+//            editButton.translatesAutoresizingMaskIntoConstraints = false
+//            editButton.titleLabel?.translatesAutoresizingMaskIntoConstraints = false
+//            editButton.clipsToBounds = true
+//            editButton.widthAnchor.constraint(equalToConstant: 25).isActive = true
+//            editButton.titleLabel?.widthAnchor.constraint(equalToConstant: 25).isActive = true
+//            editButton.contentMode = .scaleToFill
+//            editButton.contentHorizontalAlignment = .leading
+            editButton.titleLabel?.adjustsFontSizeToFitWidth = true
         }
         self.updateConstraintsIfNeeded()
     }
@@ -219,6 +227,7 @@ class EndPeriodCell: UITableViewCell {
             if itemTitle == "" {
                 // 空白のまま、保存してしまったとき (ミスを防ぐ処理)
                 // もしくは、商品名を記入せずんに保存したとき
+                // MARK: 🔥ここの部分、正しく表示されない -> 修正する予定
                 itemNameTextField.text = "未記入"
                 itemNameTextField.textColor = UIColor(rgb: 0x751717).withAlphaComponent(0.7)
             } else {

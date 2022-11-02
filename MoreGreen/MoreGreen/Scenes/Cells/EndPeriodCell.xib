@@ -24,7 +24,6 @@
                                 <rect key="frame" x="15" y="10" width="33" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="TcO-ag-J4d"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="lVE-sL-NqL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" systemColor="systemGrayColor"/>
@@ -82,7 +81,7 @@
                                 <rect key="frame" x="56" y="12.666666666666664" width="25" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="2FA-rd-0TD"/>
-                                    <constraint firstAttribute="width" constant="25" id="aJP-CT-H4c"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="OQx-Cw-g9n"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain"/>
@@ -99,7 +98,6 @@
                             <constraint firstAttribute="trailing" secondItem="Dp8-SZ-j8d" secondAttribute="trailing" constant="15" id="A5Y-5V-AgO"/>
                             <constraint firstItem="f9h-Ml-ezF" firstAttribute="leading" secondItem="72u-AZ-met" secondAttribute="leading" constant="15" id="DJt-3U-c2X"/>
                             <constraint firstItem="hKN-bF-BQ6" firstAttribute="top" secondItem="Uxl-dp-BDB" secondAttribute="bottom" constant="15" id="FTw-oH-0oW"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="oTe-UX-bv0" secondAttribute="trailing" constant="15" id="Nge-jm-fwf"/>
                             <constraint firstItem="f9h-Ml-ezF" firstAttribute="centerY" secondItem="oTe-UX-bv0" secondAttribute="centerY" id="QPl-fA-aW6"/>
                             <constraint firstItem="6MB-9M-9ay" firstAttribute="top" secondItem="Dp8-SZ-j8d" secondAttribute="bottom" constant="15" id="XJN-Yj-lLX"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6MB-9M-9ay" secondAttribute="trailing" constant="15" id="ZRi-tY-DjP"/>
@@ -123,6 +121,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="editButton" destination="oTe-UX-bv0" id="32z-Z8-yjs"/>
+                <outlet property="editButtonLeftAnchor" destination="8Rf-Ls-Q8b" id="hcU-lP-6uW"/>
                 <outlet property="endPeriodDataLabel" destination="znn-Ub-ek7" id="pKu-KR-x6h"/>
                 <outlet property="endPeriodShootButton" destination="hKN-bF-BQ6" id="2vC-Ok-kVj"/>
                 <outlet property="endPeriodTitleLabel" destination="6MB-9M-9ay" id="mgm-Mi-TSj"/>
