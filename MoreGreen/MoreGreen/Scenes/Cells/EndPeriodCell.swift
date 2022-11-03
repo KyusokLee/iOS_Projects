@@ -55,6 +55,7 @@ class EndPeriodCell: UITableViewCell {
             itemNameTextField.attributedPlaceholder = NSAttributedString(string: "商品名を入力", attributes: attributes)
             
             itemNameTextField.font = .systemFont(ofSize: 17, weight: .bold)
+            itemNameTextField.enablesReturnKeyAutomatically = true
             itemNameTextField.addTarget(self, action: #selector(textFieldEdited), for: .editingChanged)
         }
     }
@@ -153,6 +154,11 @@ class EndPeriodCell: UITableViewCell {
             itemNameTextField.textColor = UIColor.black.withAlphaComponent(0.8)
         }
     }
+    
+    @IBAction func tapDoneBtnOfKeyboard(_ sender: Any) {
+        print("exit and dismiss keyboard!")
+    }
+    
     
     @objc func textFieldEdited(textField: UITextField) {
         // UIがあっても、他のVCでアクセス可能だった

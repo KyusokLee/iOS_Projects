@@ -19,7 +19,8 @@ class HomeItemCell: UITableViewCell {
     
     @IBOutlet weak var emptyDataView: UIView! {
         didSet {
-            emptyDataView.backgroundColor = .clear
+            self.emptyDataView.backgroundColor = .clear
+            setShowEmptyView()
         }
     }
     
@@ -52,7 +53,7 @@ class HomeItemCell: UITableViewCell {
         super.awakeFromNib()
         registerXib()
         setCollectionView()
-        setShowEmptyView()
+        itemCollectionView.reloadData()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -77,12 +78,15 @@ class HomeItemCell: UITableViewCell {
     }
     
     // TODO: 🔥新しくnibファイルとコードを作成する方より、ここで、dataがあるかないかによってviewをhidden処理するのが効率的である
+    // Error⚠️: View自体がhiddenになるけど、上に載せたlabelなどがhiddenされないerrorがあった
     private func setShowEmptyView() {
         if self.filteredItemList.isEmpty {
             self.emptyDataView.isHidden = false
         } else {
             self.emptyDataView.isHidden = true
         }
+        
+        self.emptyDataView.layoutIfNeeded()
     }
     
     // collectionViewに入れるデータをここで、configure
@@ -90,9 +94,8 @@ class HomeItemCell: UITableViewCell {
         self.filteredItemList = model
         self.filteredDayCount = array
         
+        print("filteredItemList: \(filteredItemList)")
         print("filteredDayCount: \(filteredDayCount)")
-        
-        itemCollectionView.reloadData()
     }
     
 }

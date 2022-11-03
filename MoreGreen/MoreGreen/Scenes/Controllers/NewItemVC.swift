@@ -54,6 +54,7 @@ class NewItemVC: UIViewController {
     var hasCoreData = false
     var isPhotoResized = false
     var onceDeleted = false
+    var hasItemNameText = false
     
     //⚠️賞味期限の文字認証を行う間に、ユーザの認識touchを受け取らないように
     var isDoingRecognize = false
@@ -480,13 +481,12 @@ extension NewItemVC: ItemImageCellDelegate {
 // TextField関連メソッドあり
 extension NewItemVC: EndPeriodCellDelegate {
     func writeItemName(textField: UITextField) {
-        textField.enablesReturnKeyAutomatically = true
+        // Error: 新たなitemを登録するとき、doneが押せるようになっているが、一回入力の後は、doneボタンを押せないようになっている
+        // 解決: EndPeriodCellでdidSetの段階から、メソッドを書くことでエラーを治すことができた
         //MARK: 🔥最初に入った時は、itemNameは nilになり、一回でも入力を行ったのであれば、Optional("")になる
-        
-        if let hasText = textField.text {
-            itemName = hasText
-            print("itemName: \(String(describing: itemName))")
-        }
+        textField.delegate = self
+        print("itemName: \(String(describing: itemName))")
+        itemName = textField.text ?? nil
         
         // ここで、reloadDataを書くと、テキストを入力するたびにreloadDataされるため、キーボードがずっとdismissとpresentを繰り返すことになる
         createItemTableView.layoutIfNeeded()
@@ -501,6 +501,23 @@ extension NewItemVC: EndPeriodCellDelegate {
         let navigation = UINavigationController(rootViewController: cameraVC)
         navigation.modalPresentationStyle = .fullScreen
         navigationController?.pushViewController(cameraVC, animated: true)
+    }
+}
+
+// textFieldのdelegateに関するメソッド
+extension NewItemVC: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if itemName == nil || itemName == "" {
+            hasItemNameText = false
+            print("textState: \(hasItemNameText)")
+        } else {
+            hasItemNameText = true
+            print("textState: \(hasItemNameText)")
+        }
+        
+        // MARK: 🔥reloadDataをすると、textFieldのtextが全部消されることになる
+        // 🌈解決策: 特定のrowsだけをreloadDataするようにし、buttonのstateのdataをreloadするようにした
+        self.createItemTableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
     }
 }
 
@@ -866,7 +883,7 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             //商品のimageデータとperiodデータ両方ともない(Data()の初期化のまま)と create button 押せないように
             // TODO: 🔥商品名が記入されたら、createButtonのdisable状態をenable状態に
             // ここのtextFieldがに書いたitemNameとcreateButtonのボタンの連動でエラーが生じた
-            if photoData[0] == Data() && photoData[1] == Data() && (itemName == nil || itemName == "") {
+            if photoData[0] == Data() && photoData[1] == Data() && !hasItemNameText {
                 cell.createButton.isEnabled = false
                 cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
             } else {
