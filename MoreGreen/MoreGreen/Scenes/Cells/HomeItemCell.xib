@@ -30,16 +30,49 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7pQ-dM-tdi">
+                        <rect key="frame" x="20" y="25" width="308" height="190"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FSI-Un-iMl">
+                                <rect key="frame" x="15" y="46.666666666666671" width="278" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OuE-6R-nz9">
+                                <rect key="frame" x="65" y="77.666666666666671" width="178" height="20.333333333333329"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="FSI-Un-iMl" secondAttribute="trailing" constant="15" id="Dy2-kO-ZTY"/>
+                            <constraint firstItem="OuE-6R-nz9" firstAttribute="leading" secondItem="7pQ-dM-tdi" secondAttribute="leading" constant="65" id="EdU-je-gcM"/>
+                            <constraint firstItem="FSI-Un-iMl" firstAttribute="centerY" secondItem="7pQ-dM-tdi" secondAttribute="centerY" multiplier="0.6" id="UmG-E7-zaz"/>
+                            <constraint firstItem="FSI-Un-iMl" firstAttribute="leading" secondItem="7pQ-dM-tdi" secondAttribute="leading" constant="15" id="Y5H-fS-CVO"/>
+                            <constraint firstAttribute="trailing" secondItem="OuE-6R-nz9" secondAttribute="trailing" constant="65" id="n5u-QY-cwi"/>
+                            <constraint firstItem="OuE-6R-nz9" firstAttribute="top" secondItem="FSI-Un-iMl" secondAttribute="bottom" constant="10" id="xbw-hy-oh0"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="7pQ-dM-tdi" firstAttribute="leading" secondItem="itQ-9d-iZS" secondAttribute="leading" constant="10" id="G7A-Vp-Mvf"/>
                     <constraint firstAttribute="trailing" secondItem="itQ-9d-iZS" secondAttribute="trailing" constant="10" id="R7Q-SU-wQp"/>
+                    <constraint firstItem="itQ-9d-iZS" firstAttribute="trailing" secondItem="7pQ-dM-tdi" secondAttribute="trailing" constant="10" id="RPT-Wb-lDY"/>
+                    <constraint firstItem="7pQ-dM-tdi" firstAttribute="top" secondItem="itQ-9d-iZS" secondAttribute="top" constant="10" id="S2T-Gs-jfL"/>
                     <constraint firstItem="itQ-9d-iZS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="eT4-UA-yFn"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="itQ-9d-iZS" secondAttribute="bottom" constant="15" id="f6w-sd-Ba7"/>
+                    <constraint firstItem="itQ-9d-iZS" firstAttribute="bottom" secondItem="7pQ-dM-tdi" secondAttribute="bottom" constant="10" id="h3R-Vx-wb5"/>
                     <constraint firstItem="itQ-9d-iZS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="vfM-1L-RjJ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="emptyDataView" destination="7pQ-dM-tdi" id="5kd-Z4-fiX"/>
+                <outlet property="emptyViewMainLabel" destination="FSI-Un-iMl" id="eg3-x6-oiY"/>
+                <outlet property="emptyViewSubDescription" destination="OuE-6R-nz9" id="A01-Xq-5hR"/>
                 <outlet property="itemCollectionView" destination="itQ-9d-iZS" id="kZj-rc-wha"/>
             </connections>
             <point key="canvasLocation" x="152.30769230769229" y="90.639810426540279"/>

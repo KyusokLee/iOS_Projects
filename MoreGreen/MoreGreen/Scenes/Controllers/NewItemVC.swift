@@ -113,7 +113,7 @@ class NewItemVC: UIViewController {
     private func removeKeyboardObserver() {
         NotificationCenter.default.removeObserver(self)
     }
-    
+        
     private func setUpTableView() {
         createItemTableView.delegate = self
         createItemTableView.dataSource = self
@@ -480,11 +480,16 @@ extension NewItemVC: ItemImageCellDelegate {
 // TextField関連メソッドあり
 extension NewItemVC: EndPeriodCellDelegate {
     func writeItemName(textField: UITextField) {
+        textField.enablesReturnKeyAutomatically = true
+        //MARK: 🔥最初に入った時は、itemNameは nilになり、一回でも入力を行ったのであれば、Optional("")になる
+        
         if let hasText = textField.text {
             itemName = hasText
             print("itemName: \(String(describing: itemName))")
         }
         
+        // ここで、reloadDataを書くと、テキストを入力するたびにreloadDataされるため、キーボードがずっとdismissとpresentを繰り返すことになる
+        createItemTableView.layoutIfNeeded()
     }
     
     func takeEndPeriodScreen() {
@@ -859,7 +864,9 @@ extension NewItemVC: UITableViewDelegate, UITableViewDataSource {
             }
             
             //商品のimageデータとperiodデータ両方ともない(Data()の初期化のまま)と create button 押せないように
-            if photoData[0] == Data() && photoData[1] == Data() {
+            // TODO: 🔥商品名が記入されたら、createButtonのdisable状態をenable状態に
+            // ここのtextFieldがに書いたitemNameとcreateButtonのボタンの連動でエラーが生じた
+            if photoData[0] == Data() && photoData[1] == Data() && (itemName == nil || itemName == "") {
                 cell.createButton.isEnabled = false
                 cell.createButton.backgroundColor = UIColor(rgb: 0xC0DFFD)
             } else {
@@ -943,4 +950,3 @@ extension NewItemVC: ItemInfoView {
         self.createItemTableView.reloadData()
     }
 }
-

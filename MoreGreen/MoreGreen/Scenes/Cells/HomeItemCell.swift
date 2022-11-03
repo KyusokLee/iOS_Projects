@@ -9,9 +9,38 @@ import UIKit
 
 // HomeVCの今週中賞味期限が切れるitemListに表示するTableViewCell
 // Cellの中に、CollectionViewを設け、その中にitemのCollectionViewCellを格納した
+
+// MARK: TableViewCellであるこのファイルでEmpty Viewの表示と非表示に関するロジックを処理する
+
+
 class HomeItemCell: UITableViewCell {
 
     @IBOutlet weak var itemCollectionView: UICollectionView!
+    
+    @IBOutlet weak var emptyDataView: UIView! {
+        didSet {
+            emptyDataView.backgroundColor = .clear
+        }
+    }
+    
+    @IBOutlet weak var emptyViewMainLabel: UILabel! {
+        didSet {
+            emptyViewMainLabel.text = "まだ、登録された商品がありません"
+            emptyViewMainLabel.textColor = UIColor.systemGray.withAlphaComponent(0.6)
+            emptyViewMainLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        }
+    }
+    
+    @IBOutlet weak var emptyViewSubDescription: UILabel! {
+        didSet {
+            // labelのconstraintsは、text文の中の"登録し、"が１行の最後に来るように事前に設定した
+            emptyViewSubDescription.text = "下記の➕ボタンで、新しい商品を登録し、賞味期限を管理してみましょう！"
+            emptyViewSubDescription.textColor = UIColor.systemGray.withAlphaComponent(0.6)
+            emptyViewSubDescription.font = .systemFont(ofSize: 13, weight: .medium)
+        }
+    }
+    
+    
     private var filteredItemList = [ItemList]()
     private var filteredDayCount = [Int]()
     
@@ -23,6 +52,7 @@ class HomeItemCell: UITableViewCell {
         super.awakeFromNib()
         registerXib()
         setCollectionView()
+        setShowEmptyView()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,6 +74,15 @@ class HomeItemCell: UITableViewCell {
         itemCollectionView.dataSource = self
         itemCollectionView.decelerationRate = .fast
         itemCollectionView.showsHorizontalScrollIndicator = false
+    }
+    
+    // TODO: 🔥新しくnibファイルとコードを作成する方より、ここで、dataがあるかないかによってviewをhidden処理するのが効率的である
+    private func setShowEmptyView() {
+        if self.filteredItemList.isEmpty {
+            self.emptyDataView.isHidden = false
+        } else {
+            self.emptyDataView.isHidden = true
+        }
     }
     
     // collectionViewに入れるデータをここで、configure

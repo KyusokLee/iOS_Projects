@@ -48,13 +48,13 @@ class EndPeriodCell: UITableViewCell {
     
     @IBOutlet weak var itemNameTextField: UITextField! {
         didSet {
+            itemNameTextField.returnKeyType = .done
             let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
             
             // placeHolderの設定
             itemNameTextField.attributedPlaceholder = NSAttributedString(string: "商品名を入力", attributes: attributes)
             
             itemNameTextField.font = .systemFont(ofSize: 17, weight: .bold)
-            
             itemNameTextField.addTarget(self, action: #selector(textFieldEdited), for: .editingChanged)
         }
     }
@@ -137,7 +137,7 @@ class EndPeriodCell: UITableViewCell {
             
             if !itemNameTextField.isUserInteractionEnabled {
                 itemNameTextField.isUserInteractionEnabled = true
-                itemNameTextField.resignFirstResponder()
+                itemNameTextField.becomeFirstResponder()
             }
         } else {
             buttonClicked = .normal

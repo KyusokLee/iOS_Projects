@@ -462,6 +462,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
             return cell
         case 1:
+            // TODO: 🔥filteredItemListがない場合の分岐をここで行う
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeItemCell", for: indexPath) as! HomeItemCell
             // sortedされたItemListを渡す
             cell.configure(with: filteredItemList, dayArray: filteredDayCount)
