@@ -11,16 +11,20 @@ import UIKit
 // Cellの中に、CollectionViewを設け、その中にitemのCollectionViewCellを格納した
 
 // MARK: TableViewCellであるこのファイルでEmpty Viewの表示と非表示に関するロジックを処理する
+// TODO: 1_Collective Cellをクリックすると詳細情報のViewをpresentするように (protocol delegate pattern適用)
+
+// collectionView cellのclickに関するdelegate
+protocol CollectionViewCellDelegate: AnyObject {
+    func collectionView(collectionViewCell: HomeItemCollectionViewCell?, index: Int, didTappedInTableViewCell: HomeItemCell)
+}
 
 
 class HomeItemCell: UITableViewCell {
-
     @IBOutlet weak var itemCollectionView: UICollectionView!
     
     @IBOutlet weak var emptyDataView: UIView! {
         didSet {
             self.emptyDataView.backgroundColor = .clear
-            setShowEmptyView()
         }
     }
     
@@ -41,10 +45,9 @@ class HomeItemCell: UITableViewCell {
         }
     }
     
-    
+    weak var cellDelegate: CollectionViewCellDelegate?
     private var filteredItemList = [ItemList]()
     private var filteredDayCount = [Int]()
-    
     private let cellWidth: Int = 150
     private let cellHeight: Int = 180
     private let cellSpacing: Int = 15
@@ -91,11 +94,17 @@ class HomeItemCell: UITableViewCell {
     
     // collectionViewに入れるデータをここで、configure
     func configure(with model: [ItemList], dayArray array: [Int]) {
+        self.itemCollectionView.reloadData()
+        
         self.filteredItemList = model
         self.filteredDayCount = array
         
-        print("filteredItemList: \(filteredItemList)")
-        print("filteredDayCount: \(filteredDayCount)")
+        // TODO: 🔥こうすることで、emptyviewの処理をすることができたが、直ちに更新されない
+        // MARK: ⚠️filtering dataが1つ以上のとき、商品を追加、もしくは削除した時は、直ちに更新されたが、dataが1つだけないときには、collection View Cellが正しく更新されない
+        setShowEmptyView()
+        
+        print("Cell filteredItemList: \(filteredItemList)")
+        print("Cell filteredDayCount: \(filteredDayCount)")
     }
     
 }
@@ -115,6 +124,12 @@ extension HomeItemCell: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
+    // delegateで VCのtableViewでclick イベントの処理をする
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as? HomeItemCollectionViewCell
+        self.cellDelegate?.collectionView(collectionViewCell: cell, index: indexPath.item, didTappedInTableViewCell: self)
+    }
+    
 }
 
 extension HomeItemCell: UICollectionViewDelegateFlowLayout {
@@ -126,4 +141,12 @@ extension HomeItemCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 15
     }
+}
+
+extension HomeItemCell: NewItemVCDelegate {
+    func addNewItemInfo() {
+        self.itemCollectionView.reloadData()
+    }
+    
+    
 }

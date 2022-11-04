@@ -64,7 +64,7 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
         let itemName = itemList.itemName
         let dayDifference = day
         
-        if image == Data() {
+        if image == nil {
             itemImageView.image = nil
             itemImageView.backgroundColor = UIColor.systemGray5
             labelOnImage.isHidden = false
@@ -89,6 +89,7 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
         }
         
         itemNameLabel.text = itemName ?? "No Data"
+        // TODO: 🔥DDayLabelは、filteringしたデータだけをHomeVCで表示するため、optional 処理をしなくてもいいと考えた
         itemDdayLabel.text = "D - \(dayDifference)"
         
         self.layoutIfNeeded()

@@ -8,27 +8,20 @@
 import UIKit
 import CoreData
 
-// TODO: ⚠️Home VCの方で、Layout 警告がでてる
+// 📚MARK: 以下error修正ノート
+// ⚠️Home VCの方で、Layout 警告がでてる
 // heightを消すことで、一つのエラーを無くなった
 // ⚠️しかし、まだ、contentOffsetの方で警告が出てる
 // ⚠️Error : section 0で、headerとfooterが現れるエラーが発生した
 // heightが0だと、tableViewの特性上、基本のdefaultの値として認識されたのが原因だった
 
-
-
-
-// TODO: 🔥もっと、綺麗なコードにrefactoringする予定 -> itemListのCoreData反映から、表示させたいCoreDataだけをHomeVCに表示したい
+// MARK: 🔥もっと、綺麗なコードにrefactoringする予定 -> itemListのCoreData反映から、表示させたいCoreDataだけをHomeVCに表示したい
 // 解決策: CoreDataをfilteringすれば、いい話だった！
 // 方法: CoreDataのUpdateする時によく使う -> Predicateを用いてfetchする
 // TODO: 1_Sticky header viewを実装する予定
-// TODO: 2_Collective Cellをクリックすると詳細情報のViewをpresentするように
 // TODO: 3_TableViewの3番目のcellには、グラフ統計を見せる予定
 // TODO: 4_ HomeVCのところで、Push アラームをするようにしたい
 // -> 理由: 7日以内に締め切れる商品だけアラーム通知するようにするには、ItemListVCよりここのVCでの処理がより簡単である
-
-// TODO: first!! -> 商品のデータ(CoreData)を消しても、直ちにdataが消されなく tableViewの上に表示されるエラーが生じた
-// ただし、imageはちゃんとすぐ消されるけど、labelとitemNameが直ぐ消されない
-// -> このエラーを修正する予定 (first!!!)
 
 class HomeVC: UIViewController {
     
@@ -198,11 +191,6 @@ class HomeVC: UIViewController {
                 }
             }
         }
-        
-        // 勝手に追加されないことを確認した
-        print(dayCount)
-        print(itemListCount)
-        print(dateFetchCount)
     }
     
     func curDateStringToDate(Date curDate: String) -> Date {
@@ -236,7 +224,6 @@ class HomeVC: UIViewController {
         }
         
         let endDateSplitArray = endDateArray.joined().map { String($0) }
-        print(endDateSplitArray)
         
         var resultIntDateArray = [Int]()
         var year = ""
@@ -335,7 +322,6 @@ class HomeVC: UIViewController {
         // また、filterしたCoreDataのindexに合わせてdayQueueに格納した、dayDifferenceをCollection View CellのDDayのUILabelにconfigureする
         // 期限が短いものを一番先頭に来るようにsortする
         dayQueue.sort(by: { $0.dayDifference < $1.dayDifference })
-        print("dayQueue: \(dayQueue)")
         filterCoreDataByNearestDay()
     }
     
@@ -349,9 +335,11 @@ class HomeVC: UIViewController {
             return
         }
         
-        guard !dayQueue.isEmpty else {
-            return
-        }
+        // 正しく表示されないのは、ここのコードのせいだった
+        // ⚠️なぜなら、dayQueueがemptyであると、returnしてしまったせいで、下記のようなfilterItemListの更新が行われなかったからだ
+//        guard !dayQueue.isEmpty else {
+//            return
+//        }
         
         if filterDateFetchCount != 0 {
             // 勝手に配列に格納されないよう、初期化を行う
@@ -384,16 +372,7 @@ class HomeVC: UIViewController {
                 print(error)
             }
         }
-        
-        // DateFetchCountは、正しく3だけになるが、filterDayCountとfilteredItemListが勝手に追加されるエラーが出た
-        print("filteredItemList: \(filteredItemList)")
-        print("filterDateFetchCount: \(filterDateFetchCount)")
-        print("filteredItemList count: \(filteredItemList.count)")
     }
-    
-    
-
-
 }
 
 extension HomeVC: UITableViewDelegate, UITableViewDataSource {
@@ -471,6 +450,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             // TODO: 🔥filteredItemListがない場合の分岐をここで行う
             let cell = tableView.dequeueReusableCell(withIdentifier: "HomeItemCell", for: indexPath) as! HomeItemCell
+            //collectionViewCellのクリックdelegate
+            cell.cellDelegate = self
+            
             // sortedされたItemListを渡す
             cell.configure(with: filteredItemList, dayArray: filteredDayCount)
             cell.selectionStyle = .none
@@ -482,3 +464,36 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// ここで、presentの作業をする
+extension HomeVC: CollectionViewCellDelegate {
+    func collectionView(collectionViewCell: HomeItemCollectionViewCell?, index: Int, didTappedInTableViewCell: HomeItemCell) {
+        let index = index
+        let filteredItem = filteredItemList[index]
+        print("item index: \(index)")
+        print("filteredItem: \(filteredItem)")
+        
+        let newItemVC = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
+        newItemVC.delegate = self
+        newItemVC.selectedItemList = filteredItem
+        
+        
+        let navigationNewItemVC = UINavigationController(rootViewController: newItemVC)
+        navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
+        // fullScreenで表示させる方法
+        navigationNewItemVC.modalPresentationStyle = .overCurrentContext
+        navigationNewItemVC.title = "商品詳細"
+        
+        // これだと、NewItemVCの挙動がおかしい
+        // 新たなVCを用意するつもり
+        self.navigationController?.pushViewController(newItemVC, animated: true)
+    }
+    
+}
+
+extension HomeVC: NewItemVCDelegate {
+    func addNewItemInfo() {
+        self.fetchData()
+        self.homeTableView.reloadData()
+        updateViewConstraints()
+    }
+}
