@@ -480,7 +480,7 @@ extension HomeVC: CollectionViewCellDelegate {
         let navigationNewItemVC = UINavigationController(rootViewController: newItemVC)
         navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
         // fullScreenで表示させる方法
-        navigationNewItemVC.modalPresentationStyle = .overCurrentContext
+        navigationNewItemVC.modalTransitionStyle = .coverVertical
         navigationNewItemVC.title = "商品詳細"
         
         // これだと、NewItemVCの挙動がおかしい
