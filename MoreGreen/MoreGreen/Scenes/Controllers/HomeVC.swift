@@ -476,16 +476,15 @@ extension HomeVC: CollectionViewCellDelegate {
         newItemVC.delegate = self
         newItemVC.selectedItemList = filteredItem
         
-        
+        // navigation VCとしてmodal presentする方法
         let navigationNewItemVC = UINavigationController(rootViewController: newItemVC)
         navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
         // fullScreenで表示させる方法
-        navigationNewItemVC.modalTransitionStyle = .coverVertical
+        navigationNewItemVC.modalPresentationStyle = .fullScreen
         navigationNewItemVC.title = "商品詳細"
         
-        // これだと、NewItemVCの挙動がおかしい
-        // 新たなVCを用意するつもり
-        self.navigationController?.pushViewController(newItemVC, animated: true)
+        // itemListのcell clickと同様な View Presentの挙動にした方が統一感があると考える
+        self.present(navigationNewItemVC, animated: true)
     }
     
 }

@@ -18,7 +18,13 @@ import UserNotifications
 // ちょっと難しい
 // 全体、開封済み、消費済み、期限切れの準にするつもり
 
+
+// MARK: 🔥TableViewの横方向のscrollは、collectionViewの方が効率的
 // TODO: ⚠️🔥　(途中の段階)_ pin固定の状態をapp自体に保存させたいので、CoreDataを用いる
+protocol PagingTabbarDelegate: AnyObject {
+    func scrollToIndex(to index: Int)
+}
+
 
 enum DisplayType {
     case registerSort
@@ -26,7 +32,23 @@ enum DisplayType {
 }
 
 class ItemListVC: UIViewController {
-    @IBOutlet weak var stickyHeaderPagingView: UIView!
+    
+    @IBOutlet weak var categoryTabbarView: CategoryTabbar! {
+        didSet {
+            categoryTabbarView.delegate = self
+        }
+    }
+    @IBOutlet weak var indicatorView: UIView! {
+        didSet {
+            indicatorView.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.9)
+        }
+    }
+    
+    
+    @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
+    
+    
+    
     @IBOutlet weak var itemListTableView: UITableView!
     @IBOutlet weak var itemDisplayTypeSegment: UISegmentedControl! {
         didSet {
@@ -822,5 +844,31 @@ extension ItemListVC: ButtonDelegate {
 extension ItemListVC: ItemCellDelegate {
     func showDetailItemInfo() {
         print("tap detail button")
+    }
+}
+
+// 該当のイベントを受け取るVCから処理を行う
+extension ItemListVC: PagingTabbarDelegate {
+    // Tabbarをclickしたとき、contents Viewを移動する
+    func scrollToIndex(to index: Int) {
+        itemListTableView.reloadData()
+        itemListTableView.layoutIfNeeded()
+    }
+}
+
+// Tabbar CollectionView 関連メソッド
+extension ItemListVC: UICollectionViewDelegateFlowLayout {
+    // 스크롤이 실행될 때, IndicatorView를 움직임
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        indicatorLeadingConstraint.constant = scrollView.contentOffset.x / 3
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: pageCollectionView.bounds.width, height: pageCollectionView.bounds.height)
+    }
+    
+    // 스크롤이 끝났을 때, 페이지를 계산해서 Tab을 이동시킴
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
+        categoryTabbarView.scroll(to: page)
     }
 }
