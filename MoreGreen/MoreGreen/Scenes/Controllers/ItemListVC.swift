@@ -20,11 +20,12 @@ import UserNotifications
 
 
 // MARK: 🔥TableViewの横方向のscrollは、collectionViewの方が効率的
+// TODO: 🔥Paging機能を実装するため、tableViewの代わりにcollectionViewを導入する予定 -> 途中の段階
+// --> PagingCollectionViewにitemとしてItemListを入れる仕組み
 // TODO: ⚠️🔥　(途中の段階)_ pin固定の状態をapp自体に保存させたいので、CoreDataを用いる
 protocol PagingTabbarDelegate: AnyObject {
     func scrollToIndex(to index: Int)
 }
-
 
 enum DisplayType {
     case registerSort
@@ -32,7 +33,6 @@ enum DisplayType {
 }
 
 class ItemListVC: UIViewController {
-    
     @IBOutlet weak var categoryTabbarView: CategoryTabbar! {
         didSet {
             categoryTabbarView.delegate = self
@@ -43,7 +43,6 @@ class ItemListVC: UIViewController {
             indicatorView.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.9)
         }
     }
-    
     
     @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
     
@@ -862,13 +861,17 @@ extension ItemListVC: UICollectionViewDelegateFlowLayout {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         indicatorLeadingConstraint.constant = scrollView.contentOffset.x / 3
     }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: pageCollectionView.bounds.width, height: pageCollectionView.bounds.height)
-    }
     
-    // 스크롤이 끝났을 때, 페이지를 계산해서 Tab을 이동시킴
+    //作ったメソッド
+    // Scrollが終わったとき、ページを計算してTabを移動させる
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
         categoryTabbarView.scroll(to: page)
     }
+    
+//    // MARK: ⚠️まだ、PageCollectionViewは実装完了してない
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//        return CGSize(width: pageCollectionView.bounds.width, height: pageCollectionView.bounds.height)
+//    }
+    
 }

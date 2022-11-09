@@ -43,6 +43,9 @@
                                     <constraint firstItem="GOD-KY-Jeh" firstAttribute="leading" secondItem="VGJ-Tq-eHF" secondAttribute="leading" id="uzK-cj-14u"/>
                                     <constraint firstAttribute="trailing" secondItem="GOD-KY-Jeh" secondAttribute="trailing" id="wAa-Sb-ZmA"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="categoryCollectionView" destination="GOD-KY-Jeh" id="Mw0-9p-RWn"/>
+                                </connections>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gJj-JG-obh">
                                 <rect key="frame" x="0.0" y="96" width="390" height="574"/>

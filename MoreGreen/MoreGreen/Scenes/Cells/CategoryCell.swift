@@ -10,7 +10,6 @@ import UIKit
 // MARK: 🔥Category Tabbarの中に格納される Category Collection View Cell
 
 class CategoryCell: UICollectionViewCell {
-
     static let identifier = "CategoryCell"
     
     private var textLabel: UILabel = {
