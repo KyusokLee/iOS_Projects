@@ -52,6 +52,7 @@ class CategoryTabbar: UIView, UICollectionViewDataSource {
         flowLayout.minimumLineSpacing = 0
         flowLayout.itemSize = CGSize(width: width / 3, height: height)
         // flowlayoutのupdateを直ちに行うメソッド
+        // reloadDataじゃなく、invalidateLayoutを採択した理由は、データソース内のデータが変更されるわけじゃないから、invalidateLayoutを用いた
         flowLayout.invalidateLayout()
         self.categoryCollectionView.collectionViewLayout = flowLayout
     }
@@ -60,6 +61,6 @@ class CategoryTabbar: UIView, UICollectionViewDataSource {
 extension CategoryTabbar: UICollectionViewDelegateFlowLayout {
     // cellをclickしたときcontents Viewを該当のindexに移動させる
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.delegate?.scrollToIndex(to: indexPath.row)
+        delegate?.scrollToIndex(to: indexPath.row)
     }
 }

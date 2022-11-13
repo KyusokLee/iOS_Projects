@@ -46,8 +46,6 @@ class ItemListVC: UIViewController {
     
     @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
     
-    
-    
     @IBOutlet weak var itemListTableView: UITableView!
     @IBOutlet weak var itemDisplayTypeSegment: UISegmentedControl! {
         didSet {
@@ -56,16 +54,12 @@ class ItemListVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var headerViewHeightConstraint: NSLayoutConstraint!
-    
-    
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var pageViewController = UIPageViewController()
-    var pageModel = PageModel()
-    let tabsCount = 4
-//    let tabsCount = 4; #warning ("< 1 causes Crash!")
+//    var pageViewController = UIPageViewController()
+//    var pageModel = PageModel()
+//    let tabsCount = 4
+////    let tabsCount = 4; #warning ("< 1 causes Crash!")
     
     var itemList = [ItemList]()
     var itemListCount = 0
@@ -90,10 +84,8 @@ class ItemListVC: UIViewController {
     var pinnedQueue = [(index: Int, pinned: Bool)]()
     var pinnedItemList = [ItemList]()
     
-    
     // TODO: ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
     var itemsWillEndList = [ItemList]()
-    
     var dateFetchCount = 0
     
     // ⚠️今週に賞味期限が切れるitemの数
@@ -550,7 +542,7 @@ class ItemListVC: UIViewController {
         }
     }
     
-    // TODO: 🔥pinのボタンを押されたら呼び出されるメソッド
+    // TODO: 途中の段階⚠️_🔥pinのボタンを押されたら呼び出されるメソッド
     // 既存のtableViewから当てはまるindexを削除し、そのデータを一番上に格納する作業
     // CoreDataと関わっているため、複雑
     func sortCoreDateByPinState() {
@@ -847,6 +839,8 @@ extension ItemListVC: ItemCellDelegate {
 }
 
 // 該当のイベントを受け取るVCから処理を行う
+// TODO: 🔥⚠️ここの部分で、Tabbar indicatorの動きが呼び出されていることがわかる
+// このメソッドで、Tabbar Tapに関するイベントを明記すること
 extension ItemListVC: PagingTabbarDelegate {
     // Tabbarをclickしたとき、contents Viewを移動する
     func scrollToIndex(to index: Int) {
@@ -857,12 +851,14 @@ extension ItemListVC: PagingTabbarDelegate {
 
 // Tabbar CollectionView 関連メソッド
 extension ItemListVC: UICollectionViewDelegateFlowLayout {
-    // 스크롤이 실행될 때, IndicatorView를 움직임
+    // Scrollが実行されるとき、indicator Viewを移動させる
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 単純に中身をscrollするとき、indicator Viewを移動させるメソッド
+        print("Slide Scroll Event is implemented")
         indicatorLeadingConstraint.constant = scrollView.contentOffset.x / 3
+        print(indicatorLeadingConstraint.constant)
     }
     
-    //作ったメソッド
     // Scrollが終わったとき、ページを計算してTabを移動させる
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)

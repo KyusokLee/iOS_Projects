@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// 使わないPage Model
 struct PageModel {
     var pages = [Page]()
     // defaultで0を設定
