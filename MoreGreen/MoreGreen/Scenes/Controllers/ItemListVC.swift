@@ -18,7 +18,6 @@ import UserNotifications
 // ちょっと難しい
 // 全体、開封済み、消費済み、期限切れの準にするつもり
 
-
 // MARK: 🔥TableViewの横方向のscrollは、collectionViewの方が効率的
 // TODO: 🔥Paging機能を実装するため、tableViewの代わりにcollectionViewを導入する予定 -> 途中の段階
 // --> PagingCollectionViewにitemとしてItemListを入れる仕組み
@@ -844,6 +843,7 @@ extension ItemListVC: ItemCellDelegate {
 extension ItemListVC: PagingTabbarDelegate {
     // Tabbarをclickしたとき、contents Viewを移動する
     func scrollToIndex(to index: Int) {
+        
         itemListTableView.reloadData()
         itemListTableView.layoutIfNeeded()
     }
@@ -871,3 +871,4 @@ extension ItemListVC: UICollectionViewDelegateFlowLayout {
 //    }
     
 }
+
