@@ -843,7 +843,8 @@ extension ItemListVC: ItemCellDelegate {
 extension ItemListVC: PagingTabbarDelegate {
     // Tabbarをclickしたとき、contents Viewを移動する
     func scrollToIndex(to index: Int) {
-        
+        print("click", index)
+        indicatorLeadingConstraint.constant = itemDisplayTypeSegment.bounds.width * CGFloat(index) / 3
         itemListTableView.reloadData()
         itemListTableView.layoutIfNeeded()
     }
