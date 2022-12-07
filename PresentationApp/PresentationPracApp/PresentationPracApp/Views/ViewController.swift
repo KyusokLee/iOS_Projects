@@ -7,6 +7,11 @@
 
 import UIKit
 
+struct slide {
+    var title = String()
+    var subTitle = String()
+}
+
 class ViewController: UIViewController {
     
     @IBOutlet weak var presentationScrollView: UIScrollView!
@@ -22,9 +27,26 @@ class ViewController: UIViewController {
         }
     }
     
+    // MARK: ⚠️slideを実装中
+    // 途中の段階
+    var presentationSlides: [PresentationSlideView] = []
+    var slides: [slide] = [
+        slide(title: "Hello",
+              subTitle: "Tokyo!"),
+        slide(title: "Prac",
+              subTitle: "yes!")
+    ]
+    
+    var intervals: [CGFloat] = []
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Slideを準備する: loading
+        self.getSlides { success in
+            print(1)
+        }
         
         setUpBackgroundImageView()
         setUpPresentationScrollView()
@@ -58,6 +80,42 @@ class ViewController: UIViewController {
         
         backgroundImageView.alpha = 0.5
         backgroundImageView.frame = CGRect(x: 0, y: -padding, width: imageWidth, height: viewHeight + padding * 2)
+    }
+    
+    // スライドを作る
+    func getSlides(completion: @escaping (Bool) -> ()) {
+        for i in 0..<slides.count {
+            // use the xib file created for the slide
+            let slide = Bundle.main.loadNibNamed("PresentationSlideView",
+                                                 owner: self,
+                                                 options: nil)?.first as! PresentationSlideView
+            // Labelのsetup
+            slide.titleLabel.text = slides[i].title
+            slide.subTitleLabel.text = slides[i].subTitle
+            
+            // 配列にslideを格納する
+            self.presentationSlides.append(slide)
+            
+            // 全てのslidesが追加されて、完了されるとき
+            if presentationSlides.count == slides.count {
+                completion(true)
+            }
+        }
+    }
+    
+    // Scroll Viewの中にある各スライドのx軸のpositionの値を取得する
+    func getIntervals(pages: Int) -> [CGFloat] {
+        var intervals: [CGFloat] = []
+        let floatPages = CGFloat(pages) - 1
+        
+        // scroll viewの左端: 0, 右端: 1
+        for i in stride(from: 0.0, through: 1.0, by: (1 / floatPages)) {
+            // multiply and divide by 100 to switch between Int and CGFloat
+            intervals.append(CGFloat(i))
+        }
+        
+        
+        return intervals
     }
 
 }

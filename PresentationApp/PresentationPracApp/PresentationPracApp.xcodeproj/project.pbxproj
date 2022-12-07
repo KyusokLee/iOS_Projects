@@ -17,6 +17,7 @@
 		948B30D6293F6D27002202D3 /* PresentationPracAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30D5293F6D27002202D3 /* PresentationPracAppUITests.swift */; };
 		948B30D8293F6D27002202D3 /* PresentationPracAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30D7293F6D27002202D3 /* PresentationPracAppUITestsLaunchTests.swift */; };
 		948B30E6293F76BC002202D3 /* presentationSlide.xib in Resources */ = {isa = PBXBuildFile; fileRef = 948B30E5293F76BC002202D3 /* presentationSlide.xib */; };
+		948B30E9293F7952002202D3 /* PresentationSlideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30E8293F7952002202D3 /* PresentationSlideView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		948B30D5293F6D27002202D3 /* PresentationPracAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationPracAppUITests.swift; sourceTree = "<group>"; };
 		948B30D7293F6D27002202D3 /* PresentationPracAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationPracAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		948B30E5293F76BC002202D3 /* presentationSlide.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = presentationSlide.xib; sourceTree = "<group>"; };
+		948B30E8293F7952002202D3 /* PresentationSlideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationSlideView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				948B30B8293F6D26002202D3 /* ViewController.swift */,
+				948B30E8293F7952002202D3 /* PresentationSlideView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			files = (
 				948B30B9293F6D26002202D3 /* ViewController.swift in Sources */,
 				948B30B5293F6D26002202D3 /* AppDelegate.swift in Sources */,
+				948B30E9293F7952002202D3 /* PresentationSlideView.swift in Sources */,
 				948B30B7293F6D26002202D3 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
