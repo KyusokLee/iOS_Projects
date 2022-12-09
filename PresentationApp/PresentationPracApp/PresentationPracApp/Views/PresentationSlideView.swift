@@ -7,6 +7,7 @@
 
 import UIKit
 
+// initializerを作らずに他のfileで活用できる
 class PresentationSlideView: UIView {
     @IBOutlet weak var stackView: UIStackView!
     

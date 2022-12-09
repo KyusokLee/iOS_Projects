@@ -31,10 +31,13 @@ class ViewController: UIViewController {
     // 途中の段階
     var presentationSlides: [PresentationSlideView] = []
     var slides: [slide] = [
-        slide(title: "Hello",
-              subTitle: "Tokyo!"),
-        slide(title: "Prac",
-              subTitle: "yes!")
+        slide(title: "Welcome to This App",
+              subTitle: "Slide Presentation Tokyo ver."),
+        slide(title: "Try to scroll the view which is presented horizontally",
+              subTitle: "Tokyo Tower.."),
+        slide(title: "Would you find the location of Tokyo tower in map?", subTitle: "If you want to find, slide these views until last pages!"),
+        slide(title: "Apple Mapで「東京タワー」を表示します",
+              subTitle: "右にスライド")
     ]
     
     var intervals: [CGFloat] = []
@@ -45,7 +48,14 @@ class ViewController: UIViewController {
         
         // Slideを準備する: loading
         self.getSlides { success in
-            print(1)
+            // 各スライドのx位置を計算してpagesをセットアップする
+            self.intervals = self.getIntervals(pages: self.slides.count)
+            self.presentationScrollView.delegate = self
+            self.setUpSlideScrollView(slides: self.presentationSlides)
+            self.presentationPageControl.numberOfPages = self.slides.count
+            self.presentationPageControl.currentPage = 0
+            self.presentationPageControl.isUserInteractionEnabled = false
+            self.view.bringSubviewToFront(self.presentationPageControl)
         }
         
         setUpBackgroundImageView()
@@ -86,7 +96,8 @@ class ViewController: UIViewController {
     func getSlides(completion: @escaping (Bool) -> ()) {
         for i in 0..<slides.count {
             // use the xib file created for the slide
-            let slide = Bundle.main.loadNibNamed("PresentationSlideView",
+            // initializerを作らずに他のfileで活用できる
+            let slide = Bundle.main.loadNibNamed("presentationSlide",
                                                  owner: self,
                                                  options: nil)?.first as! PresentationSlideView
             // Labelのsetup
@@ -104,6 +115,7 @@ class ViewController: UIViewController {
     }
     
     // Scroll Viewの中にある各スライドのx軸のpositionの値を取得する
+    // 100 -> 200 -> 300...になっていく
     func getIntervals(pages: Int) -> [CGFloat] {
         var intervals: [CGFloat] = []
         let floatPages = CGFloat(pages) - 1
@@ -117,6 +129,39 @@ class ViewController: UIViewController {
         
         return intervals
     }
+    
+    //MARK: 🔥slide scroll viewのsetup
+    func setUpSlideScrollView(slides: [PresentationSlideView]) {
+        // 実際の内容(Size)（画面View + 残りのスライド）のscroll viewを設定する
+        presentationScrollView.contentSize = CGSize(width: view.frame.width * CGFloat(slides.count), height: view.frame.height - 100)
+        // scrollViewのscollを可能に
+        // 🎖isPagingEnabledを trueにすることで、一つのviewごとに止まるように設定する
+        presentationScrollView.isPagingEnabled = true
+        
+        // 各スライドのx位置を設定し、それをscroll Viewに追加する
+        for i in 0 ..< slides.count {
+            presentationSlides[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0,width: view.frame.width,height: view.frame.height)
+            presentationScrollView.addSubview(presentationSlides[i])
+        }
+    }
+}
 
+extension ViewController: UIScrollViewDelegate {
+    // ユーザのscrollを行うたびに、呼び出されるメソッド
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // 現在のscroll Offset値を取得
+        let maximumHorizontalOffset = scrollView.contentSize.width - scrollView.frame.width
+        let currentHorizontalOffset = scrollView.contentOffset.x
+        
+        let maximumVerticalOffset = scrollView.contentSize.height - view.frame.height
+        let currentVerticalOffset = scrollView.contentOffset.y
+        
+        let percentageHorizontalOffset = currentHorizontalOffset / maximumHorizontalOffset
+        let percentageVerticalOffset = currentVerticalOffset / maximumVerticalOffset
+        
+        let percentOffset = CGPoint(x: percentageHorizontalOffset,
+                                    y: percentageVerticalOffset)
+        print(percentOffset.x)
+    }
 }
 
