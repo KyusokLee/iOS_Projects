@@ -19,12 +19,21 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var backgroundImageView: UIImageView!
     
-    @IBOutlet weak var continueButton: UIButton! {
+    @IBOutlet weak var searchByMapButton: UIButton! {
         didSet {
-            continueButton.layer.cornerRadius = continueButton.frame.width / 2
-            continueButton.isUserInteractionEnabled = false
+            searchByMapButton.layer.cornerRadius = searchByMapButton.frame.width / 2
+            searchByMapButton.isUserInteractionEnabled = false
+            searchByMapButton.alpha = 0.0
+        }
+    }
+    
+    
+    @IBOutlet weak var searchByWebButton: UIButton! {
+        didSet {
+            searchByWebButton.layer.cornerRadius = searchByWebButton.frame.width / 2
+            searchByWebButton.isUserInteractionEnabled = false
             // isHiddenも可能
-            continueButton.alpha = 0.0
+            searchByWebButton.alpha = 0.0
         }
     }
     
@@ -35,10 +44,10 @@ class ViewController: UIViewController {
         slide(title: "Welcome to This App",
               subTitle: "Slide Presentation Tokyo ver."),
         slide(title: "Try to scroll the view which is presented horizontally",
-              subTitle: "Tokyo Tower.."),
+              subTitle: "You are seeing Tokyo Tower🗼"),
         slide(title: "Would you find the location of Tokyo tower in map?", subTitle: "If you want to find, slide these views until last pages!"),
-        slide(title: "Apple Mapで「東京タワー」を表示します",
-              subTitle: "右にスライド")
+        slide(title: "「東京タワー」を検索してみませんか？",
+              subTitle: "左ボタン: Apple Mapで表示 \n 右ボタン: Google検索")
     ]
     
     // 間隔の配列
@@ -155,20 +164,35 @@ class ViewController: UIViewController {
     }
     
     // 最後のページでbuttonを表示するメソッド
+    // mapButtonとsearchButton両方とも表示させる
     func displayButton(display: Bool) {
         // True: ボタン表示 ,  false: ボタン非表示
-        self.continueButton.isUserInteractionEnabled = display
+        self.searchByWebButton.isUserInteractionEnabled = display
+        self.searchByMapButton.isUserInteractionEnabled = display
+        
         // alpha（透明度)を用いて、ボタンをhideする
         // isHiddenでもいい
         let alpha = display == true ? 1.0 : 0.0
         // ゆっくりとbuttonの色を変えてあげるように、UIView.animateを用いた
         UIView.animate(withDuration: 0.4, delay: 0) {
-            self.continueButton.alpha = alpha
+            self.searchByWebButton.alpha = alpha
+            self.searchByMapButton.alpha = alpha
         }
     }
     
-    // 最後のページで出てくるボタンを押すと呼び出されるメソッド
-    @IBAction func continueButtonAction(_ sender: Any) {
+    // 最後のページで出てくる左ボタンを押すと呼び出されるメソッド
+    @IBAction func searchByMapButtonAction(_ sender: Any) {
+        print("apple map display!")
+        let appleMapVC = UIStoryboard(name: "AppleMapView", bundle: nil).instantiateViewController(withIdentifier: "AppleMapVC") as! AppleMapVC
+        appleMapVC.modalPresentationStyle = .currentContext
+        self.present(appleMapVC, animated: true) {
+            print("complete to display tokyo tower location on apple map")
+        }
+    }
+    
+    
+    // 最後のページで出てくる右ボタンを押すと呼び出されるメソッド
+    @IBAction func searchByWebButtonAction(_ sender: Any) {
         // safari ページで開くように！
         if let url = self.pracUrl {
             UIApplication.shared.open(url)

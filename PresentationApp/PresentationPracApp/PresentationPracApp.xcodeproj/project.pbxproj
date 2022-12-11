@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9451339F2945FE0A00F1AAAF /* AppleMapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9451339E2945FE0A00F1AAAF /* AppleMapVC.swift */; };
+		945133A12945FE1E00F1AAAF /* AppleMapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 945133A02945FE1E00F1AAAF /* AppleMapView.storyboard */; };
+		945133A42945FED000F1AAAF /* MarkersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945133A32945FED000F1AAAF /* MarkersModel.swift */; };
 		948B30B5293F6D26002202D3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30B4293F6D26002202D3 /* AppDelegate.swift */; };
 		948B30B7293F6D26002202D3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30B6293F6D26002202D3 /* SceneDelegate.swift */; };
 		948B30B9293F6D26002202D3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948B30B8293F6D26002202D3 /* ViewController.swift */; };
@@ -38,6 +41,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9451339E2945FE0A00F1AAAF /* AppleMapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMapVC.swift; sourceTree = "<group>"; };
+		945133A02945FE1E00F1AAAF /* AppleMapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AppleMapView.storyboard; sourceTree = "<group>"; };
+		945133A32945FED000F1AAAF /* MarkersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkersModel.swift; sourceTree = "<group>"; };
 		948B30B1293F6D26002202D3 /* PresentationPracApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PresentationPracApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		948B30B4293F6D26002202D3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		948B30B6293F6D26002202D3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +86,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		945133A22945FEA900F1AAAF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				945133A32945FED000F1AAAF /* MarkersModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		948B30A8293F6D26002202D3 = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +121,7 @@
 				948B30B6293F6D26002202D3 /* SceneDelegate.swift */,
 				948B30BD293F6D27002202D3 /* Assets.xcassets */,
 				948B30C2293F6D27002202D3 /* Info.plist */,
+				945133A22945FEA900F1AAAF /* Model */,
 				948B30E7293F774D002202D3 /* Views */,
 				948B30E4293F7698002202D3 /* Storyboard */,
 			);
@@ -136,6 +151,7 @@
 				948B30BF293F6D27002202D3 /* LaunchScreen.storyboard */,
 				948B30BA293F6D26002202D3 /* Main.storyboard */,
 				948B30E5293F76BC002202D3 /* presentationSlide.xib */,
+				945133A02945FE1E00F1AAAF /* AppleMapView.storyboard */,
 			);
 			path = Storyboard;
 			sourceTree = "<group>";
@@ -145,6 +161,7 @@
 			children = (
 				948B30B8293F6D26002202D3 /* ViewController.swift */,
 				948B30E8293F7952002202D3 /* PresentationSlideView.swift */,
+				9451339E2945FE0A00F1AAAF /* AppleMapVC.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -257,6 +274,7 @@
 				948B30BE293F6D27002202D3 /* Assets.xcassets in Resources */,
 				948B30BC293F6D26002202D3 /* Main.storyboard in Resources */,
 				948B30E6293F76BC002202D3 /* presentationSlide.xib in Resources */,
+				945133A12945FE1E00F1AAAF /* AppleMapView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,8 +299,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9451339F2945FE0A00F1AAAF /* AppleMapVC.swift in Sources */,
 				948B30B9293F6D26002202D3 /* ViewController.swift in Sources */,
 				948B30B5293F6D26002202D3 /* AppDelegate.swift in Sources */,
+				945133A42945FED000F1AAAF /* MarkersModel.swift in Sources */,
 				948B30E9293F7952002202D3 /* PresentationSlideView.swift in Sources */,
 				948B30B7293F6D26002202D3 /* SceneDelegate.swift in Sources */,
 			);
