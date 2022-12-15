@@ -26,8 +26,11 @@ class AppleMapVC: UIViewController, MKMapViewDelegate {
     
     let tokyoTowerLocate = CLLocationCoordinate2D(latitude: 35.658581, longitude: 139.745433)
     
-    let locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
     let pSpanValue = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    
+    // 現在の位置情報保存
+    var currentLocation: CLLocation!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +57,9 @@ class AppleMapVC: UIViewController, MKMapViewDelegate {
         
         // 位置データ承認リクエスト
         locationManager.requestWhenInUseAuthorization()
-        
+        // ユーザの現在位置をupdate
+        locationManager.startUpdatingLocation()
         locationManager.startMonitoringSignificantLocationChanges()
-//        // ユーザの現在位置をupdate
-//        locationManager.startUpdatingLocation()
         
     }
     
@@ -82,5 +84,46 @@ class AppleMapVC: UIViewController, MKMapViewDelegate {
 }
 
 extension AppleMapVC: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.locationManager = manager
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
+            currentLocation = locationManager.location
+        }
+    }
     
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        // iOS14から追加された新しいプロパティ
+        switch manager.authorizationStatus {
+        case .notDetermined: // 初回呼び出し時、設定で次回確認を選択時
+            print("notDetermined")
+            break
+        case .restricted: // ペアレンタルコントロールなどの制限あり
+            print("restricted")
+            break
+        case .denied: // 使用拒否した
+            print("denied")
+            break
+        case .authorizedAlways: // いつでも位置情報サービスを開始することを許可した
+            print("authorizedAlways")
+            manager.startUpdatingLocation() // 位置情報の取得開始
+            break
+        case .authorizedWhenInUse: // アプリ使用中のみ位置情報サービスを開始することを許可した
+            print("authorizedWhenInUse")
+            manager.startUpdatingLocation() // 位置情報の取得開始
+        @unknown default:
+            break
+        }
+          
+        // iOS14から追加された位置情報精度
+        switch manager.accuracyAuthorization {
+        case .fullAccuracy: // 正確な位置情報
+            print("fullAccuracy")
+            break
+        case .reducedAccuracy: // おおよその位置情報
+            print("reducedAccuracy")
+            break
+        @unknown default:
+            break
+        }
+    }
 }
