@@ -94,7 +94,4 @@ class ButtonCell: UITableViewCell {
     @IBAction func deleteButtonTap(_ sender: Any) {
         self.delegate?.didFinishDeleteData()
     }
-    
-    
-    
 }
