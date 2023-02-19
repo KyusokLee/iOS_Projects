@@ -104,7 +104,7 @@ class TabBarController: UITabBarController {
         let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
         let newItemViewController = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController")
         let thirdViewController = UIStoryboard(name: "CityInfomation", bundle: nil).instantiateViewController(withIdentifier: "CityInfomationViewController")
-        let fourthViewController = UIStoryboard(name: "SettingsVC", bundle: nil).instantiateViewController(withIdentifier: "SettingsVC")
+        let fourthViewController = UIStoryboard(name: "Setting", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController")
         
         firstViewController.title = "Home"
         secondViewController.title = "商品リスト"
@@ -125,14 +125,12 @@ class TabBarController: UITabBarController {
         fourthViewController.tabBarItem = UITabBarItem(title: "Setting", image: UIImage(systemName: "gearshape.circle"), selectedImage: UIImage(systemName: "gearshape.circle.fill"))
         fourthViewController.navigationItem.largeTitleDisplayMode = .always
         
-
         // navigationControllerのRoot view設定
         let navigationHome = UINavigationController(rootViewController: firstViewController)
         let navigationItemList = UINavigationController(rootViewController: secondViewController)
         let navigationCreate = UINavigationController(rootViewController: newItemViewController)
         let navigationCity = UINavigationController(rootViewController: thirdViewController)
         let navigationSetting = UINavigationController(rootViewController: fourthViewController)
-        
         
         navigationHome.navigationBar.prefersLargeTitles = false
         navigationItemList.navigationBar.prefersLargeTitles = false

@@ -218,13 +218,11 @@ class HomeViewController: UIViewController {
         }
         
         let endDateArray = hasEndDate.split(separator: " ").map { String($0) }
-        
         guard endDateArray.count == 3 else {
             return []
         }
         
         let endDateSplitArray = endDateArray.joined().map { String($0) }
-        
         var resultIntDateArray = [Int]()
         var year = ""
         var month = ""
@@ -427,7 +425,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return nil
         case 1:
-            let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "HomeCustomHeader") as! HomeCustomHeader
+            guard let header = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: "HomeCustomHeader"
+            ) as? HomeCustomHeader else {
+                fatalError("Cannot find HomeCustomHeader")
+            }
             
             //ios14以降のbackground colorの設定方法
             var backgroundConfiguration = UIBackgroundConfiguration.listPlainHeaderFooter()
@@ -443,13 +445,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCardViewCell", for: indexPath) as! HomeCardViewCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "HomeCardViewCell",
+                for: indexPath
+            ) as? HomeCardViewCell else {
+                fatalError("Cannot find HomeCardViewCell")
+            }
             cell.selectionStyle = .none
 
             return cell
         case 1:
             // TODO: 🔥filteredItemListがない場合の分岐をここで行う
-            let cell = tableView.dequeueReusableCell(withIdentifier: "HomeItemCell", for: indexPath) as! HomeItemCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "HomeItemCell",
+                for: indexPath
+            ) as? HomeItemCell else {
+                fatalError("Cannot find HomeItemCell")
+            }
             //collectionViewCellのクリックdelegate
             cell.cellDelegate = self
             
@@ -472,24 +484,29 @@ extension HomeViewController: CollectionViewCellDelegate {
         print("item index: \(index)")
         print("filteredItem: \(filteredItem)")
         
-        let newItemVC = UIStoryboard(name: "NewItemVC", bundle: nil).instantiateViewController(withIdentifier: "NewItemVC") as! NewItemVC
-        newItemVC.delegate = self
-        newItemVC.selectedItemList = filteredItem
+        guard let controller = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(
+            withIdentifier: "NewItemViewController"
+        ) as? NewItemViewController else {
+            fatalError("Cannot find NewItemViewController or NewItem")
+        }
+        
+        controller.delegate = self
+        controller.selectedItemList = filteredItem
         
         // navigation VCとしてmodal presentする方法
-        let navigationNewItemVC = UINavigationController(rootViewController: newItemVC)
-        navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
+        let navigationController = UINavigationController(rootViewController: controller)
+        navigationController.modalPresentationCapturesStatusBarAppearance = true
         // fullScreenで表示させる方法
-        navigationNewItemVC.modalPresentationStyle = .fullScreen
-        navigationNewItemVC.title = "商品詳細"
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.title = "商品詳細"
         
         // itemListのcell clickと同様な View Presentの挙動にした方が統一感があると考える
-        self.present(navigationNewItemVC, animated: true)
+        self.present(navigationController, animated: true)
     }
     
 }
 
-extension HomeViewController: NewItemVCDelegate {
+extension HomeViewController: NewItemViewControllerDelegate {
     func addNewItemInfo() {
         self.fetchData()
         self.homeTableView.reloadData()

@@ -142,25 +142,25 @@ class NewItemViewController: UIViewController {
     func fetchCoreData() {
         print("cc")
         // coreDataがある場合、その情報をphotoDataに格納し、TableViewCellのデータをfetchするようにする
-        if let hasData = selectedItemList {
+        if let selectedItem = selectedItemList {
             print("lets do fetch")
-            if let hasImageData = hasData.itemImage {
-                imageData = hasImageData
+            if let image = selectedItem.itemImage {
+                imageData = image
 //                photoData[0] = imageData
             }
             
-            if let hasEndDate = hasData.endDate {
+            if let endDate = selectedItem.endDate {
                 print("has endDate")
-                endPeriodText = hasEndDate
+                endPeriodText = endDate
 //                photoData[1] = imageData
             }
             
-            if let hasItemName = hasData.itemName {
+            if let name = selectedItem.itemName {
                 print("has ItemName")
-                if hasItemName == "" {
+                if name == "" {
                     itemName = "未記入"
                 } else {
-                    itemName = hasItemName
+                    itemName = name
                 }
             }
             
@@ -188,7 +188,6 @@ class NewItemViewController: UIViewController {
     
     func customEndDateFormat(endDate dateString: String, with divider: String) -> String {
         // mapでString配列にしてから、returnするときにjoinedで一つの文字列にする作業を行なった
-        
         // imageの写真だけ撮ったときは、""をreturnするように
         guard dateString != "" else {
             return ""
@@ -276,8 +275,8 @@ class NewItemViewController: UIViewController {
         let windowScene = scenes.first as? UIWindowScene
         let window = windowScene?.windows.first
         
-        if let hasLoadingView = self.loadingView {
-            window?.addSubview(hasLoadingView)
+        if let loadingView = self.loadingView {
+            window?.addSubview(loadingView)
         } else {
             let loadingView = UIView(frame: UIScreen.main.bounds)
             loadingView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -303,7 +302,7 @@ class NewItemViewController: UIViewController {
         }
     }
     
-    func hideLoadView(_ loadView: UIView?, loadAPI doRecognize: Bool) {
+    func hideloadingView(_ loadingView: UIView?, loadAPI doRecognize: Bool) {
         print("hide load!")
         guard !doRecognize else {
             return
@@ -311,9 +310,9 @@ class NewItemViewController: UIViewController {
         
         print("do Hide load!")
         
-        if let hasLoadView = loadView {
+        if let view = loadingView {
             DispatchQueue.main.async {
-                hasLoadView.removeFromSuperview()
+                view.removeFromSuperview()
             }
         } else {
             return
@@ -353,7 +352,7 @@ private extension NewItemViewController {
             isDoingRecognize = true
             self.showLoadingView(loadAPI: isDoingRecognize)
             
-            // periodImageLoadが終わるまで、hideLoadViewをいないから、syncとasyncで実装できそう
+            // periodImageLoadが終わるまで、hideloadingViewをいないから、syncとasyncで実装できそう
             DispatchQueue.main.async {
                 self.periodImageLoad(with: imageData)
             }
@@ -414,8 +413,8 @@ private extension NewItemViewController {
     func imageCancelAction() {
         // data型に初期化
         // ⚠️更新を行わないと、dataが削除されないようにしたい
-        if let hasData = selectedItemList {
-            hasData.itemImage = Data()
+        if let data = selectedItemList {
+            data.itemImage = Data()
         } else {
             photoData[0] = Data()
         }
@@ -435,8 +434,8 @@ extension NewItemViewController: ItemImageCellDelegate {
         // indexが0の写真を見せるので、固定的に0を記入した
         var itemImageData = Data()
         
-        if let hasImageData = selectedItemList?.itemImage {
-            itemImageData = hasImageData
+        if let image = selectedItemList?.itemImage {
+            itemImageData = image
         } else {
             itemImageData = photoData[0]
         }
@@ -603,26 +602,25 @@ extension NewItemViewController: ButtonDelegate {
     
     func didFinishUpdateData() {
         print("update")
-        guard let hasData = selectedItemList else {
+        guard let selectedItem = selectedItemList else {
             return
         }
         
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
         
-        guard let hasUUID = hasData.uuid else {
+        guard let uuid = selectedItem.uuid else {
             return
         }
         
-        fetchRequest.predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
-        
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid as CVarArg)
         do {
             let loadedData = try context.fetch(fetchRequest)
             // endDateの区別文字に合わせて、保存するendDateのStringを異なる形でCoreDataに保存する
             var divider = ""
             var curDateString = ""
             
-            if let hasImage = selectedItemList?.itemImage {
-                loadedData.first?.itemImage = hasImage
+            if let image = selectedItemList?.itemImage {
+                loadedData.first?.itemImage = image
             } else {
                 loadedData.first?.itemImage = photoData[0]
             }
@@ -668,22 +666,22 @@ extension NewItemViewController: ButtonDelegate {
     
     func didFinishDeleteData() {
         print("delete")
-        guard let hasData = selectedItemList else {
+        guard let selectedItem = selectedItemList else {
             return
         }
         
-        guard let hasUUID = hasData.uuid else {
+        guard let uuid = selectedItem.uuid else {
             return
         }
         
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
         
-        fetchRequest.predicate = NSPredicate(format: "uuid = %@", hasUUID as CVarArg)
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid as CVarArg)
         
         do {
             let loadedData = try context.fetch(fetchRequest)
-            if let loadFirstData = loadedData.first {
-                context.delete(loadFirstData)
+            if let firstLoadedData = loadedData.first {
+                context.delete(firstLoadedData)
                 
                 let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
                 appDelegate.saveContext()
@@ -741,7 +739,12 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "ItemImageCell",
+                for: indexPath
+            ) as? ItemImageCell else {
+                fatalError("Cannot find ItemImageCell")
+            }
             // cell 関連のメソッド
             // ⚠️不確実 cell delegateをここで定義?
             cell.delegate = self
@@ -749,19 +752,19 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
             
             // ⚠️CoreDataとのfetchをした後、そのまま、cellに返すように
             // TODO: ここの部分をrefactoringする必要があると考える
-            if let hasData = selectedItemList {
+            if let selectedItem = selectedItemList {
                 // configureを通して、imageをfetchするので、ifの分岐は要らない
-                print(hasData)
+                print(selectedItem)
                 
                 //CoreDataがあったとしても、写真を変えることができるので、imageDataがあるかどうかを確認して、再びfetchを行う
                 // CoreDataに入っているやつ
-                if hasData.itemImage != Data() {
+                if selectedItem.itemImage != Data() {
                     if photoData[indexPath.row] != Data() {
                         cell.configure(with: photoData[indexPath.row], scaleX: imageScaleX, scaleY: imageScaleY)
                         cell.imageData = photoData[indexPath.row]
                     } else {
                         // ItemListのcellから受け取るか、写真がない
-                        let imageData = hasData.itemImage ?? Data()
+                        let imageData = selectedItem.itemImage ?? Data()
                         cell.configure(with: imageData, scaleX: imageScaleX, scaleY: imageScaleY)
                         cell.imageData = imageData
                     }
@@ -796,15 +799,20 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
             // ⚠️途中の段階: 賞味期限のcellでの処理をもっと書く必要がある
             // TODO: 🔥CoreDataにあるデータの場合、文字が反映されないerrorが生じた
             // MARK: 🔥itemNameで少しエラーが生じる
-            let cell = tableView.dequeueReusableCell(withIdentifier: "EndPeriodCell", for: indexPath) as! EndPeriodCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "EndPeriodCell",
+                for: indexPath
+            ) as? EndPeriodCell else {
+                fatalError("Cannot find EndPeriodCell")
+            }
             cell.delegate = self
             
             // CoreDataがあるとき (ItemListのcellのclickよりviewをpresentした場合)
-            if let hasData = selectedItemList {
+            if let selectedItem = selectedItemList {
                 // CoreDataのデータをfetchするように
-                if let hasItemName = hasData.itemName {
+                if let itemName = selectedItem.itemName {
                     var isOnlySpaceStr = true
-                    let splitName = hasItemName.map { String($0) }
+                    let splitName = itemName.map { String($0) }
                     
                     for i in 0..<splitName.count {
                         if splitName[i] != " " {
@@ -819,30 +827,45 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
                         // 保存できるように！
                     }
                     
-                    self.itemName = hasItemName
+                    self.itemName = itemName
                     
                 } else {
                     // itemNameがない時 (nil)
-                    self.itemName = hasData.itemName
+                    self.itemName = selectedItem.itemName
                 }
                 
-                if hasData.endDate != "" {
+                if selectedItem.endDate != "" {
                     // ""これもendDataがあることになる
                     // endDateが必ずあるときだけ、この処理をするので、checkStateは直ちにtrueにしてあげた
                     
-                    if hasData.endDate! == self.endPeriodText {
-                        let fetchEndDate = hasData.endDate!
-                        cell.configure(with: fetchEndDate, itemName: self.itemName, checkState: true, failure: false)
+                    if selectedItem.endDate! == self.endPeriodText {
+                        let fetchEndDate = selectedItem.endDate!
+                        cell.configure(
+                            with: fetchEndDate,
+                            itemName: self.itemName,
+                            checkState: true,
+                            failure: false
+                        )
                     } else {
                         // CoreDataのendDateと新しく撮ったendDateが異なる場合
                         let fetchEndDate = self.endPeriodText
-                        cell.configure(with: fetchEndDate, itemName: self.itemName,  checkState: recognizeState, failure: failState)
+                        cell.configure(
+                            with: fetchEndDate,
+                            itemName: self.itemName,
+                            checkState: recognizeState,
+                            failure: failState
+                        )
                     }
                 } else {
                     // endDateが入ってないとき
                     // Data()があるけど、endDateは入ってない
                     // endPeriodTextが""になっている
-                    cell.configure(with: self.endPeriodText, itemName: self.itemName,  checkState: false, failure: true)
+                    cell.configure(
+                        with: self.endPeriodText,
+                        itemName: self.itemName,
+                        checkState: false,
+                        failure: true
+                    )
                 }
             } else {
                 // CoreDataがないとき (新しく商品登録を行う場合)
@@ -856,13 +879,23 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 self.itemName = nil
-                cell.configure(with: self.endPeriodText, itemName: self.itemName,  checkState: recognizeState, failure: failState)
+                cell.configure(
+                    with: self.endPeriodText,
+                    itemName: self.itemName,
+                    checkState: recognizeState,
+                    failure: failState
+                )
             }
             
             cell.selectionStyle = .none
             return cell
         case 2:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell", for: indexPath) as! ButtonCell
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "ButtonCell",
+                for: indexPath
+            ) as? ButtonCell else {
+                fatalError("Cannot find ButtonCell")
+            }
             cell.delegate = self
             cell.selectionStyle = .none
             
@@ -942,7 +975,7 @@ extension NewItemViewController: ItemInfoView {
         }
         //🔥loadingViewをhideする処理をここで呼び出す
         self.isDoingRecognize = false
-        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
+        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
     
@@ -952,7 +985,7 @@ extension NewItemViewController: ItemInfoView {
         self.endPeriodText = "ネットワークアクセスに失敗しました"
         //🔥loadingViewをhideする処理をここで呼び出す
         self.isDoingRecognize = false
-        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
+        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
     
@@ -963,7 +996,7 @@ extension NewItemViewController: ItemInfoView {
         self.failState = true
         //🔥loadingViewをhideする処理をここで呼び出す
         self.isDoingRecognize = false
-        self.hideLoadView(self.loadingView, loadAPI: self.isDoingRecognize)
+        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
 }

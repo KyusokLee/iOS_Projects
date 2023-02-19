@@ -143,7 +143,7 @@ extension HomeItemCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension HomeItemCell: NewItemVCDelegate {
+extension HomeItemCell: NewItemViewControllerDelegate {
     func addNewItemInfo() {
         self.itemCollectionView.reloadData()
     }
