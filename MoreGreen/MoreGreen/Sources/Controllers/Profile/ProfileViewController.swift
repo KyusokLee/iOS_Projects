@@ -7,11 +7,11 @@
 
 import UIKit
 
-class SettingViewController: UIViewController {
+class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Setting VC")
+        print("Profile VC")
         // Do any additional setup after loading the view.
     }
     

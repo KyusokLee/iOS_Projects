@@ -35,10 +35,8 @@ class HomeViewController: UIViewController {
     // ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
     var filteredItemList = [ItemList]()
     var itemListCount = 0
-    
     // それぞれのcellのDdayを計算したものが格納される配列
     var dayCount = [[Int]]()
-    
     // EndDate順の時に使う配列
     // MARK: ⚠️Error -> ただのdateだけソートすると、coredataの値が正しく格納されないから、新たなitemListを設けることにした
     // 元となるCoreDataの要素から、7日以内に賞味期限が切れる商品のdayCountだけを抽出して格納するための２次元配列
@@ -48,18 +46,15 @@ class HomeViewController: UIViewController {
     var filteredDayCount = [Int]()
     // CoreDataに格納されているindexと日の差だけを格納するためのtuple型の配列
     var dayQueue = [(index: Int, dayDifference: Int)]()
-    
     var willEndThisWeekCount = 0
     var dateFetchCount = 0
     var filterDateFetchCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         print("this is home view")
         setUpTableView()
-        registerCell()
-        
+        registerXib()
 //        fetchData()
 //        homeTableView.reloadData()
 //        updateViewConstraints()
@@ -67,7 +62,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         // 画面が表示される度にfetchDataを行う
         fetchData()
         homeTableView.reloadData()
@@ -82,7 +77,7 @@ class HomeViewController: UIViewController {
         homeTableView.sectionFooterHeight = .zero
     }
     
-    func registerCell() {
+    func registerXib() {
         homeTableView.register(UINib(nibName: "HomeCardViewCell", bundle: nil), forCellReuseIdentifier: "HomeCardViewCell")
         homeTableView.register(UINib(nibName: "HomeItemCell", bundle: nil), forCellReuseIdentifier: "HomeItemCell")
         // Custom Headerのregister

@@ -38,6 +38,7 @@ class CategoryCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         self.addSubview(textLabel)
         setAutoLayout()
     }

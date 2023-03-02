@@ -1,5 +1,5 @@
 //
-//  CameraVC.swift
+//  CameraViewController.swift
 //  MoreGreen
 //
 //  Created by Kyus'lee on 2022/09/23.
@@ -11,12 +11,12 @@ import AVFoundation
 // cellIndexによって、Image写真の種類を分ける
 // index 0: ただのimage写真 -> 今後　商品の名前も認識するように変更する方針
 // index 1: OCR 結果を用いる賞味期限の文字認識image -> この場合、presenterを用いる
-protocol CameraVCDelegate: AnyObject {
+protocol CameraViewControllerDelegate: AnyObject {
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int)
 }
 
-class CameraVC: UIViewController {
-    weak var delegate: CameraVCDelegate?
+class CameraViewController: UIViewController {
+    weak var delegate: CameraViewControllerDelegate?
     // itemの写真を撮る場合は、0
     // itemの賞味期限や消費期限の写真を撮る場合は、1
     var cellIndex = 0
@@ -57,10 +57,10 @@ class CameraVC: UIViewController {
     private let imageOutput = AVCapturePhotoOutput()
     
     // カメラをVCへの画面遷移メソッド
-    static func instantiate() -> CameraVC {
+    static func instantiate() -> CameraViewController {
         print("1")
         
-        return UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraVC") as! CameraVC
+        return UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraViewController") as! CameraViewController
     }
 
     override func viewDidLoad() {
@@ -123,7 +123,7 @@ class CameraVC: UIViewController {
     }
 }
 
-extension CameraVC {
+extension CameraViewController {
     @IBAction func shootButton(_ sender: Any) {
         // このタイミングでカメラのシャッターを切る
         print("Pressed Shutter")
@@ -136,7 +136,7 @@ extension CameraVC {
         
         UIGraphicsBeginImageContextWithOptions(UIScreen.main.bounds.size, false, 0.0)
         //スクショの処理
-        // 写真をcaptureするdelegateは、self(cameraVC)
+        // 写真をcaptureするdelegateは、self(CameraViewController)
         imageOutput.capturePhoto(with: settings, delegate: self)
     }
 
@@ -230,7 +230,7 @@ extension CameraVC {
     }
 }
 
-extension CameraVC: AVCapturePhotoCaptureDelegate {
+extension CameraViewController: AVCapturePhotoCaptureDelegate {
 //    // 🔥カメラの音を無音にする (複数の国では、無音にすることは禁止されている)
     func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
         AudioServicesDisposeSystemSoundID(1108)

@@ -18,16 +18,14 @@ protocol CollectionViewCellDelegate: AnyObject {
     func collectionView(collectionViewCell: HomeItemCollectionViewCell?, index: Int, didTappedInTableViewCell: HomeItemCell)
 }
 
-
 class HomeItemCell: UITableViewCell {
-    @IBOutlet weak var itemCollectionView: UICollectionView!
     
+    @IBOutlet weak var itemCollectionView: UICollectionView!
     @IBOutlet weak var emptyDataView: UIView! {
         didSet {
             self.emptyDataView.backgroundColor = .clear
         }
     }
-    
     @IBOutlet weak var emptyViewMainLabel: UILabel! {
         didSet {
             emptyViewMainLabel.text = "まだ、登録された商品がありません"
@@ -35,7 +33,6 @@ class HomeItemCell: UITableViewCell {
             emptyViewMainLabel.font = .systemFont(ofSize: 15, weight: .bold)
         }
     }
-    
     @IBOutlet weak var emptyViewSubDescription: UILabel! {
         didSet {
             // labelのconstraintsは、text文の中の"登録し、"が１行の最後に来るように事前に設定した
@@ -61,12 +58,13 @@ class HomeItemCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     private func registerXib() {
-        itemCollectionView.register(UINib(nibName: "HomeItemCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "HomeItemCollectionViewCell")
+        itemCollectionView.register(
+            UINib(nibName: "HomeItemCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "HomeItemCollectionViewCell"
+        )
     }
     
     private func setCollectionView() {
@@ -95,14 +93,11 @@ class HomeItemCell: UITableViewCell {
     // collectionViewに入れるデータをここで、configure
     func configure(with model: [ItemList], dayArray array: [Int]) {
         self.itemCollectionView.reloadData()
-        
         self.filteredItemList = model
         self.filteredDayCount = array
-        
         // TODO: 🔥こうすることで、emptyviewの処理をすることができたが、直ちに更新されない
         // MARK: ⚠️filtering dataが1つ以上のとき、商品を追加、もしくは削除した時は、直ちに更新されたが、dataが1つだけないときには、collection View Cellが正しく更新されない
         setShowEmptyView()
-        
         print("Cell filteredItemList: \(filteredItemList)")
         print("Cell filteredDayCount: \(filteredDayCount)")
     }
@@ -115,10 +110,14 @@ extension HomeItemCell: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeItemCollectionViewCell", for: indexPath) as! HomeItemCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "HomeItemCollectionViewCell",
+            for: indexPath
+        ) as? HomeItemCollectionViewCell else {
+            fatalError("HomeItemCollectionViewCell could not be found")
+        }
         let item = filteredItemList[indexPath.row]
         let dayDifference = filteredDayCount[indexPath.row]
-
         cell.configure(userData: item, dayDifference: dayDifference)
         
         return cell
@@ -126,10 +125,11 @@ extension HomeItemCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     // delegateで VCのtableViewでclick イベントの処理をする
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as? HomeItemCollectionViewCell
+        guard let cell = collectionView.cellForItem(at: indexPath) as? HomeItemCollectionViewCell else {
+            fatalError("HomeItemCollectionViewCell could not be found")
+        }
         self.cellDelegate?.collectionView(collectionViewCell: cell, index: indexPath.item, didTappedInTableViewCell: self)
     }
-    
 }
 
 extension HomeItemCell: UICollectionViewDelegateFlowLayout {
@@ -147,6 +147,4 @@ extension HomeItemCell: NewItemViewControllerDelegate {
     func addNewItemInfo() {
         self.itemCollectionView.reloadData()
     }
-    
-    
 }

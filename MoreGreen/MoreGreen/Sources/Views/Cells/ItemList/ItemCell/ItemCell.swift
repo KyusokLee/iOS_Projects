@@ -164,8 +164,6 @@ class ItemCell: UITableViewCell {
             itemEndDDay.text = "データなし"
             itemEndDDay.textColor = UIColor.systemGray3.withAlphaComponent(0.7)
         }
-        
-        
     }
     
     // TODO: ⚠️DDayCountを行うメソッド

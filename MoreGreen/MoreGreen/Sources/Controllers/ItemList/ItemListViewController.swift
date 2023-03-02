@@ -93,7 +93,7 @@ class ItemListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
-        registerCell()
+        registerXib()
         newItemViewController.delegate = self
         setNavigationBar()
         navigationController?.setNavigationBarHidden(false, animated: false)
@@ -230,7 +230,7 @@ class ItemListViewController: UIViewController {
         itemListTableView.separatorStyle = .singleLine
     }
     
-    func registerCell() {
+    func registerXib() {
         itemListTableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
     }
     

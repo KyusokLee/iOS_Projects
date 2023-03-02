@@ -17,21 +17,18 @@ class HomeItemCollectionViewCell: UICollectionViewCell {
             itemImageView.backgroundColor = UIColor.systemGray5
         }
     }
-    
     @IBOutlet weak var itemNameLabel: UILabel! {
         didSet {
             itemNameLabel.font = .systemFont(ofSize: 14, weight: .bold)
             itemNameLabel.textColor = UIColor.black.withAlphaComponent(0.7)
         }
     }
-    
     @IBOutlet weak var itemDdayLabel: UILabel! {
         didSet {
             itemDdayLabel.font = .systemFont(ofSize: 14, weight: .bold)
             itemDdayLabel.textColor = UIColor(rgb: 0x36B700)
         }
     }
-    
     @IBOutlet weak var labelOnImage: UILabel! {
         didSet {
             labelOnImage.text = "No Image"

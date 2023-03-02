@@ -22,7 +22,11 @@ final class ItemInfoViewPresenter {
     private weak var itemView: ItemInfoView?
     
     // initだけ打ったら自動で完成さらたんだが、、‼️
-    init(jsonParser: EndDateJSONParserProtocol, apiClient: GoogleVisonAPIClientProtocol, itemView: ItemInfoView) {
+    init(
+        jsonParser: EndDateJSONParserProtocol,
+        apiClient: GoogleVisonAPIClientProtocol,
+        itemView: ItemInfoView
+    ) {
         self.jsonParser = jsonParser
         self.apiClient = apiClient
         // initializerでviewを受け取る

@@ -1,5 +1,5 @@
 //
-//  PhotoResultVC.swift
+//  PhotoResultViewController.swift
 //  MoreGreen
 //
 //  Created by Kyus'lee on 2022/09/30.
@@ -17,7 +17,7 @@ protocol ResizePhotoDelegate: AnyObject {
     func resizePhoto(with imageData: Data, scaleX x: CGFloat, scaleY y: CGFloat)
 }
 
-class PhotoResultVC: UIViewController {
+class PhotoResultViewController: UIViewController {
     
     // NewItemVCからimage写真データを受け取る変数
     var resultImageData: Data?
@@ -95,8 +95,8 @@ class PhotoResultVC: UIViewController {
         recognizerScale = 1.0
     }
     
-    static func instantiate(with imageData: Data) -> PhotoResultVC {
-        guard let controller = UIStoryboard(name: "PhotoResultView", bundle: nil).instantiateViewController(withIdentifier: "PhotoResultVC") as? PhotoResultVC else {
+    static func instantiate(with imageData: Data) -> PhotoResultViewController {
+        guard let controller = UIStoryboard(name: "PhotoResultView", bundle: nil).instantiateViewController(withIdentifier: "PhotoResultViewController") as? PhotoResultViewController else {
             fatalError("PhotoResutViewController could not be found")
         }
         controller.loadViewIfNeeded()
@@ -119,7 +119,7 @@ class PhotoResultVC: UIViewController {
     
 }
 
-private extension PhotoResultVC {
+private extension PhotoResultViewController {
     func configure(with imageData: Data) {
         print("success to take a photo!")
         

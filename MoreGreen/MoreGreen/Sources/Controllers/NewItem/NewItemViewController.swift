@@ -44,10 +44,9 @@ class NewItemViewController: UIViewController {
     var recognizeState = false
     var failState = false
     var dDayText = ""
-    
     // ⚠️cameraVCから、image Dataを受け取るためのproperty
     var photoData = Array(repeating: Data(), count: 2)
-    var photoResultVC = PhotoResultVC()
+    var photoResultVC = PhotoResultViewController()
     var imageScale: CGAffineTransform?
     var imageScaleX: CGFloat?
     var imageScaleY: CGFloat?
@@ -55,11 +54,9 @@ class NewItemViewController: UIViewController {
     var isPhotoResized = false
     var onceDeleted = false
     var hasItemNameText = false
-    
     //⚠️賞味期限の文字認証を行う間に、ユーザの認識touchを受け取らないように
     var isDoingRecognize = false
     weak var loadingView: UIView?
-    
     // imageの賞味期限や消費期限のconfigureのための変数
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -68,13 +65,12 @@ class NewItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Create new item list with camera OCR and barcode")
+        print("Create new item list with camera OCR or barcode")
         print(photoData)
-        
         addKeyboardObserver()
         dismissKeyboardByTap()
         setUpTableView()
-        registerCell()
+        registerXib()
         photoResultVC.delegate = self
         createItemTableView.reloadData()
     }
@@ -238,7 +234,7 @@ class NewItemViewController: UIViewController {
         self.dismiss(animated: true)
     }
     
-    private func registerCell() {
+    private func registerXib() {
         // 各Cellを登録
         createItemTableView.register(UINib(nibName: "ItemImageCell", bundle: nil), forCellReuseIdentifier: "ItemImageCell")
         createItemTableView.register(UINib(nibName: "EndPeriodCell", bundle: nil), forCellReuseIdentifier: "EndPeriodCell")
@@ -251,12 +247,10 @@ class NewItemViewController: UIViewController {
     // 別にこのメソッドがなくてm動いている
     func fetchImageData(with imageData: Data, index cellIndex: Int) {
         self.photoData[cellIndex] = imageData
-        
         if cellIndex == 1 {
             // endDateのperiodConfigureだけは、presenterを用いるので、メソッドを使う
             self.periodConfigure(with: imageData, index: cellIndex)
         }
-        
         // byteが出力される
         print(photoData)
     }
@@ -307,7 +301,6 @@ class NewItemViewController: UIViewController {
         guard !doRecognize else {
             return
         }
-        
         print("do Hide load!")
         
         if let view = loadingView {
@@ -346,7 +339,6 @@ private extension NewItemViewController {
         )
         // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
         // MARK: 🔥⚠️賞味期限のimageをloadして、賞味期限の文字を表示する処理をここで、行う
-        
         if !isDoingRecognize {
             // DoingRecognizeをtrueに
             isDoingRecognize = true
@@ -379,19 +371,15 @@ private extension NewItemViewController {
     
     func setImagePhotoEventAlert() -> UIAlertController {
         let alert = UIAlertController(title: "写真の更新を行います。", message: "", preferredStyle: .actionSheet)
-        
         let newPhoto = UIAlertAction(title: "写真変更", style: .default) { _ in
             self.moveAgainToTakePhoto()
         }
-        
         let back = UIAlertAction(title: "戻る", style: .cancel) { _ in
             print("back")
         }
-        
         let cancel = UIAlertAction(title: "削除", style: .destructive) { _ in
             self.imageCancelAction()
         }
-        
         alert.addAction(newPhoto)
         alert.addAction(cancel)
         alert.addAction(back)
@@ -400,14 +388,14 @@ private extension NewItemViewController {
     }
     
     func moveAgainToTakePhoto() {
-        let cameraVC = CameraVC.instantiate()
-        cameraVC.cellIndex = 0
-        cameraVC.delegate = self
+        let controller = CameraViewController.instantiate()
+        controller.cellIndex = 0
+        controller.delegate = self
         
-        let navigation = UINavigationController(rootViewController: cameraVC)
+        let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .fullScreen
         // fullScreenであるが、1つ前のViewのサイズに合わせてpushされる
-        navigationController?.pushViewController(cameraVC, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func imageCancelAction() {
@@ -433,49 +421,42 @@ extension NewItemViewController: ItemImageCellDelegate {
     func tapImageViewEvent() {
         // indexが0の写真を見せるので、固定的に0を記入した
         var itemImageData = Data()
-        
         if let image = selectedItemList?.itemImage {
             itemImageData = image
         } else {
             itemImageData = photoData[0]
         }
         
-        let resultImageVC = PhotoResultVC.instantiate(with: itemImageData)
-        resultImageVC.resultImageData = itemImageData
-        
-        resultImageVC.modalPresentationStyle = .overCurrentContext
-        self.present(resultImageVC, animated: true)
+        let controller = PhotoResultViewController.instantiate(with: itemImageData)
+        controller.resultImageData = itemImageData
+        controller.modalPresentationStyle = .overCurrentContext
+        self.present(controller, animated: true)
     }
     
     // image 上のbuttonを通したcamera VCへの画面遷移
     // navigationのpushを用いた方法
     func takeItemImagePhoto() {
         requestCameraPermission()
-        
-        let cameraVC = CameraVC.instantiate()
-        cameraVC.cellIndex = 0
-        cameraVC.delegate = self
-        
-        let navigation = UINavigationController(rootViewController: cameraVC)
+        let controller = CameraViewController.instantiate()
+        controller.cellIndex = 0
+        controller.delegate = self
+        let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .fullScreen
         // fullScreenであるが、1つ前のViewのサイズに合わせてpushされる
-        navigationController?.pushViewController(cameraVC, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     // ただのbuttonを通したcamera VCへの画面遷移
     func takeImagePhotoScreen() {
         requestCameraPermission()
-        
-        let cameraVC = CameraVC.instantiate()
-        cameraVC.cellIndex = 0
-        cameraVC.delegate = self
-        
-        let navigation = UINavigationController(rootViewController: cameraVC)
+        let controller = CameraViewController.instantiate()
+        controller.cellIndex = 0
+        controller.delegate = self
+        let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(cameraVC, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
-
 // EndPeriodCell Delegate関連
 // TextField関連メソッドあり
 extension NewItemViewController: EndPeriodCellDelegate {
@@ -486,20 +467,18 @@ extension NewItemViewController: EndPeriodCellDelegate {
         textField.delegate = self
         print("itemName: \(String(describing: itemName))")
         itemName = textField.text ?? nil
-        
         // ここで、reloadDataを書くと、テキストを入力するたびにreloadDataされるため、キーボードがずっとdismissとpresentを繰り返すことになる
         createItemTableView.layoutIfNeeded()
     }
     
     func takeEndPeriodScreen() {
         requestCameraPermission()
-        let cameraVC = CameraVC.instantiate()
-        cameraVC.cellIndex = 1
-        cameraVC.delegate = self
-        
-        let navigation = UINavigationController(rootViewController: cameraVC)
+        let controller = CameraViewController.instantiate()
+        controller.cellIndex = 1
+        controller.delegate = self
+        let navigation = UINavigationController(rootViewController: controller)
         navigation.modalPresentationStyle = .fullScreen
-        navigationController?.pushViewController(cameraVC, animated: true)
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
 
@@ -513,7 +492,6 @@ extension NewItemViewController: UITextFieldDelegate {
             hasItemNameText = true
             print("textState: \(hasItemNameText)")
         }
-        
         // MARK: 🔥reloadDataをすると、textFieldのtextが全部消されることになる
         // 🌈解決策: 特定のrowsだけをreloadDataするようにし、buttonのstateのdataをreloadするようにした
         self.createItemTableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .automatic)
@@ -533,11 +511,9 @@ extension NewItemViewController: ButtonDelegate {
         guard let entityDescription = NSEntityDescription.entity(forEntityName: "ItemList", in: context) else {
             return
         }
-        
         guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? ItemList else {
             return
         }
-        
         // endDateの区別文字に合わせて、保存するendDateのStringを異なる形でCoreDataに保存する
         var divider = ""
         var curDateString = ""
@@ -550,6 +526,7 @@ extension NewItemViewController: ButtonDelegate {
             divider = "-"
             curDateString = self.customCurrentDateFormat(divider: divider)
         } else {
+            // MARK: - ちょっとここら辺のコード減らしたい
             if endPeriodText.contains(".") {
                 divider = "."
             }
@@ -583,7 +560,6 @@ extension NewItemViewController: ButtonDelegate {
         
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         appDelegate.saveContext()
-        
         self.delegate?.addNewItemInfo()
         
 //        // このVCをpresentしたVCを指定する
@@ -605,13 +581,10 @@ extension NewItemViewController: ButtonDelegate {
         guard let selectedItem = selectedItemList else {
             return
         }
-        
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
-        
         guard let uuid = selectedItem.uuid else {
             return
         }
-        
         fetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid as CVarArg)
         do {
             let loadedData = try context.fetch(fetchRequest)
@@ -669,15 +642,12 @@ extension NewItemViewController: ButtonDelegate {
         guard let selectedItem = selectedItemList else {
             return
         }
-        
         guard let uuid = selectedItem.uuid else {
             return
         }
         
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
-        
         fetchRequest.predicate = NSPredicate(format: "uuid = %@", uuid as CVarArg)
-        
         do {
             let loadedData = try context.fetch(fetchRequest)
             if let firstLoadedData = loadedData.first {
@@ -736,7 +706,6 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         //cell の情報がsection別に入る
         let section = indexPath.section
-        
         switch section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(
@@ -755,7 +724,6 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
             if let selectedItem = selectedItemList {
                 // configureを通して、imageをfetchするので、ifの分岐は要らない
                 print(selectedItem)
-                
                 //CoreDataがあったとしても、写真を変えることができるので、imageDataがあるかどうかを確認して、再びfetchを行う
                 // CoreDataに入っているやつ
                 if selectedItem.itemImage != Data() {
@@ -803,7 +771,7 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
                 withIdentifier: "EndPeriodCell",
                 for: indexPath
             ) as? EndPeriodCell else {
-                fatalError("Cannot find EndPeriodCell")
+                fatalError("EndPeriodCell Could not be found.")
             }
             cell.delegate = self
             
@@ -894,7 +862,7 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
                 withIdentifier: "ButtonCell",
                 for: indexPath
             ) as? ButtonCell else {
-                fatalError("Cannot find ButtonCell")
+                fatalError("ButtonCell Could not be found")
             }
             cell.delegate = self
             cell.selectionStyle = .none
@@ -912,7 +880,6 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.updateButton.isHidden = true
                 cell.deleteButton.isHidden = true
             }
-            
             //商品のimageデータとperiodデータ両方ともない(Data()の初期化のまま)と create button 押せないように
             // TODO: 🔥商品名が記入されたら、createButtonのdisable状態をenable状態に
             // ここのtextFieldがに書いたitemNameとcreateButtonのボタンの連動でエラーが生じた
@@ -928,18 +895,16 @@ extension NewItemViewController: UITableViewDelegate, UITableViewDataSource {
             
         default:
             return UITableViewCell()
-            
         }
     }
 }
 
 // delegateがなぜかここに映らない
-extension NewItemViewController: CameraVCDelegate {
+extension NewItemViewController: CameraViewControllerDelegate {
     // CameraVCで撮った写真を反映させる
     // Cameraを取った後は、このメソッドを処理する
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int) {
         print("didFinishTakePhoto!")
-        
         self.fetchImageData(with: imageData, index: cellIndex)
         self.createItemTableView.reloadData()
         updateViewConstraints()
@@ -963,11 +928,9 @@ extension NewItemViewController: ItemInfoView {
     func successToShowItemInfo(with endDate: EndDate) {
         //image Viewからのデータをpresenterから受け取ってimageをfetchする
         let unrecognizedMsg = "日付を読み取れませんでした"
-        
         self.recognizeState = true
         self.endPeriodText = endDate.endDate ?? unrecognizedMsg
         print(self.endPeriodText)
-        
         if self.endPeriodText == unrecognizedMsg {
             failState = true
         } else {

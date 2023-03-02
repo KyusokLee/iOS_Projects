@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 // Imageに対する反応 Model
 struct ImagesResponse: Codable {
     var responses: [AnnotateImageResponse]

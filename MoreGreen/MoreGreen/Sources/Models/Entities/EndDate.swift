@@ -8,6 +8,7 @@
 import Foundation
 
 // 賞味期限のtext json parsing
+// ParsingするデータがendDateしかない
 struct EndDate: Codable {
     var endDate: String?
 }

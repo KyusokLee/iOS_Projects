@@ -104,12 +104,12 @@ class TabBarController: UITabBarController {
         let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
         let newItemViewController = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController")
         let thirdViewController = UIStoryboard(name: "CityInfomation", bundle: nil).instantiateViewController(withIdentifier: "CityInfomationViewController")
-        let fourthViewController = UIStoryboard(name: "Setting", bundle: nil).instantiateViewController(withIdentifier: "SettingViewController")
+        let fourthViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
         
         firstViewController.title = "Home"
         secondViewController.title = "商品リスト"
         thirdViewController.title = "地域情報"
-        fourthViewController.title = "Setting"
+        fourthViewController.title = "Profile"
         
         firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         firstViewController.navigationItem.largeTitleDisplayMode = .always
@@ -122,7 +122,7 @@ class TabBarController: UITabBarController {
         thirdViewController.tabBarItem = UITabBarItem(title: "City Info", image: UIImage(systemName: "building.2"), selectedImage: UIImage(systemName: "building.2.fill"))
         thirdViewController.navigationItem.largeTitleDisplayMode = .always
         
-        fourthViewController.tabBarItem = UITabBarItem(title: "Setting", image: UIImage(systemName: "gearshape.circle"), selectedImage: UIImage(systemName: "gearshape.circle.fill"))
+        fourthViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         fourthViewController.navigationItem.largeTitleDisplayMode = .always
         
         // navigationControllerのRoot view設定
@@ -130,15 +130,21 @@ class TabBarController: UITabBarController {
         let navigationItemList = UINavigationController(rootViewController: secondViewController)
         let navigationCreate = UINavigationController(rootViewController: newItemViewController)
         let navigationCity = UINavigationController(rootViewController: thirdViewController)
-        let navigationSetting = UINavigationController(rootViewController: fourthViewController)
+        let navigationProfile = UINavigationController(rootViewController: fourthViewController)
         
         navigationHome.navigationBar.prefersLargeTitles = false
         navigationItemList.navigationBar.prefersLargeTitles = false
         navigationCreate.navigationBar.prefersLargeTitles = true
         navigationCity.navigationBar.prefersLargeTitles = true
-        navigationSetting.navigationBar.prefersLargeTitles = true
+        navigationProfile.navigationBar.prefersLargeTitles = true
         
-        let viewControllers = [navigationHome, navigationItemList, navigationCreate, navigationCity, navigationSetting]
+        let viewControllers = [
+            navigationHome,
+            navigationItemList,
+            navigationCreate,
+            navigationCity,
+            navigationProfile
+        ]
         self.setViewControllers(viewControllers, animated: false)
     }
     
