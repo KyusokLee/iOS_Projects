@@ -112,6 +112,10 @@ class TabBarController: UITabBarController {
         fourthViewController.title = "Profile"
         
         firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        // navigationBarにアイテム
+        let settingImage = UIImage(systemName: "gearshape")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        let settingBarButton = UIBarButtonItem(image: settingImage, style:.plain, target: self, action: nil)
+        firstViewController.navigationItem.rightBarButtonItem = settingBarButton
         firstViewController.navigationItem.largeTitleDisplayMode = .always
         
         secondViewController.tabBarItem = UITabBarItem(title: "Item List", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
