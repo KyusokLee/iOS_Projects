@@ -68,6 +68,10 @@ class HomeViewController: UIViewController {
         homeTableView.reloadData()
         updateViewConstraints()
     }
+    
+    private func setNavigationBar() {
+        
+    }
         
     func setUpTableView() {
         homeTableView.delegate = self
@@ -110,7 +114,6 @@ class HomeViewController: UIViewController {
         guard !itemList.isEmpty else {
             return
         }
-        
         let timeZone = TimeZone.current
         print(timeZone)
         
@@ -174,9 +177,19 @@ class HomeViewController: UIViewController {
                     // 年, 月, 日 の3つの要素があれば、ddayを行う
                     if endDateIntArray.count == 3 {
                         // ⚠️dayを+1しないと、なぜか-1になる
-                        let customDateComponents = DateComponents(timeZone: timeZone, year: endDateIntArray[0], month: endDateIntArray[1], day: endDateIntArray[2])
+                        let customDateComponents = DateComponents(
+                            timeZone: timeZone,
+                            year: endDateIntArray[0],
+                            month: endDateIntArray[1],
+                            day: endDateIntArray[2]
+                        )
                         let endDate = Calendar.current.date(from: customDateComponents)!
-                        let offsetComps = Calendar.current.dateComponents([.year, .month, .day], from: formattedCurDate, to: endDate)
+                        let offsetComps = Calendar.current.dateComponents(
+                            [.year, .month, .day],
+                            from: formattedCurDate,
+                            to: endDate
+                        )
+                        // if case letは、caseのタイプを先に書く
                         if case let (y?, m?, d?) = (offsetComps.year, offsetComps.month, offsetComps.day) {
                             print("\(y)年 \(m)月 \(d)日ほど差があります。")
                             dayCount.append([y, m, d])

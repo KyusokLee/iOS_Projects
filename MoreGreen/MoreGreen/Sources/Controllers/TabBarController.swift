@@ -21,6 +21,9 @@ import CoreData
 // 1-8. 経済的な費用を計算するように
 // 1-9. Callenderを導入し、月別のデータを見れるように
 
+//MARK: - tabbarControllerの方でnavigationBarButtonItemのclick イベントを実装するか、該当のViewControllerでイベント処理を実装するかを迷う
+// まずは、TabbarControllerで実装することにした
+
 class TabBarController: UITabBarController {
     let addButton = UIButton(type: .custom)
     let buttonHeight: CGFloat = 65
@@ -34,7 +37,7 @@ class TabBarController: UITabBarController {
         // 影の部分はまだ、実装してない
         //setTabBarShadow()
         configureTabBar()
-        setUpTabBarItems()
+        setTabBarItems()
         setUpMiddleButton()
         setMiddleButtonConstraints()
         fetchData()
@@ -98,34 +101,33 @@ class TabBarController: UITabBarController {
         self.tabBar.layer.masksToBounds = false
     }
     
-    private func setUpTabBarItems() {
-        // ⚠️最初からUINavigationControllerで括ることはできない
+    private func setTabBarItems() {
+        // 最初からUINavigationControllerで括ることはできない
         let firstViewController = UIStoryboard.init(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController")
-        let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
-        let newItemViewController = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController")
-        let thirdViewController = UIStoryboard(name: "CityInfomation", bundle: nil).instantiateViewController(withIdentifier: "CityInfomationViewController")
-        let fourthViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
-        
         firstViewController.title = "Home"
-        secondViewController.title = "商品リスト"
-        thirdViewController.title = "地域情報"
-        fourthViewController.title = "Profile"
-        
         firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         // navigationBarにアイテム
         let settingImage = UIImage(systemName: "gearshape")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
-        let settingBarButton = UIBarButtonItem(image: settingImage, style:.plain, target: self, action: nil)
+        let settingBarButton = UIBarButtonItem(image: settingImage, style:.plain, target: self, action: #selector(tapSettingBarButton))
+        
         firstViewController.navigationItem.rightBarButtonItem = settingBarButton
         firstViewController.navigationItem.largeTitleDisplayMode = .always
         
+        let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
+        secondViewController.title = "商品リスト"
         secondViewController.tabBarItem = UITabBarItem(title: "Item List", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
         secondViewController.navigationItem.largeTitleDisplayMode = .always
-
+        
+        let newItemViewController = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController")
         newItemViewController.tabBarItem = UITabBarItem(title: nil, image: nil, selectedImage: nil)
         
+        let thirdViewController = UIStoryboard(name: "CityInfomation", bundle: nil).instantiateViewController(withIdentifier: "CityInfomationViewController")
+        thirdViewController.title = "地域情報"
         thirdViewController.tabBarItem = UITabBarItem(title: "City Info", image: UIImage(systemName: "building.2"), selectedImage: UIImage(systemName: "building.2.fill"))
         thirdViewController.navigationItem.largeTitleDisplayMode = .always
         
+        let fourthViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
+        fourthViewController.title = "Profile"
         fourthViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         fourthViewController.navigationItem.largeTitleDisplayMode = .always
         
@@ -153,7 +155,9 @@ class TabBarController: UITabBarController {
     }
     
     private func createNewFoodItemInfo() {
-        guard let controller = self.storyboard?.instantiateViewController(withIdentifier: "NewItemViewController") as? NewItemViewController else {
+        guard let controller = self.storyboard?.instantiateViewController(
+            withIdentifier: "NewItemViewController"
+        ) as? NewItemViewController else {
             fatalError("NewItemViewController could not be found")
         }
         
@@ -168,7 +172,6 @@ class TabBarController: UITabBarController {
         addButton.backgroundColor = UIColor(rgb: 0x36B700)
         addButton.setImage(UIImage(systemName: "plus"), for: .normal)
         addButton.tintColor = .white
-
         addButton.contentMode = .scaleAspectFit
         addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -187,10 +190,15 @@ class TabBarController: UITabBarController {
         addButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: heightDifference).isActive = true
         // subViewがないのに、layoutIfNeededをすることは正しくなかった
     }
-//
+    
     @objc func addButtonAction(sender: UIButton) {
         // 商品の登録VCを画面に表示
-        guard let controller = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController") as? NewItemViewController else {
+        guard let controller = UIStoryboard(
+            name: "NewItem",
+            bundle: nil
+        ).instantiateViewController(
+            withIdentifier: "NewItemViewController"
+        ) as? NewItemViewController else {
             fatalError("NewItemViewController could not be found")
         }
         
@@ -202,6 +210,22 @@ class TabBarController: UITabBarController {
         self.present(navigationController, animated: true) {
             print("will create new info of food items")
         }
+    }
+    
+    @objc func tapSettingBarButton() {
+        // navigationBarButtonのタップから表示されるView controller
+        print("tap setting Button")
+        guard let controller = UIStoryboard(
+            name: "Setting",
+            bundle:nil
+        ).instantiateViewController(
+            withIdentifier: "SettingViewController"
+        ) as? SettingViewController else {
+            fatalError("SettingViewController coult not be found.")
+        }
+        
+        // ⚠️MARK: nibファイルはあるが、navigationControllerのentry pointが連結されてない
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 
 }

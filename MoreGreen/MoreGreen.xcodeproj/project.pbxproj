@@ -65,6 +65,8 @@
 		94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E6B28DC874700502C5B /* CustomTabBar.swift */; };
 		94AF3E7028DC93D400502C5B /* NewItem.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94AF3E6F28DC93D400502C5B /* NewItem.storyboard */; };
 		94AF3E7228DC93EB00502C5B /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E7128DC93EB00502C5B /* NewItemViewController.swift */; };
+		94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CE57AD29B2055F00BB954D /* SettingViewController.swift */; };
+		94CE57B029B2056F00BB954D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94CE57AF29B2056F00BB954D /* Setting.storyboard */; };
 		94D8A99828EB0CA100703FCF /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8A99728EB0CA100703FCF /* Date+Utils.swift */; };
 		94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBF49C28DED51500110F1A /* EndPeriodCell.swift */; };
 		94EBF49F28DED51600110F1A /* EndPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94EBF49D28DED51500110F1A /* EndPeriodCell.xib */; };
@@ -134,6 +136,8 @@
 		94AF3E6B28DC874700502C5B /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		94AF3E6F28DC93D400502C5B /* NewItem.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NewItem.storyboard; sourceTree = "<group>"; };
 		94AF3E7128DC93EB00502C5B /* NewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
+		94CE57AD29B2055F00BB954D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		94CE57AF29B2056F00BB954D /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
 		94D8A99728EB0CA100703FCF /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		94EBF49C28DED51500110F1A /* EndPeriodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPeriodCell.swift; sourceTree = "<group>"; };
 		94EBF49D28DED51500110F1A /* EndPeriodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndPeriodCell.xib; sourceTree = "<group>"; };
@@ -165,6 +169,7 @@
 				94F4F98B28E6F94E00245EB1 /* PhotoResultView.storyboard */,
 				941BF55628FC2012006C8E28 /* HomeCustomHeader.xib */,
 				943317362917AEEC003CFB16 /* ItemDetail.storyboard */,
+				94CE57AF29B2056F00BB954D /* Setting.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -355,6 +360,7 @@
 		949A66CD299CD66400986FA8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				94CE57AB29B2050700BB954D /* NavigationBarButton */,
 				94AF3E6228DC74D800502C5B /* HomeViewController.swift */,
 			);
 			path = Home;
@@ -456,6 +462,22 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		94CE57AB29B2050700BB954D /* NavigationBarButton */ = {
+			isa = PBXGroup;
+			children = (
+				94CE57AC29B2053C00BB954D /* Setting */,
+			);
+			path = NavigationBarButton;
+			sourceTree = "<group>";
+		};
+		94CE57AC29B2053C00BB954D /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				94CE57AD29B2055F00BB954D /* SettingViewController.swift */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -516,6 +538,7 @@
 			files = (
 				943317372917AEEC003CFB16 /* ItemDetail.storyboard in Resources */,
 				94449A9D28D9F75D001C8BBB /* LaunchScreen.storyboard in Resources */,
+				94CE57B029B2056F00BB954D /* Setting.storyboard in Resources */,
 				9472C8B828DF2B24004E4348 /* HomeCardViewCell.xib in Resources */,
 				941BF55728FC2012006C8E28 /* HomeCustomHeader.xib in Resources */,
 				94449A9A28D9F75D001C8BBB /* Assets.xcassets in Resources */,
@@ -567,6 +590,7 @@
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
 				942007D228DDDA020092B699 /* CameraViewController.swift in Sources */,
 				94ABA94A2906C3E60063CD3D /* UnderLinedMenuBarModel.swift in Sources */,
+				94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */,
 				940B0F9928F03AF8003AFE8C /* UIButton+Utils.swift in Sources */,
 				9460320328E2E18800C4E0C9 /* ImageResponse.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemViewController.swift in Sources */,

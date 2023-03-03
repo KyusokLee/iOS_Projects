@@ -10,6 +10,7 @@ import Foundation
 // TODO: - ⚠️まだ途中の段階
 extension String {
     func toDate() -> Date? {
+        // String型として表現されている日付をDate型に変換する
         //"yyyy-MM-dd HH:mm:ss"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"

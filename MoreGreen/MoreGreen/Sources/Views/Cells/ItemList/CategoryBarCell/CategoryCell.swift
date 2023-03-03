@@ -10,8 +10,8 @@ import UIKit
 // MARK: 🔥Category Tabbarの中に格納される Category Collection View Cell
 
 class CategoryCell: UICollectionViewCell {
+    // cellのところで、idenfierを直接設定するようにした
     static let identifier = "CategoryCell"
-    
     private var textLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
@@ -30,7 +30,6 @@ class CategoryCell: UICollectionViewCell {
             let selectedColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.9)
             let defaultText = UIFont.systemFont(ofSize: 14)
             let boldText = UIFont.boldSystemFont(ofSize: 14)
-            
             textLabel.font = isSelected ? boldText : defaultText
             textLabel.textColor = isSelected ? selectedColor : .gray
         }
@@ -38,7 +37,6 @@ class CategoryCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         self.addSubview(textLabel)
         setAutoLayout()
     }
