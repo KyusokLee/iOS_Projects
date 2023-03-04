@@ -6,7 +6,7 @@
 
 ## MoreGreen
 ### デモ動画
-![moregreen_Demo_1](https://user-images.githubusercontent.com/89962765/222387992-71ee894e-9344-4dd8-b10d-21c6abbca3ea.gif)
+修正中
 
 ### 概要
 MoreGreenは、家にある商品（食品など）の賞味期限を簡単に管理するアプリである。
