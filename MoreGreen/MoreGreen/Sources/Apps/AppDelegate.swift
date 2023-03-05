@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // 🔥 Foreground alarm: アプリが現在ユーザに表示されているときにも、アラームがくるように設定
         UNUserNotificationCenter.current().delegate = self
+        // fileの全域でnavigationBarのapperanceを反映するように
+        AppAppearance.setAppearance()
 //        application.registerForRemoteNotifications()
         return true
     }

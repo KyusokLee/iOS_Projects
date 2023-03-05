@@ -15,19 +15,19 @@ class SettingViewController: UIViewController {
         print("SettingViewController has been presented")
     }
     
+    // navigationControllerの遷移先でnavigationControllerの色の設定をすると、rootViewControllerまで影響を与えてしまう
     private func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(rgb: 0x64B5F6)
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.backgroundColor = UIColor.white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
         
-//        self.navigationItem.backButtonTitle = "Back"
+        self.navigationItem.backButtonTitle = .none
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         self.navigationController?.navigationBar.compactAppearance = appearance
         self.navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
-        
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "設定"
     }

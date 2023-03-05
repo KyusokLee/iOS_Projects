@@ -53,7 +53,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("this is home view")
-        setUpTableView()
+        setNavigationBar()
+        setTableView()
         registerXib()
 //        fetchData()
 //        homeTableView.reloadData()
@@ -69,11 +70,29 @@ class HomeViewController: UIViewController {
         updateViewConstraints()
     }
     
+    // ⚠️navigationBarのappearanceはApp全体に共通して反映したいので、他のfileとして作った方がいいかもと思う
     private func setNavigationBar() {
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.white
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
         
+        // .noneではなく、""でbackButtonのtitleを無くす
+        self.navigationItem.backButtonTitle = ""
+        self.navigationController?.navigationBar.tintColor = UIColor.black
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        self.navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        // navigationBarにアイテム
+        let settingImage = UIImage(systemName: "gearshape")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+        let settingBarButton = UIBarButtonItem(image: settingImage, style:.plain, target: self, action: #selector(tapSettingBarButton))
+        self.navigationItem.title = "Home"
+        self.navigationItem.rightBarButtonItem = settingBarButton
     }
         
-    func setUpTableView() {
+    private func setTableView() {
         homeTableView.delegate = self
         homeTableView.dataSource = self
 //        homeTableView.separatorStyle = .none
@@ -81,7 +100,7 @@ class HomeViewController: UIViewController {
         homeTableView.sectionFooterHeight = .zero
     }
     
-    func registerXib() {
+    private func registerXib() {
         homeTableView.register(UINib(nibName: "HomeCardViewCell", bundle: nil), forCellReuseIdentifier: "HomeCardViewCell")
         homeTableView.register(UINib(nibName: "HomeItemCell", bundle: nil), forCellReuseIdentifier: "HomeItemCell")
         // Custom Headerのregister
@@ -92,7 +111,6 @@ class HomeViewController: UIViewController {
     //　まずは、CoreDataをfetch
     func fetchData() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
-                
         let context = appDelegate.persistentContainer.viewContext
         do {
             self.itemList = try context.fetch(fetchRequest)
@@ -220,16 +238,13 @@ class HomeViewController: UIViewController {
         guard let hasEndDate = endDate else {
             return []
         }
-        
         if hasEndDate == "" {
             return []
         }
-        
         let endDateArray = hasEndDate.split(separator: " ").map { String($0) }
         guard endDateArray.count == 3 else {
             return []
         }
-        
         let endDateSplitArray = endDateArray.joined().map { String($0) }
         var resultIntDateArray = [Int]()
         var year = ""
@@ -269,12 +284,10 @@ class HomeViewController: UIViewController {
         guard !dayCount.isEmpty else {
             return
         }
-        
         for i in 0..<dayCount.count {
             guard dayCount[i].count == 3 else {
                 continue
             }
-            
             // そもそも、賞味期限が切れたものをcountしないように処理logicを修正すればいい
             // なぜなら、dayCountは、メソッドが呼び出される度にupdateされるため
             guard dayCount[i][0] == 0 && dayCount[i][1] == 0 && dayCount[i][2] >= 0 else {
@@ -378,6 +391,22 @@ class HomeViewController: UIViewController {
                 print(error)
             }
         }
+    }
+    
+    @objc func tapSettingBarButton() {
+        // navigationBarButtonのタップから表示されるView controller
+        print("tap setting Button")
+        guard let controller = UIStoryboard(
+            name: "Setting",
+            bundle:nil
+        ).instantiateViewController(
+            withIdentifier: "SettingViewController"
+        ) as? SettingViewController else {
+            fatalError("SettingViewController coult not be found.")
+        }
+        
+        // ⚠️MARK: nibファイルはあるが、navigationControllerのentry pointが連結されてない
+        self.navigationController?.pushViewController(controller, animated: true)
     }
 }
 

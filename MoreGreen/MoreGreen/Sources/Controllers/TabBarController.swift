@@ -22,12 +22,13 @@ import CoreData
 // 1-9. Callenderを導入し、月別のデータを見れるように
 
 //MARK: - tabbarControllerの方でnavigationBarButtonItemのclick イベントを実装するか、該当のViewControllerでイベント処理を実装するかを迷う
+// -> TabbarControllerでは、controllerの構築だけをして、navigationBarItenなどのnavigationControllerの設定は、各controllerで実装することで、navigationControllerの遷移ができる
 // まずは、TabbarControllerで実装することにした
 
 class TabBarController: UITabBarController {
+    
     let addButton = UIButton(type: .custom)
     let buttonHeight: CGFloat = 65
-    
     // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
     var itemList = [ItemList]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -36,33 +37,30 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         // 影の部分はまだ、実装してない
         //setTabBarShadow()
-        configureTabBar()
+        setTabBar()
         setTabBarItems()
         setUpMiddleButton()
         setMiddleButtonConstraints()
         fetchData()
-        
         self.delegate = self
     }
     
     func fetchData() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
-                
         let context = appDelegate.persistentContainer.viewContext
         do {
             self.itemList = try context.fetch(fetchRequest)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
         
-        print(itemList)
         itemList.forEach { item in
             print(item.endDate!)
         }
     }
     
     // tabBarのUIをCustomize
-    private func configureTabBar() {
+    private func setTabBar() {
         // tabbarの背景色
         tabBar.barTintColor = .white
         // tabbarのitemが選択された時の色
@@ -104,14 +102,9 @@ class TabBarController: UITabBarController {
     private func setTabBarItems() {
         // 最初からUINavigationControllerで括ることはできない
         let firstViewController = UIStoryboard.init(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController")
-        firstViewController.title = "Home"
+//        firstViewController.title = "Home"
         firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
-        // navigationBarにアイテム
-        let settingImage = UIImage(systemName: "gearshape")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
-        let settingBarButton = UIBarButtonItem(image: settingImage, style:.plain, target: self, action: #selector(tapSettingBarButton))
-        
-        firstViewController.navigationItem.rightBarButtonItem = settingBarButton
-        firstViewController.navigationItem.largeTitleDisplayMode = .always
+//        firstViewController.navigationItem.largeTitleDisplayMode = .always
         
         let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
         secondViewController.title = "商品リスト"
@@ -211,23 +204,6 @@ class TabBarController: UITabBarController {
             print("will create new info of food items")
         }
     }
-    
-    @objc func tapSettingBarButton() {
-        // navigationBarButtonのタップから表示されるView controller
-        print("tap setting Button")
-        guard let controller = UIStoryboard(
-            name: "Setting",
-            bundle:nil
-        ).instantiateViewController(
-            withIdentifier: "SettingViewController"
-        ) as? SettingViewController else {
-            fatalError("SettingViewController coult not be found.")
-        }
-        
-        // ⚠️MARK: nibファイルはあるが、navigationControllerのentry pointが連結されてない
-        self.navigationController?.pushViewController(controller, animated: true)
-    }
-
 }
 
 extension TabBarController: UITabBarControllerDelegate {
