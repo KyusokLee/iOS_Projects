@@ -28,6 +28,7 @@
 		942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D928DDE6740092B699 /* ItemImageCell.swift */; };
 		942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007DA28DDE6740092B699 /* ItemImageCell.xib */; };
 		942E3FFE29B49B4200A710CD /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942E3FFD29B49B4200A710CD /* AppAppearance.swift */; };
+		942E400229B4BBA100A710CD /* CameraGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942E400129B4BBA100A710CD /* CameraGuideView.swift */; };
 		943317352917AEB4003CFB16 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943317342917AEB4003CFB16 /* ItemDetailViewController.swift */; };
 		943317372917AEEC003CFB16 /* ItemDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 943317362917AEEC003CFB16 /* ItemDetail.storyboard */; };
 		943317392917B5B2003CFB16 /* CategoryTabbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943317382917B5B2003CFB16 /* CategoryTabbar.swift */; };
@@ -97,6 +98,7 @@
 		942007D928DDE6740092B699 /* ItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCell.swift; sourceTree = "<group>"; };
 		942007DA28DDE6740092B699 /* ItemImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemImageCell.xib; sourceTree = "<group>"; };
 		942E3FFD29B49B4200A710CD /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
+		942E400129B4BBA100A710CD /* CameraGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuideView.swift; sourceTree = "<group>"; };
 		943317342917AEB4003CFB16 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
 		943317362917AEEC003CFB16 /* ItemDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ItemDetail.storyboard; sourceTree = "<group>"; };
 		943317382917B5B2003CFB16 /* CategoryTabbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTabbar.swift; sourceTree = "<group>"; };
@@ -458,6 +460,7 @@
 		94AF3E6A28DC872600502C5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				942E400129B4BBA100A710CD /* CameraGuideView.swift */,
 				943317382917B5B2003CFB16 /* CategoryTabbar.swift */,
 				945108CB28DDC5E500E80F20 /* Cells */,
 				94ABA9452906C3670063CD3D /* ViewModel */,
@@ -588,6 +591,7 @@
 				94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */,
 				949B2AE928DDBE090053E70B /* CALayer+Utils.swift in Sources */,
 				949B2AEB28DDBE1B0053E70B /* UITabBar+Utils.swift in Sources */,
+				942E400229B4BBA100A710CD /* CameraGuideView.swift in Sources */,
 				9460320728E328C300C4E0C9 /* UIImage+Utils.swift in Sources */,
 				94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */,
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,

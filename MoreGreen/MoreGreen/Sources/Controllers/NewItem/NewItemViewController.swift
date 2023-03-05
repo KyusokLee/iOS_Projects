@@ -15,6 +15,10 @@ import CoreData
 // cell3 : Itemの詳細説明を記入できるように, create button, update button, delete Buttonも一緒に
 
 // ⚠️Error: CameraVCからPopViewControllerしたとき、navigationBarが表示されない
+// TODO: - 写真を商品の写真と賞味期限の写真といった２種類に分けるのではなく、1回の写真で全部完結するようにする
+// 考えられるError: 画像として保存したい商品の写真が賞味期限が記入されている所と異なる場合が考えられる
+// 解決策: 1. ボタンタップによる最初の写真撮りの画面は、賞味期限がある所を撮るように誘導する
+//       2. そして、とった後、NewItemViewControllerに戻り、欲しい写真と異なる場合、他の写真を撮るようにする
 
 // MARK: 🔥⚠️現在layoutの警告がでるところ -> HomeVCのcardView, NewItemViewControllerの '写真を撮る'のボタン -> 今後直す予定
 // TODO: ⚠️もっと、cleanなコードにrefactoringすること🔥

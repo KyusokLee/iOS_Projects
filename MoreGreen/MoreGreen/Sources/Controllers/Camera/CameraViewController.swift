@@ -16,14 +16,8 @@ protocol CameraViewControllerDelegate: AnyObject {
 }
 
 class CameraViewController: UIViewController {
-    weak var delegate: CameraViewControllerDelegate?
-    // itemの写真を撮る場合は、0
-    // itemの賞味期限や消費期限の写真を撮る場合は、1
-    var cellIndex = 0
-    
     // カメラの拡大、縮小の機能をTapgestureで追加する
     @IBOutlet private weak var previewView: UIView!
-    
     @IBOutlet weak var cameraButton: UIButton! {
         didSet {
             // imageの大きさがただのimageに入れるととても小さく表示される
@@ -34,7 +28,6 @@ class CameraViewController: UIViewController {
             cameraButton.tintColor = UIColor(rgb: 0x388E3C)
         }
     }
-    
     @IBOutlet weak var dismissButton: UIButton! {
         didSet {
             dismissButton.tintColor = UIColor.systemGray5
@@ -46,7 +39,10 @@ class CameraViewController: UIViewController {
 //            dismissButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         }
     }
-    
+    weak var delegate: CameraViewControllerDelegate?
+    // itemの写真を撮る場合は、0
+    // itemの賞味期限や消費期限の写真を撮る場合は、1
+    var cellIndex = 0
     //CaptureSession編数 _ cameraCaptureに関する全ての流れを管理するsession
     private let captureSession = AVCaptureSession()
     // 解像度の設定 -> default: Highになっている
@@ -55,11 +51,18 @@ class CameraViewController: UIViewController {
     private var cameraDevice: AVCaptureDevice!
     //画像のOutput_写真キャプチャ
     private let imageOutput = AVCapturePhotoOutput()
+    private let cameraGuideView: CameraGuideView = {
+        let view = CameraGuideView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        // 初期設定として、loadingをtrueに
+        view.isShowing = true
+        
+        return view
+    }()
     
     // カメラをVCへの画面遷移メソッド
     static func instantiate() -> CameraViewController {
         print("1")
-        
         return UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraViewController") as! CameraViewController
     }
 
@@ -68,12 +71,15 @@ class CameraViewController: UIViewController {
         print("cell Index: \(cellIndex)")
         // cameraの部分では、 navigationBarを隠す
         navigationController?.isNavigationBarHidden = true
+        // GuideLineViewを表示
+        self.view.addSubview(cameraGuideView)
         // カメラの設定やセッションの組み立てはここで行う
         settingSession()
         // カメラの拡大、縮小gestureの追加
         addCameraViewGesture()
         // preview Layer setting間数の呼び出し
         settingLivePreveiw()
+        setCameraGuideViewConstraints()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +91,15 @@ class CameraViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stopCapture()
+    }
+    
+    private func setCameraGuideViewConstraints() {
+        NSLayoutConstraint.activate([
+            self.cameraGuideView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.cameraGuideView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            self.cameraGuideView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            self.cameraGuideView.topAnchor.constraint(equalTo: self.view.topAnchor)
+        ])
     }
     
     // camera Preview viewに拡大、縮小の機能を追加

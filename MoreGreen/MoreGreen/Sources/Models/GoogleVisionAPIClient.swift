@@ -32,7 +32,7 @@ struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
 private extension GoogleVisonAPIClient {
     func buildRequest(with base64String: String) -> URLRequest {
         // 🔥ここにAPI keyが入る
-        let apiKey = "AIzaSyDleir4Ju0ooAZojBtR6iee38BDn9RT4xM"
+        let apiKey = ""
         let url = URL(string: "https://vision.googleapis.com/v1/images:annotate?key=\(apiKey)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"

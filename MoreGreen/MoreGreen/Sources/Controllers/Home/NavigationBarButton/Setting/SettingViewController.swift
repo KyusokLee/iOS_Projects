@@ -7,21 +7,27 @@
 
 import UIKit
 
+// SettingVCで実装したい機能まとめ
+// 1. 通知の設定(通知が来る時間とか)
+// 2. 地域設定
+// 3. Userの設定 -> Profileのとこで実装する
+// 4. 使用方法
+
 class SettingViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationController()
-        print("SettingViewController has been presented")
+        
     }
     
     // navigationControllerの遷移先でnavigationControllerの色の設定をすると、rootViewControllerまで影響を与えてしまう
     private func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
-        
+        // MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
+//        appearance.backgroundColor = UIColor.white
+//        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
         self.navigationItem.backButtonTitle = .none
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.standardAppearance = appearance
@@ -31,14 +37,7 @@ class SettingViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "設定"
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
+    
 
 }

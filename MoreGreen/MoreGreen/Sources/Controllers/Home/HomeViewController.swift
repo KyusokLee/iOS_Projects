@@ -63,7 +63,6 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         // 画面が表示される度にfetchDataを行う
         fetchData()
         homeTableView.reloadData()
@@ -74,8 +73,9 @@ class HomeViewController: UIViewController {
     private func setNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.white
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
+        // ⚠️MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
+//        appearance.backgroundColor = UIColor.white
+//        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
         
         // .noneではなく、""でbackButtonのtitleを無くす
         self.navigationItem.backButtonTitle = ""
@@ -123,7 +123,6 @@ class HomeViewController: UIViewController {
         // この時点で、itemListにCoreDataのItemListが格納されることになる
         print(itemList)
         itemListCount = self.itemList.count
-        
         fetchCurrentDate()
         countNearEndDateItem()
     }
@@ -441,7 +440,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        
         switch indexPath.section {
         case 0:
             // これを200にすると、すごい警告でるのに、TablieViewCellのnibで設定したcellの高さより大きくすると、errorが出なくなった
@@ -457,7 +455,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     // ここらへんでちょっとエラーが生じる
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         switch section {
         case 0:
             return nil
