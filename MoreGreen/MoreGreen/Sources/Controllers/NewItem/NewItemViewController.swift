@@ -666,7 +666,15 @@ extension NewItemViewController: ButtonDelegate {
         
         self.delegate?.addNewItemInfo()
         self.dismiss(animated: true)
-        
+    }
+    
+    func showsErrorAlert(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let check = UIAlertAction(title: "確認", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alertController.addAction(check)
+        return alertController
     }
 }
 
@@ -929,12 +937,11 @@ extension NewItemViewController: ResizePhotoDelegate {
 
 extension NewItemViewController: ItemInfoView {
     // 認証とネットワークアクセスに成功した時
-    func successToShowItemInfo(with endDate: EndDate) {
+    func shouldShowSuccessToShowItemInfo(with endDate: EndDate) {
         //image Viewからのデータをpresenterから受け取ってimageをfetchする
         let unrecognizedMsg = "日付を読み取れませんでした"
         self.recognizeState = true
         self.endPeriodText = endDate.endDate ?? unrecognizedMsg
-        print(self.endPeriodText)
         if self.endPeriodText == unrecognizedMsg {
             failState = true
         } else {
@@ -947,23 +954,35 @@ extension NewItemViewController: ItemInfoView {
     }
     
     // Google APIへのnetWork 接続Error
-    func networkError() {
-        self.recognizeState = false
-        self.endPeriodText = "ネットワークアクセスに失敗しました"
-        //🔥loadingViewをhideする処理をここで呼び出す
-        self.isDoingRecognize = false
-        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
-        self.createItemTableView.reloadData()
+    func shouldShowNetworkErrorFeedback(error errorType: ErrorType) {
+        DispatchQueue.main.async {
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
+            self.recognizeState = false
+            self.endPeriodText = "ネットワークアクセスに失敗しました"
+            //🔥loadingViewをhideする処理をここで呼び出す
+            self.isDoingRecognize = false
+            self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
+            self.createItemTableView.reloadData()
+        }
     }
     
     // 文字(賞味期限や消費期限)の認識に失敗
-    func failToRecognize() {
-        self.recognizeState = false
-        self.endPeriodText = "文字認識に失敗しました"
-        self.failState = true
-        //🔥loadingViewをhideする処理をここで呼び出す
-        self.isDoingRecognize = false
-        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
-        self.createItemTableView.reloadData()
+    func shouldShowFailToRecognizeFeedback(error errorType: ErrorType) {
+        DispatchQueue.main.async {
+            self.present(
+                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                animated: true
+            )
+            self.recognizeState = false
+            self.endPeriodText = "文字認識に失敗しました"
+            self.failState = true
+            //🔥loadingViewをhideする処理をここで呼び出す
+            self.isDoingRecognize = false
+            self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
+            self.createItemTableView.reloadData()
+        }
     }
 }

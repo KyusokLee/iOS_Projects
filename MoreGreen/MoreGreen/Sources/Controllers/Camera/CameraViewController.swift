@@ -108,6 +108,11 @@ class CameraViewController: UIViewController {
         previewView.addGestureRecognizer(pinch)
     }
     
+    // camera Guide Viewをup and down させる
+    private func animateGuideViewMoveUpAndDown() {
+        
+    }
+    
     @objc func handlePinchCamera(_ pinch: UIPinchGestureRecognizer) {
         // camera Deviceがあることが前提なので、guard や if let　castingはしなかった
         

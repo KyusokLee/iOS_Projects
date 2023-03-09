@@ -69,6 +69,7 @@
 		94AF3E7228DC93EB00502C5B /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E7128DC93EB00502C5B /* NewItemViewController.swift */; };
 		94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CE57AD29B2055F00BB954D /* SettingViewController.swift */; };
 		94CE57B029B2056F00BB954D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94CE57AF29B2056F00BB954D /* Setting.storyboard */; };
+		94D5A49D29BA0697009B7E6C /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D5A49C29BA0697009B7E6C /* ErrorType.swift */; };
 		94D8A99828EB0CA100703FCF /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8A99728EB0CA100703FCF /* Date+Utils.swift */; };
 		94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBF49C28DED51500110F1A /* EndPeriodCell.swift */; };
 		94EBF49F28DED51600110F1A /* EndPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94EBF49D28DED51500110F1A /* EndPeriodCell.xib */; };
@@ -142,6 +143,7 @@
 		94AF3E7128DC93EB00502C5B /* NewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		94CE57AD29B2055F00BB954D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		94CE57AF29B2056F00BB954D /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
+		94D5A49C29BA0697009B7E6C /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
 		94D8A99728EB0CA100703FCF /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		94EBF49C28DED51500110F1A /* EndPeriodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPeriodCell.swift; sourceTree = "<group>"; };
 		94EBF49D28DED51500110F1A /* EndPeriodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndPeriodCell.xib; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 		949A66CC299CD57200986FA8 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				94D5A49C29BA0697009B7E6C /* ErrorType.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -579,6 +582,7 @@
 				943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */,
 				94122FF328DC60DF004DEED6 /* UIFont+Utils.swift in Sources */,
 				9472C8B728DF2B24004E4348 /* HomeCardViewCell.swift in Sources */,
+				94D5A49D29BA0697009B7E6C /* ErrorType.swift in Sources */,
 				946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */,
 				943317392917B5B2003CFB16 /* CategoryTabbar.swift in Sources */,
 				94AF3E6328DC74D800502C5B /* HomeViewController.swift in Sources */,

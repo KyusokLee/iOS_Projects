@@ -9,9 +9,9 @@ import Foundation
 
 // ModelとView（View Controller）間の架け橋の役をするPresenter
 protocol ItemInfoView: AnyObject {
-    func successToShowItemInfo(with endDate: EndDate)
-    func networkError()
-    func failToRecognize()
+    func shouldShowSuccessToShowItemInfo(with endDate: EndDate)
+    func shouldShowNetworkErrorFeedback(error errorType: ErrorType)
+    func shouldShowFailToRecognizeFeedback(error errorType: ErrorType)
 }
 
 // initializerでDIを行い、Testを容易にする
@@ -20,7 +20,6 @@ final class ItemInfoViewPresenter {
     private let jsonParser: EndDateJSONParserProtocol
     private let apiClient: GoogleVisonAPIClientProtocol
     private weak var itemView: ItemInfoView?
-    
     // initだけ打ったら自動で完成さらたんだが、、‼️
     init(
         jsonParser: EndDateJSONParserProtocol,
@@ -37,14 +36,14 @@ final class ItemInfoViewPresenter {
     func loadItemInfo(from base64String: String) {
         apiClient.send(base64String: base64String) { (data, error) in
             guard error == nil, let hasData = data else {
-                self.itemView?.networkError()
+                self.itemView?.shouldShowNetworkErrorFeedback(error: .networkError)
                 return
             }
             
             if let endDate = self.jsonParser.parse(data: hasData) {
-                self.itemView?.successToShowItemInfo(with: endDate)
+                self.itemView?.shouldShowSuccessToShowItemInfo(with: endDate)
             } else {
-                self.itemView?.failToRecognize()
+                self.itemView?.shouldShowFailToRecognizeFeedback(error: .parseError)
             }
         }
     }
