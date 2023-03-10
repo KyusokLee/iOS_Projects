@@ -39,6 +39,17 @@ class CameraViewController: UIViewController {
 //            dismissButton.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         }
     }
+    
+    @IBOutlet weak var showCameraGuideButton: UIButton! {
+        didSet {
+            showCameraGuideButton.backgroundColor = .clear
+            showCameraGuideButton.setImage(UIImage(systemName: "questionmark.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            showCameraGuideButton.contentVerticalAlignment = .fill
+            showCameraGuideButton.contentHorizontalAlignment = .fill
+            showCameraGuideButton.tintColor = UIColor.white
+        }
+    }
+    
     weak var delegate: CameraViewControllerDelegate?
     // itemの写真を撮る場合は、0
     // itemの賞味期限や消費期限の写真を撮る場合は、1
@@ -141,6 +152,8 @@ class CameraViewController: UIViewController {
         }
         cameraDevice.unlockForConfiguration()
     }
+    
+    
 }
 
 extension CameraViewController {
@@ -163,6 +176,10 @@ extension CameraViewController {
     @IBAction func didTapCloseButton(_ sender: Any) {
         // 以前のnavigation controllerに戻る
         navigationController?.popViewController(animated: true)
+    }
+    
+    @IBAction func didTapShowCameraGuideButton(_ sender: Any) {
+        cameraGuideView.isShowing = true
     }
     
     private func settingSession() {
