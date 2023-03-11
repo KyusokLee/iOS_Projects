@@ -401,7 +401,7 @@ class HomeViewController: UIViewController {
         ).instantiateViewController(
             withIdentifier: "SettingViewController"
         ) as? SettingViewController else {
-            fatalError("SettingViewController coult not be found.")
+            fatalError("SettingViewController could not be found.")
         }
         
         // ⚠️MARK: nibファイルはあるが、navigationControllerのentry pointが連結されてない

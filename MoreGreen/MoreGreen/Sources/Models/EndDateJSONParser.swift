@@ -8,7 +8,6 @@
 import Foundation
 
 // TEXT OCR結果から得られたJSONデータをparsingする
-
 struct EndDateJSONParser: EndDateJSONParserProtocol {
     private let itemInfoCreater: ItemElementsCreator
 

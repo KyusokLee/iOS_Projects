@@ -33,11 +33,11 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3L-AN-JO7">
-                                        <rect key="frame" x="25" y="105" width="35" height="35"/>
+                                        <rect key="frame" x="25" y="95" width="30" height="30"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="35" id="6kR-el-ZS5"/>
-                                            <constraint firstAttribute="height" constant="35" id="D9i-m8-odK"/>
+                                            <constraint firstAttribute="width" constant="30" id="6kR-el-ZS5"/>
+                                            <constraint firstAttribute="height" constant="30" id="D9i-m8-odK"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <connections>
@@ -49,7 +49,7 @@
                                     <constraint firstItem="Urf-Y4-sJR" firstAttribute="leading" secondItem="Rvo-6T-YsY" secondAttribute="leading" constant="25" id="H0a-GT-v3m"/>
                                     <constraint firstItem="K3L-AN-JO7" firstAttribute="leading" secondItem="Rvo-6T-YsY" secondAttribute="leading" constant="25" id="Ldf-5g-zlg"/>
                                     <constraint firstItem="Urf-Y4-sJR" firstAttribute="top" secondItem="Rvo-6T-YsY" secondAttribute="top" constant="45" id="j2w-0p-pTP"/>
-                                    <constraint firstItem="K3L-AN-JO7" firstAttribute="top" secondItem="Urf-Y4-sJR" secondAttribute="bottom" constant="30" id="nbq-qS-SDm"/>
+                                    <constraint firstItem="K3L-AN-JO7" firstAttribute="top" secondItem="Urf-Y4-sJR" secondAttribute="bottom" constant="20" id="nbq-qS-SDm"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vg5-up-Zbz">

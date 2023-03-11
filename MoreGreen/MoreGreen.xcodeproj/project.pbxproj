@@ -42,6 +42,9 @@
 		94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94449A9628D9F75C001C8BBB /* MoreGreen.xcdatamodeld */; };
 		94449A9A28D9F75D001C8BBB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94449A9928D9F75D001C8BBB /* Assets.xcassets */; };
 		94449A9D28D9F75D001C8BBB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */; };
+		94481DA429BC8110009928CD /* AnimationTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA329BC8110009928CD /* AnimationTime.swift */; };
+		94481DA629BC9EB4009928CD /* CameraGuidePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */; };
+		94481DA929BC9EF2009928CD /* CameraGuidePopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */; };
 		946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */; };
 		9460320128E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */; };
 		9460320328E2E18800C4E0C9 /* ImageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320228E2E18800C4E0C9 /* ImageResponse.swift */; };
@@ -115,6 +118,9 @@
 		94449A9928D9F75D001C8BBB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94449A9C28D9F75D001C8BBB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		94449A9E28D9F75D001C8BBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94481DA329BC8110009928CD /* AnimationTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTime.swift; sourceTree = "<group>"; };
+		94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuidePopupViewController.swift; sourceTree = "<group>"; };
+		94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraGuidePopup.storyboard; sourceTree = "<group>"; };
 		946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndDateJSONParser.swift; sourceTree = "<group>"; };
 		9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPIClient.swift; sourceTree = "<group>"; };
 		9460320228E2E18800C4E0C9 /* ImageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResponse.swift; sourceTree = "<group>"; };
@@ -165,6 +171,7 @@
 		94122FEA28DC5F25004DEED6 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
+				94481DA729BC9EDE009928CD /* Camera */,
 				94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */,
 				94AF3E6428DC74E800502C5B /* Home.storyboard */,
 				94AF3E6828DC7E3B00502C5B /* ItemList.storyboard */,
@@ -236,6 +243,14 @@
 				949A66C9299CD39C00986FA8 /* Sources */,
 			);
 			path = MoreGreen;
+			sourceTree = "<group>";
+		};
+		94481DA729BC9EDE009928CD /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		945108CA28DDC5DE00E80F20 /* Controllers */ = {
@@ -360,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				94D5A49C29BA0697009B7E6C /* ErrorType.swift */,
+				94481DA329BC8110009928CD /* AnimationTime.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -417,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				942007D128DDDA020092B699 /* CameraViewController.swift */,
+				94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -554,6 +571,7 @@
 				94AF3E6928DC7E3B00502C5B /* ItemList.storyboard in Resources */,
 				9472C8B128DF03E8004E4348 /* ButtonCell.xib in Resources */,
 				94AF3E7028DC93D400502C5B /* NewItem.storyboard in Resources */,
+				94481DA929BC9EF2009928CD /* CameraGuidePopup.storyboard in Resources */,
 				94EBF49F28DED51600110F1A /* EndPeriodCell.xib in Resources */,
 				942007D028DDC6B40092B699 /* ItemCell.xib in Resources */,
 				949B2AE328DDA2550053E70B /* Profile.storyboard in Resources */,
@@ -586,11 +604,13 @@
 				946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */,
 				943317392917B5B2003CFB16 /* CategoryTabbar.swift in Sources */,
 				94AF3E6328DC74D800502C5B /* HomeViewController.swift in Sources */,
+				94481DA429BC8110009928CD /* AnimationTime.swift in Sources */,
 				94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */,
 				949A66CB299CD46100986FA8 /* String+Utils.swift in Sources */,
 				94AF3E6728DC7E3000502C5B /* ItemListViewController.swift in Sources */,
 				949B2AE528DDB2EA0053E70B /* CityInfomationViewController.swift in Sources */,
 				942007D628DDE0A20092B699 /* ItemViewPresenter.swift in Sources */,
+				94481DA629BC9EB4009928CD /* CameraGuidePopupViewController.swift in Sources */,
 				94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */,
 				94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */,
 				949B2AE928DDBE090053E70B /* CALayer+Utils.swift in Sources */,
