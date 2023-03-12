@@ -33,6 +33,7 @@ final class CameraGuideView: UIView {
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
+        button.addTarget(nil, action: #selector(tapSwipeLeftButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -46,6 +47,7 @@ final class CameraGuideView: UIView {
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
+        button.addTarget(nil, action: #selector(tapSwipeRightButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -76,9 +78,9 @@ final class CameraGuideView: UIView {
     // imageViewでimageを動かせる
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        let image = UIImage(systemName: "viewfinder")?
+        let image = UIImage(systemName: "camera.viewfinder")?
             .withTintColor(
-                UIColor.systemGreen,
+                UIColor.systemGreen.withAlphaComponent(0.7),
                 renderingMode: .alwaysOriginal
             )
         imageView.image = image
@@ -355,6 +357,14 @@ final class CameraGuideView: UIView {
     
     @objc func removeCameraGuideView() {
         self.isShowing = false
+    }
+    
+    @objc func tapSwipeLeftButton() {
+        print("camera guide view swipe left")
+    }
+    
+    @objc func tapSwipeRightButton() {
+        print("camera guide view swipe right")
     }
     
     // checkBox buttonをtapしたときの処理

@@ -13,11 +13,27 @@
             <objects>
                 <viewController storyboardIdentifier="SettingViewController" id="Y6W-OH-hqX" customClass="SettingViewController" customModule="MoreGreen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyS-Zp-cS5">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="666"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="hyS-Zp-cS5" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="0we-aT-k6G"/>
+                            <constraint firstItem="hyS-Zp-cS5" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="CsF-6B-Ssd"/>
+                            <constraint firstItem="hyS-Zp-cS5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="DLt-ss-56I"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="hyS-Zp-cS5" secondAttribute="bottom" id="afu-6g-3Et"/>
+                        </constraints>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="settingTableView" destination="hyS-Zp-cS5" id="fzt-h8-JuT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

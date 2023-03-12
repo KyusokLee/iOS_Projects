@@ -684,26 +684,20 @@ extension ItemListViewController: UITableViewDelegate, UITableViewDataSource {
         guard let controller = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController") as? NewItemViewController else {
             fatalError("NewItemViewController could not be found")
         }
-        
         controller.delegate = self
-        
         if displayType == .registerSort {
             controller.selectedItemList = itemList[indexPath.row]
         } else {
             controller.selectedItemList = sortedItemList[indexPath.row]
         }
-        
         let navigationNewItemVC = UINavigationController(rootViewController: controller)
-        
         navigationNewItemVC.modalPresentationCapturesStatusBarAppearance = true
         // fullScreenで表示させる方法
         navigationNewItemVC.modalPresentationStyle = .fullScreen
-        
         self.present(navigationNewItemVC, animated: true) {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-    
     // 🔥TableView CellのSwipe処理に関するメソッド
     // 左スワイプ (1: 固定, 2: 未定??)
     // 削除する時は、alertも一緒に表示するように
@@ -714,14 +708,11 @@ extension ItemListViewController: UITableViewDelegate, UITableViewDataSource {
         // しかし、そのCellにPinのイメージを反映しないといけないので、cellの指定が必要
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as! ItemCell
-        
         if displayType == .registerSort {
             print(indexPath.row)
         } else {
             print(indexPath.row)
         }
-        
-        
         let fix = UIContextualAction(style: .normal, title: nil) { (action, view, completion) in
             if cell.pinState == .normal {
                 print("fix!")
@@ -730,11 +721,9 @@ extension ItemListViewController: UITableViewDelegate, UITableViewDataSource {
                 print("no fix!")
                 cell.pinState = .normal
             }
-            
             // itemListを並び変える作業をする
             // -> pinされたものを一番上に表示
             // ->　pinされたものを元の位置に戻す作業は、fetchの部分で行う
-            
             completion(true)
         }
         
@@ -745,8 +734,6 @@ extension ItemListViewController: UITableViewDelegate, UITableViewDataSource {
             fix.image = UIImage(systemName: "pin.slash.fill")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal)
             fix.backgroundColor = UIColor.systemOrange.withAlphaComponent(0.7)
         }
-        
-        
         let actionConfigure = UISwipeActionsConfiguration(actions: [fix])
         actionConfigure.performsFirstActionWithFullSwipe = false
         

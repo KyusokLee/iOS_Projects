@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		94035A0929BDCDE3008F6D96 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94035A0729BDCDE3008F6D96 /* SettingTableViewCell.swift */; };
+		94035A0A29BDCDE3008F6D96 /* SettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94035A0829BDCDE3008F6D96 /* SettingTableViewCell.xib */; };
+		94035A1129BDD6D8008F6D96 /* AlarmSetting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94035A1029BDD6D8008F6D96 /* AlarmSetting.storyboard */; };
+		94035A1329BDD7D7008F6D96 /* SettingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94035A1229BDD7D7008F6D96 /* SettingModel.swift */; };
+		94035A1529BDDFCC008F6D96 /* AlarmSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94035A1429BDDFCC008F6D96 /* AlarmSettingViewController.swift */; };
+		94035A1729BDE11A008F6D96 /* DataResetPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94035A1629BDE11A008F6D96 /* DataResetPopupViewController.swift */; };
+		94035A1A29BDE156008F6D96 /* DataResetPopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94035A1929BDE156008F6D96 /* DataResetPopup.storyboard */; };
 		9406C2E6290159F4002FA72B /* ItemListHeaderPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */; };
 		940B0F9928F03AF8003AFE8C /* UIButton+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9828F03AF8003AFE8C /* UIButton+Utils.swift */; };
 		940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */; };
@@ -81,6 +88,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		94035A0729BDCDE3008F6D96 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		94035A0829BDCDE3008F6D96 /* SettingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingTableViewCell.xib; sourceTree = "<group>"; };
+		94035A1029BDD6D8008F6D96 /* AlarmSetting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AlarmSetting.storyboard; sourceTree = "<group>"; };
+		94035A1229BDD7D7008F6D96 /* SettingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingModel.swift; sourceTree = "<group>"; };
+		94035A1429BDDFCC008F6D96 /* AlarmSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmSettingViewController.swift; sourceTree = "<group>"; };
+		94035A1629BDE11A008F6D96 /* DataResetPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataResetPopupViewController.swift; sourceTree = "<group>"; };
+		94035A1929BDE156008F6D96 /* DataResetPopup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DataResetPopup.storyboard; sourceTree = "<group>"; };
 		9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListHeaderPageModel.swift; sourceTree = "<group>"; };
 		940B0F9828F03AF8003AFE8C /* UIButton+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Utils.swift"; sourceTree = "<group>"; };
 		940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = showItemInfoDetailButton.swift; sourceTree = "<group>"; };
@@ -168,10 +182,54 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		94035A0629BDCD86008F6D96 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				94035A0729BDCDE3008F6D96 /* SettingTableViewCell.swift */,
+				94035A0829BDCDE3008F6D96 /* SettingTableViewCell.xib */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		94035A0D29BDD66A008F6D96 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				94035A0E29BDD680008F6D96 /* Setting */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		94035A0E29BDD680008F6D96 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				94CE57AF29B2056F00BB954D /* Setting.storyboard */,
+				94035A0F29BDD6A8008F6D96 /* Alarm */,
+				94035A1829BDE144008F6D96 /* DataReset */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		94035A0F29BDD6A8008F6D96 /* Alarm */ = {
+			isa = PBXGroup;
+			children = (
+				94035A1029BDD6D8008F6D96 /* AlarmSetting.storyboard */,
+			);
+			path = Alarm;
+			sourceTree = "<group>";
+		};
+		94035A1829BDE144008F6D96 /* DataReset */ = {
+			isa = PBXGroup;
+			children = (
+				94035A1929BDE156008F6D96 /* DataResetPopup.storyboard */,
+			);
+			path = DataReset;
+			sourceTree = "<group>";
+		};
 		94122FEA28DC5F25004DEED6 /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
 				94481DA729BC9EDE009928CD /* Camera */,
+				94035A0D29BDD66A008F6D96 /* Home */,
 				94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */,
 				94AF3E6428DC74E800502C5B /* Home.storyboard */,
 				94AF3E6828DC7E3B00502C5B /* ItemList.storyboard */,
@@ -182,7 +240,6 @@
 				94F4F98B28E6F94E00245EB1 /* PhotoResultView.storyboard */,
 				941BF55628FC2012006C8E28 /* HomeCustomHeader.xib */,
 				943317362917AEEC003CFB16 /* ItemDetail.storyboard */,
-				94CE57AF29B2056F00BB954D /* Setting.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -199,6 +256,7 @@
 		94122FED28DC5F44004DEED6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				94035A1229BDD7D7008F6D96 /* SettingModel.swift */,
 				943EED2428FECE2300566648 /* CarouselFlowLayout.swift */,
 				9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */,
 				9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */,
@@ -272,8 +330,8 @@
 		945108CB28DDC5E500E80F20 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				947D5F9D299E77E100DE7489 /* HomeCell */,
-				947D5F9C299E77BA00DE7489 /* NewItemCell */,
+				947D5F9D299E77E100DE7489 /* Home */,
+				947D5F9C299E77BA00DE7489 /* NewItem */,
 				947D5F9A299E774200DE7489 /* ItemList */,
 			);
 			path = Cells;
@@ -297,7 +355,7 @@
 			path = CategoryBarCell;
 			sourceTree = "<group>";
 		};
-		947D5F9C299E77BA00DE7489 /* NewItemCell */ = {
+		947D5F9C299E77BA00DE7489 /* NewItem */ = {
 			isa = PBXGroup;
 			children = (
 				942007D928DDE6740092B699 /* ItemImageCell.swift */,
@@ -307,12 +365,13 @@
 				9472C8AE28DF03E8004E4348 /* ButtonCell.swift */,
 				9472C8AF28DF03E8004E4348 /* ButtonCell.xib */,
 			);
-			path = NewItemCell;
+			path = NewItem;
 			sourceTree = "<group>";
 		};
-		947D5F9D299E77E100DE7489 /* HomeCell */ = {
+		947D5F9D299E77E100DE7489 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				94035A0629BDCD86008F6D96 /* Setting */,
 				9472C8B528DF2B24004E4348 /* HomeCardViewCell.swift */,
 				9472C8B628DF2B24004E4348 /* HomeCardViewCell.xib */,
 				941BF55828FC380E006C8E28 /* HomeItemCell.swift */,
@@ -320,7 +379,7 @@
 				941BF55C28FC38B6006C8E28 /* HomeItemCollectionViewCell.swift */,
 				941BF55D28FC38B6006C8E28 /* HomeItemCollectionViewCell.xib */,
 			);
-			path = HomeCell;
+			path = Home;
 			sourceTree = "<group>";
 		};
 		947D5F9E299E781900DE7489 /* ItemCell */ = {
@@ -500,6 +559,8 @@
 			isa = PBXGroup;
 			children = (
 				94CE57AD29B2055F00BB954D /* SettingViewController.swift */,
+				94035A1429BDDFCC008F6D96 /* AlarmSettingViewController.swift */,
+				94035A1629BDE11A008F6D96 /* DataResetPopupViewController.swift */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -574,11 +635,14 @@
 				94481DA929BC9EF2009928CD /* CameraGuidePopup.storyboard in Resources */,
 				94EBF49F28DED51600110F1A /* EndPeriodCell.xib in Resources */,
 				942007D028DDC6B40092B699 /* ItemCell.xib in Resources */,
+				94035A0A29BDCDE3008F6D96 /* SettingTableViewCell.xib in Resources */,
 				949B2AE328DDA2550053E70B /* Profile.storyboard in Resources */,
 				942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */,
 				94AF3E6528DC74E800502C5B /* Home.storyboard in Resources */,
 				941BF55B28FC380E006C8E28 /* HomeItemCell.xib in Resources */,
+				94035A1129BDD6D8008F6D96 /* AlarmSetting.storyboard in Resources */,
 				949CD5E128E1931E001D6C67 /* 120.png in Resources */,
+				94035A1A29BDE156008F6D96 /* DataResetPopup.storyboard in Resources */,
 				9433173D2917E2A5003CFB16 /* CategoryCell.xib in Resources */,
 				941BF55F28FC38B6006C8E28 /* HomeItemCollectionViewCell.xib in Resources */,
 				94F4F98C28E6F94E00245EB1 /* PhotoResultView.storyboard in Resources */,
@@ -614,18 +678,22 @@
 				94449A9828D9F75C001C8BBB /* MoreGreen.xcdatamodeld in Sources */,
 				94AF3E6C28DC874700502C5B /* CustomTabBar.swift in Sources */,
 				949B2AE928DDBE090053E70B /* CALayer+Utils.swift in Sources */,
+				94035A1329BDD7D7008F6D96 /* SettingModel.swift in Sources */,
 				949B2AEB28DDBE1B0053E70B /* UITabBar+Utils.swift in Sources */,
 				942E400229B4BBA100A710CD /* CameraGuideView.swift in Sources */,
 				9460320728E328C300C4E0C9 /* UIImage+Utils.swift in Sources */,
 				94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */,
+				94035A1729BDE11A008F6D96 /* DataResetPopupViewController.swift in Sources */,
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
 				942007D228DDDA020092B699 /* CameraViewController.swift in Sources */,
+				94035A0929BDCDE3008F6D96 /* SettingTableViewCell.swift in Sources */,
 				94ABA94A2906C3E60063CD3D /* UnderLinedMenuBarModel.swift in Sources */,
 				94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */,
 				940B0F9928F03AF8003AFE8C /* UIButton+Utils.swift in Sources */,
 				9460320328E2E18800C4E0C9 /* ImageResponse.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemViewController.swift in Sources */,
 				941BF55E28FC38B6006C8E28 /* HomeItemCollectionViewCell.swift in Sources */,
+				94035A1529BDDFCC008F6D96 /* AlarmSettingViewController.swift in Sources */,
 				94F4F98A28E6F94000245EB1 /* PhotoResultViewController.swift in Sources */,
 				9433173C2917E2A5003CFB16 /* CategoryCell.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,

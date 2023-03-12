@@ -27,6 +27,7 @@ import CoreData
 
 class TabBarController: UITabBarController {
     
+    // ⚠️Error: MiddleButtonがTabbarControllerの要素としてあるわけではなく、位置調整でそこにあるように見られているだけだった..
     let addButton = UIButton(type: .custom)
     let buttonHeight: CGFloat = 65
     // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
@@ -215,6 +216,7 @@ extension TabBarController: UITabBarControllerDelegate {
         // middleButton tabbar Itemのindex
         // このアプリの場合、indexは2になっている
         if selectedIndex == 2 {
+            print("tap middle button")
             return false
         }
         return true
