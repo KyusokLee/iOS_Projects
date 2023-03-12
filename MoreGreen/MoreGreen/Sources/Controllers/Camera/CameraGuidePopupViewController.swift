@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CameraGuidePopupViewController: UIViewController {
     
@@ -13,6 +14,7 @@ class CameraGuidePopupViewController: UIViewController {
         didSet {
             popupView.backgroundColor = UIColor.white
             popupView.layer.cornerRadius = 8
+            popupView.layer.masksToBounds = true
         }
     }
     @IBOutlet weak var checkImageView: UIImageView! {
@@ -33,8 +35,9 @@ class CameraGuidePopupViewController: UIViewController {
     
     @IBOutlet weak var descriptionLabel: UILabel! {
         didSet {
-            descriptionLabel.font = .systemFont(ofSize: 17, weight: .light)
+            descriptionLabel.font = .systemFont(ofSize: 15, weight: .light)
             descriptionLabel.textColor = .black
+            descriptionLabel.numberOfLines = 0
             descriptionLabel.text = "左上のはてなマークを押すと、いつでもカメラの活用法を確認できます"
             descriptionLabel.textAlignment = .center
         }
@@ -43,7 +46,7 @@ class CameraGuidePopupViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
             cancelButton.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
-            cancelButton.setTitle("取り消し", for: .normal)
+            cancelButton.setTitle("取り消す", for: .normal)
             cancelButton.setTitleColor(UIColor.white, for: .normal)
             cancelButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .light)
         }
@@ -60,14 +63,14 @@ class CameraGuidePopupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func didTapCancelButton(_ sender: Any) {
+        print("cancel!")
         self.dismiss(animated: true)
     }
     
+    // checkButton -> CoreDataのcheckStateをTrueにする
     @IBAction func didTapCheckButton(_ sender: Any) {
         print("check state true!")
         self.dismiss(animated: true)

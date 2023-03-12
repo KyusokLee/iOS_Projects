@@ -8,14 +8,47 @@
 import UIKit
 import CoreData
 
+// CameraGuideViewのProtocol
+protocol CameraGuideViewDelegate: AnyObject {
+    func didTapCheckBoxButton()
+}
+
+// カメラの活用方法を表示してくれるViewに関するView
 final class CameraGuideView: UIView {
+    weak var delegate: CameraGuideViewDelegate?
     // 背景のview
     private let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-     }()
+    }()
+    // foregroundViewを左にswipeするボタン(複数のforegroundViewを表示させるボタン)
+    private let swipeLeftButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "chevron.left")?
+            .withTintColor(
+                UIColor.systemGray.withAlphaComponent(0.3),
+                renderingMode: .alwaysOriginal
+            )
+        button.setImage(image, for: .normal)
+        button.isUserInteractionEnabled = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    // foregroundViewを右にswipeするボタン(複数のforegroundViewを表示させるボタン)
+    private let swipeRightButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "chevron.right")?
+            .withTintColor(
+                UIColor.systemGray.withAlphaComponent(0.3),
+                renderingMode: .alwaysOriginal
+            )
+        button.setImage(image, for: .normal)
+        button.isUserInteractionEnabled = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     // TODO: ⚠️前のviewを今後、2つにしたい
     private let foregroundView: UIView = {
@@ -57,7 +90,7 @@ final class CameraGuideView: UIView {
         let button = UIButton()
         let image = UIImage(systemName: "checkmark.square")?
             .withTintColor(
-                UIColor.systemGray.withAlphaComponent(0.8),
+                UIColor.systemGray.withAlphaComponent(0.3),
                 renderingMode: .alwaysOriginal
             )
         button.setImage(image, for: .normal)
@@ -68,13 +101,12 @@ final class CameraGuideView: UIView {
     
     private let checkBoxTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.systemGray.withAlphaComponent(0.8)
+        label.textColor = UIColor.systemGray.withAlphaComponent(0.3)
         label.textAlignment = .center
         label.numberOfLines = 1
         label.text = "もう一度、表示しない"
-        label.font = .systemFont(ofSize: 13, weight: .medium)
+        label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
-        
         return label
     }()
      
@@ -97,7 +129,6 @@ final class CameraGuideView: UIView {
             }
         }
     }
-    
     // cameraGuideViewを表示するかどうかに関するBool type propertyを設ける
     // buttonをtapすると、cameraGuidePopupViewをpresentする
     // ただし、PopupViewの取り消しボタンを押すと、ただ、popupViewをdismissするだけにする
@@ -119,10 +150,14 @@ final class CameraGuideView: UIView {
         self.foregroundView.addSubview(self.imageView)
         self.addSubview(self.foregroundView)
         self.addSubview(self.checkBoxButton)
-        self.checkBoxButton.addTarget(self, action: #selector(didTapCheckBoxButton), for: .touchUpInside)
+        self.checkBoxButton.addTarget(self, action: #selector(tapCheckBoxButton), for: .touchUpInside)
         self.addSubview(self.checkBoxTitleLabel)
+        self.addSubview(self.swipeLeftButton)
+        self.addSubview(self.swipeRightButton)
         
         self.setBackgroundViewConstraints()
+        self.setSwipeLeftButtonConstraints()
+        self.setSwipeRightButtonConstraints()
         self.setForegroundViewConstraints()
         self.setTitleLabelConstraints()
         self.setImageViewConstraints()
@@ -152,12 +187,34 @@ final class CameraGuideView: UIView {
         ])
     }
     
+    private func setSwipeLeftButtonConstraints() {
+        // foregroundView
+        NSLayoutConstraint.activate([
+            self.swipeLeftButton.heightAnchor.constraint(equalToConstant: 60),
+            self.swipeLeftButton.widthAnchor.constraint(equalToConstant: 60),
+            self.swipeLeftButton.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 10),
+            self.swipeLeftButton.trailingAnchor.constraint(equalTo: self.foregroundView.leadingAnchor, constant: -10),
+            self.swipeLeftButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
+    private func setSwipeRightButtonConstraints() {
+        // foregroundView
+        NSLayoutConstraint.activate([
+            self.swipeRightButton.heightAnchor.constraint(equalToConstant: 60),
+            self.swipeRightButton.widthAnchor.constraint(equalToConstant: 60),
+            self.swipeRightButton.leadingAnchor.constraint(equalTo: self.foregroundView.trailingAnchor, constant: 10),
+            self.swipeRightButton.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -10),
+            self.swipeRightButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+    }
+    
     private func setForegroundViewConstraints() {
         // foregroundView
         NSLayoutConstraint.activate([
             self.foregroundView.heightAnchor.constraint(equalToConstant: 200),
-            self.foregroundView.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 25),
-            self.foregroundView.trailingAnchor.constraint(equalTo: self.backgroundView.trailingAnchor, constant: -25),
+            self.foregroundView.leadingAnchor.constraint(equalTo: self.swipeLeftButton.trailingAnchor, constant: 10),
+            self.foregroundView.trailingAnchor.constraint(equalTo: self.swipeRightButton.leadingAnchor, constant: -10),
             self.foregroundView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             self.foregroundView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
@@ -186,8 +243,8 @@ final class CameraGuideView: UIView {
     private func setCheckBoxButtonConstraints() {
         // imageViewのconstraints設定
         NSLayoutConstraint.activate([
-            self.checkBoxButton.heightAnchor.constraint(equalToConstant: 25),
-            self.checkBoxButton.widthAnchor.constraint(equalToConstant: 25),
+            self.checkBoxButton.heightAnchor.constraint(equalToConstant: 40),
+            self.checkBoxButton.widthAnchor.constraint(equalToConstant: 40),
             self.checkBoxButton.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 25),
             self.checkBoxButton.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 10)
         ])
@@ -196,7 +253,7 @@ final class CameraGuideView: UIView {
     private func setCheckBoxTitleLabelConstraints() {
         // imageViewのconstraints設定
         NSLayoutConstraint.activate([
-            self.checkBoxTitleLabel.heightAnchor.constraint(equalToConstant: 25),
+            self.checkBoxTitleLabel.heightAnchor.constraint(equalToConstant: 40),
             self.checkBoxTitleLabel.leadingAnchor.constraint(equalTo: self.checkBoxButton.trailingAnchor, constant: 10),
             self.checkBoxTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.backgroundView.trailingAnchor, constant: -25),
             self.checkBoxTitleLabel.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 10)
@@ -300,24 +357,30 @@ final class CameraGuideView: UIView {
         self.isShowing = false
     }
     
-    @objc func didTapCheckBoxButton() {
-        print("tap check button!")
-        guard let controller = UIStoryboard(
-            name: "CameraGuidePopup",
-            bundle:nil
-        ).instantiateViewController(
-            withIdentifier: "CameraGuidePopupViewController"
-        ) as? CameraGuidePopupViewController else {
-            fatalError("CameraPopupViewController could not be found.")
-        }
-        
-        controller.modalPresentationStyle = .overCurrentContext
-        // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
-        // .crossDissolve: ゆっくりと消えるスタイルの設定
-        controller.modalTransitionStyle = .crossDissolve
+    // checkBox buttonをtapしたときの処理
+    @objc func tapCheckBoxButton() {
+        delegate?.didTapCheckBoxButton()
+        // エラー: 🔥UIViewからViewControllerをpresentする方法は、rootViewControllerを取得して、presentする方法があるが、エラーになった
+        // 理由: rootViewControllerは、このアプリの構成だと、UITabbarControllerであるため、rootViewControllerを取得できないらしい
+        // 解決策: delegate patternを用いて、cameraViewControllerでpresentするような仕組みとした
+//        print("tap check button!")
+//        guard let controller = UIStoryboard(
+//            name: "CameraGuidePopup",
+//            bundle:nil
+//        ).instantiateViewController(
+//            withIdentifier: "CameraGuidePopupViewController"
+//        ) as? CameraGuidePopupViewController else {
+//            fatalError("CameraPopupViewController could not be found.")
+//        }
+//
+//        controller.modalPresentationStyle = .overCurrentContext
+//        // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
+//        // .crossDissolve: ゆっくりと消えるスタイルの設定
+//        controller.modalTransitionStyle = .crossDissolve
                 
         // ⭐️Tip: modalTransitionStyleだけだと、ナチュラルなCrossDissolveStyleの画面の転換にならなかった。crossDissolve自体は、画面を交差するようなanimationであるため、overCurrentContextと一緒に書かないと、後ろのviewが小さくなり、popupViewが表に大きくでるような交差効果になる。
-        self.window?.rootViewController?.tabBarController?.present(controller, animated: true, completion: nil)
+//        self.window?.rootViewController?.tabBarController?.present(controller, animated: true, completion: nil)
+        
     }
     
     private func animateDownsize() {

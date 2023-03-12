@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 
 // ⚠️途中の段階
-
 extension UIImage {
     // 画像を90度回転させる
     var rotatedToUp: UIImage {

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension UITabBar {
-    //　基本のshadowStyleを初期化しないと、custon styleが反映されない
+    //　基本のshadowStyleを初期化しないと、custom styleが反映されない
     static func clearShadow() {
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()

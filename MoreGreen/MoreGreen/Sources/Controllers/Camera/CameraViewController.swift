@@ -22,7 +22,8 @@ class CameraViewController: UIViewController {
         didSet {
             // imageの大きさがただのimageに入れるととても小さく表示される
             // しかし、backGroundに入れると、大きいサイズになっている
-            cameraButton.setImage(UIImage(systemName: "camera.circle.fill")?.withRenderingMode(.alwaysOriginal), for: .normal)
+            let image = UIImage(systemName: "camera.circle.fill")?.withRenderingMode(.alwaysOriginal)
+            cameraButton.setImage(image, for: .normal)
             cameraButton.contentVerticalAlignment = .fill
             cameraButton.contentHorizontalAlignment = .fill
             cameraButton.tintColor = UIColor(rgb: 0x388E3C)
@@ -66,8 +67,8 @@ class CameraViewController: UIViewController {
         let view = CameraGuideView()
         view.translatesAutoresizingMaskIntoConstraints = false
         // 初期設定として、loadingをtrueに
+        // CoreDataのshowCameraGuideStateに合わせる方法に変更
         view.isShowing = true
-        
         return view
     }()
     
@@ -91,6 +92,8 @@ class CameraViewController: UIViewController {
         // preview Layer setting間数の呼び出し
         settingLivePreveiw()
         setCameraGuideViewConstraints()
+        // delegateを受け取る
+        cameraGuideView.delegate = self
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -126,7 +129,6 @@ class CameraViewController: UIViewController {
     
     @objc func handlePinchCamera(_ pinch: UIPinchGestureRecognizer) {
         // camera Deviceがあることが前提なので、guard や if let　castingはしなかった
-        
         var initialScale = cameraDevice.videoZoomFactor
         let minAvailableZoomScale = 1.0
         let maxAvailableZoomScale = cameraDevice.maxAvailableVideoZoomFactor
@@ -152,15 +154,12 @@ class CameraViewController: UIViewController {
         }
         cameraDevice.unlockForConfiguration()
     }
-    
-    
 }
 
 extension CameraViewController {
     @IBAction func shootButton(_ sender: Any) {
         // このタイミングでカメラのシャッターを切る
         print("Pressed Shutter")
-        
         // 単一写真capture Requestで使用する機能及び設定の使用を定義するobject
         let settings = AVCapturePhotoSettings()
         // flashを使うかどうかの設定
@@ -198,10 +197,8 @@ extension CameraViewController {
                 cameraDevice = device
             }
         }
-        
         // back CameraからVideoInput　取得
         let videoInput: AVCaptureInput!
-        
         do {
             // deviceのinput
             videoInput = try AVCaptureDeviceInput(device: cameraDevice)
@@ -209,20 +206,26 @@ extension CameraViewController {
             videoInput = nil
             print(error)
         }
-        
         // 画質の設定 default: highになっている
         captureSession.sessionPreset = .hd1920x1080
         // sessionにinputを登録
         captureSession.addInput(videoInput)
         captureSession.addOutput(imageOutput)
     }
-    
     // ⚠️　今回は、こっちは利用してない。ただし、発生し得る問題に対する解決策としてコードを作成
     // iPhone versionごとに Camera Typeが異なるため、バージョン別の最適のdevice cameraを探すためのメソッド
     private func getDefaultCamera() -> AVCaptureDevice? {
-        if let device = AVCaptureDevice.default(.builtInDualCamera,for: AVMediaType.video,position: .back) {
+        if let device = AVCaptureDevice.default(
+            .builtInDualCamera,
+            for: AVMediaType.video,
+            position: .back
+        ) {
             return device
-        } else if let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: AVMediaType.video,position: .back) {
+        } else if let device = AVCaptureDevice.default(
+            .builtInWideAngleCamera,
+            for: AVMediaType.video,
+            position: .back
+        ) {
             return device
         } else {
             return nil
@@ -235,7 +238,6 @@ extension CameraViewController {
         let captureVideoLayer = AVCaptureVideoPreviewLayer.init(session: captureSession)
         // layerのframeを設定 -> layerのframeを
         captureVideoLayer.frame = self.view.bounds
-        
         // 見せるpreviewのboundsのサイズを設定
         captureVideoLayer.videoGravity = .resizeAspectFill
         
@@ -268,12 +270,14 @@ extension CameraViewController {
 }
 
 extension CameraViewController: AVCapturePhotoCaptureDelegate {
+    // カメラのシャッター音に関しては、今後変更する予定である
 //    // 🔥カメラの音を無音にする (複数の国では、無音にすることは禁止されている)
     func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
         AudioServicesDisposeSystemSoundID(1108)
 //        AVAudioPlayer().play()
     }
     
+    // 🔥カメラの音を無音にする (複数の国では、無音にすることは禁止されている)
     func photoOutput(_ output: AVCapturePhotoOutput, didCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
         AudioServicesDisposeSystemSoundID(1108)
     }
@@ -307,5 +311,26 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
 //        navigationController?.pushViewController(testResultVC, animated: true)
         ////⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
         //navigationController?.pushViewController(resultVC, animated: true)
+    }
+}
+
+extension CameraViewController: CameraGuideViewDelegate {
+    // checkBox buttonをtapしたとき、popupViewが表示されるようにする
+    func didTapCheckBoxButton() {
+        print("tap check button!")
+        guard let controller = UIStoryboard(
+            name: "CameraGuidePopup",
+            bundle:nil
+        ).instantiateViewController(
+            withIdentifier: "CameraGuidePopupViewController"
+        ) as? CameraGuidePopupViewController else {
+            fatalError("CameraPopupViewController could not be found.")
+        }
+        
+        controller.modalPresentationStyle = .overCurrentContext
+        // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
+        // .crossDissolve: ゆっくりと消えるスタイルの設定
+        controller.modalTransitionStyle = .crossDissolve
+        self.present(controller, animated: true)
     }
 }
