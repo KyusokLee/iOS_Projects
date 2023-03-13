@@ -178,7 +178,7 @@ extension CameraViewController {
     }
     
     @IBAction func didTapShowCameraGuideButton(_ sender: Any) {
-        cameraGuideView.isShowing = true
+        self.cameraGuideView.isShowing = true
     }
     
     private func settingSession() {
@@ -327,10 +327,46 @@ extension CameraViewController: CameraGuideViewDelegate {
             fatalError("CameraPopupViewController could not be found.")
         }
         
+        cameraGuideView.foregroundView.alpha = 0.0
+        cameraGuideView.swipeLeftButton.alpha = 0.0
+        cameraGuideView.swipeRightButton.alpha = 0.0
+        cameraGuideView.checkBoxButton.alpha = 0.0
+        cameraGuideView.checkBoxTitleLabel.alpha = 0.0
+        
+        cameraGuideView.stopImageViewAnimation()
+        
+        controller.delegate = self
         controller.modalPresentationStyle = .overCurrentContext
         // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
         // .crossDissolve: ゆっくりと消えるスタイルの設定
         controller.modalTransitionStyle = .crossDissolve
         self.present(controller, animated: true)
+    }
+}
+
+extension CameraViewController: CameraGuidePopupDelegate {
+    func shouldShowCameraGuideViewAgain() {
+        print("show CameraGuideView again")
+        UIView.animate(withDuration: 0.4) {
+            self.cameraGuideView.foregroundView.alpha = 1.0
+            self.cameraGuideView.swipeLeftButton.alpha = 1.0
+            self.cameraGuideView.swipeRightButton.alpha = 1.0
+            self.cameraGuideView.checkBoxButton.alpha = 1.0
+            self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+        }
+        cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
+    }
+    
+    func shouldHideCameraGuideView() {
+        print("hide camera Guide View")
+        UIView.animate(withDuration: 0.4) {
+            self.cameraGuideView.foregroundView.alpha = 1.0
+            self.cameraGuideView.swipeLeftButton.alpha = 1.0
+            self.cameraGuideView.swipeRightButton.alpha = 1.0
+            self.cameraGuideView.checkBoxButton.alpha = 1.0
+            self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+        }
+        
+        cameraGuideView.isShowing = false
     }
 }

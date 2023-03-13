@@ -24,7 +24,7 @@ final class CameraGuideView: UIView {
         return view
     }()
     // foregroundViewを左にswipeするボタン(複数のforegroundViewを表示させるボタン)
-    private let swipeLeftButton: UIButton = {
+    lazy var swipeLeftButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "chevron.left")?
             .withTintColor(
@@ -38,7 +38,7 @@ final class CameraGuideView: UIView {
         return button
     }()
     // foregroundViewを右にswipeするボタン(複数のforegroundViewを表示させるボタン)
-    private let swipeRightButton: UIButton = {
+    lazy var swipeRightButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "chevron.right")?
             .withTintColor(
@@ -53,7 +53,7 @@ final class CameraGuideView: UIView {
     }()
     
     // TODO: ⚠️前のviewを今後、2つにしたい
-    private let foregroundView: UIView = {
+    lazy var foregroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.clear
         view.layer.borderWidth = 1.0
@@ -88,7 +88,7 @@ final class CameraGuideView: UIView {
         return imageView
     }()
     
-    private let checkBoxButton: UIButton = {
+    lazy var checkBoxButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "checkmark.square")?
             .withTintColor(
@@ -102,7 +102,7 @@ final class CameraGuideView: UIView {
         return button
     }()
     
-    private let checkBoxTitleLabel: UILabel = {
+    lazy var checkBoxTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.white.withAlphaComponent(0.6)
         label.textAlignment = .center
@@ -118,9 +118,7 @@ final class CameraGuideView: UIView {
             self.isHidden = !self.isShowing
             // animation効果を与えたいので、alphaでisHiddenと同様な処理をする
             if self.isShowing {
-                UIView.animate(withDuration: 0.35) {
-                    self.foregroundView.alpha = 1.0
-                }
+                self.foregroundView.alpha = 1.0
                 //self.startMoveImageUpAndDown(duration: 0.8)
                 self.startImageFadeAndChangeSize(duration: 2.0)
             } else {
@@ -247,8 +245,8 @@ final class CameraGuideView: UIView {
         NSLayoutConstraint.activate([
             self.checkBoxButton.heightAnchor.constraint(equalToConstant: 40),
             self.checkBoxButton.widthAnchor.constraint(equalToConstant: 40),
-            self.checkBoxButton.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 25),
-            self.checkBoxButton.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 10)
+            self.checkBoxButton.leadingAnchor.constraint(equalTo: self.backgroundView.leadingAnchor, constant: 70),
+            self.checkBoxButton.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 7)
         ])
     }
     
@@ -258,7 +256,7 @@ final class CameraGuideView: UIView {
             self.checkBoxTitleLabel.heightAnchor.constraint(equalToConstant: 40),
             self.checkBoxTitleLabel.leadingAnchor.constraint(equalTo: self.checkBoxButton.trailingAnchor, constant: 10),
             self.checkBoxTitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.backgroundView.trailingAnchor, constant: -25),
-            self.checkBoxTitleLabel.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 10)
+            self.checkBoxTitleLabel.topAnchor.constraint(equalTo: self.foregroundView.bottomAnchor, constant: 7)
         ])
     }
     

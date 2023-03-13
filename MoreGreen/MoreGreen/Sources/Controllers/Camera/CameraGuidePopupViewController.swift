@@ -8,6 +8,11 @@
 import UIKit
 import CoreData
 
+protocol CameraGuidePopupDelegate: AnyObject {
+    func shouldShowCameraGuideViewAgain()
+    func shouldHideCameraGuideView()
+}
+
 class CameraGuidePopupViewController: UIViewController {
     
     @IBOutlet weak var popupView: UIView! {
@@ -60,6 +65,7 @@ class CameraGuidePopupViewController: UIViewController {
             checkButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         }
     }
+    weak var delegate: CameraGuidePopupDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,12 +73,14 @@ class CameraGuidePopupViewController: UIViewController {
     
     @IBAction func didTapCancelButton(_ sender: Any) {
         print("cancel!")
+        delegate?.shouldShowCameraGuideViewAgain()
         self.dismiss(animated: true)
     }
     
     // checkButton -> CoreDataのcheckStateをTrueにする
     @IBAction func didTapCheckButton(_ sender: Any) {
         print("check state true!")
+        delegate?.shouldHideCameraGuideView()
         self.dismiss(animated: true)
     }
     
