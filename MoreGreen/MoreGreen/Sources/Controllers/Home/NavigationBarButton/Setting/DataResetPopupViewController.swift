@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DataResetPopupDelegate: AnyObject {
+    func moveTabBarControllerUpAnimation(_ sender: UIButton)
+}
+
 // データ初期化ボタンを押した時に表示されるPopupView
 class DataResetPopupViewController: UIViewController {
     
@@ -31,7 +35,6 @@ class DataResetPopupViewController: UIViewController {
             titleLabel.textAlignment = .center
         }
     }
-    
     @IBOutlet weak var descriptionLabel: UILabel! {
         didSet {
             descriptionLabel.font = .systemFont(ofSize: 15, weight: .light)
@@ -41,7 +44,6 @@ class DataResetPopupViewController: UIViewController {
             descriptionLabel.textAlignment = .center
         }
     }
-    
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
             cancelButton.backgroundColor = UIColor.systemGray3.withAlphaComponent(0.7)
@@ -50,7 +52,6 @@ class DataResetPopupViewController: UIViewController {
             cancelButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .light)
         }
     }
-    
     @IBOutlet weak var checkButton: UIButton! {
         didSet {
             checkButton.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
@@ -59,34 +60,44 @@ class DataResetPopupViewController: UIViewController {
             checkButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         }
     }
+    weak var delegate: DataResetPopupDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-    @IBAction func tapCancelButton(_ sender: Any) {
+//    private func moveTabBarControllerUpAnimation() {
+//        // ⚠️SettingVCでは、上手く実行されたが、なぜかここではfatalErrorとなる
+//        // ✍️解決策: ---> 探り中...
+////        guard let tabBarController = self.tabBarController else {
+////            fatalError("TabBarController could not be found")
+////        }
+////        customTabBarController = tabBarController
+//
+//        UIView.animate(
+//            withDuration: TabBarAnimation.duration,
+//            delay: 0.0,
+//            options: [.curveEaseInOut],
+//            animations: {
+//                // 高さを上にするのは、center.yなので-である
+//                self.customTabBarController.tabBar.center.y -= TabBarAnimation.movingHeight
+//            }
+//        )
+//    }
+    
+    @IBAction func tapCancelButton(_ sender: UIButton!) {
         print("戻る!")
-        self.dismiss(animated: true)
+        delegate?.moveTabBarControllerUpAnimation(sender)
+        self.dismiss(animated: true) {
+            print("moveTabbar up")
+        }
     }
     
-    @IBAction func tapCheckButton(_ sender: Any) {
+    @IBAction func tapCheckButton(_ sender: UIButton!) {
         print("初期化を行う!")
-        self.dismiss(animated: true)
+        delegate?.moveTabBarControllerUpAnimation(sender)
+        self.dismiss(animated: true) {
+            print("moveTabbar up")
+        }
     }
-    
-    
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

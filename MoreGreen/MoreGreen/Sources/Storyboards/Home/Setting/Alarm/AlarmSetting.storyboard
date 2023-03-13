@@ -15,9 +15,30 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kgS-Hv-lCN">
+                                <rect key="frame" x="146.66666666666666" y="401" width="100" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="NKu-2S-4wU"/>
+                                    <constraint firstAttribute="height" constant="50" id="jMS-yt-DBO"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="test Button"/>
+                                <connections>
+                                    <action selector="tapDelegateTestButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="asK-Df-qdr"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="kgS-Hv-lCN" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="0dq-li-EgR"/>
+                            <constraint firstItem="kgS-Hv-lCN" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="cOA-Ro-2Op"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="delegateTestButton" destination="kgS-Hv-lCN" id="s8T-rW-Gw1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

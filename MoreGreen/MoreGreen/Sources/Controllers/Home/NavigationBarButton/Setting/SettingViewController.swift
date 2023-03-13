@@ -17,12 +17,13 @@ class SettingViewController: UIViewController {
     
     @IBOutlet weak var settingTableView: UITableView!
     let settingModel = SettingModel.infomation
-    let customTabBarController = TabBarController()
+    lazy var customTabBarController = UITabBarController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavigationController()
         setTableView()
+        fetchTabBarController()
     }
     // navigationControllerの遷移先でnavigationControllerの色の設定をすると、rootViewControllerまで影響を与えてしまう
     private func setNavigationController() {
@@ -50,6 +51,27 @@ class SettingViewController: UIViewController {
     private func registerXib() {
         settingTableView.register(UINib(nibName: "SettingTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingTableViewCell")
     }
+    
+    private func moveTabBarControllerDownAnimation() {
+        UIView.animate(
+            withDuration: TabBarAnimation.duration,
+            delay: 0.0,
+            options: [.curveEaseInOut],
+            animations: {
+                self.customTabBarController.tabBar.center.y += TabBarAnimation.movingHeight
+            }
+        )
+    }
+    
+    private func fetchTabBarController() {
+        guard let tabBarController = self.tabBarController else {
+            fatalError("TabBarController could not be found")
+        }
+        print("func 実行")
+        customTabBarController = tabBarController
+    }
+    
+    // delegateで命名した間数名がdelegateを使う側の間数名と同じ時、internalをつけることで、受ける側で実装した間数を使うことが可能
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -94,6 +116,9 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let controller = UIStoryboard(name: "AlarmSetting", bundle: nil).instantiateViewController(withIdentifier: "AlarmSettingViewController") as? AlarmSettingViewController else {
                 fatalError("AlarmSettingViewController could not be found")
             }
+            // ここで、delegateしなかったから、errorになった！
+            controller.delegate = self
+            
             tableView.deselectRow(at: indexPath, animated: true)
             self.navigationController?.pushViewController(controller, animated: true)
         case 1:
@@ -101,23 +126,46 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let controller = UIStoryboard(name: "DataResetPopup", bundle: nil).instantiateViewController(withIdentifier: "DataResetPopupViewController") as? DataResetPopupViewController else {
                 fatalError("DataResetPopupViewController could not be found")
             }
+            // ここで、delegateしなかったから、errorになった！
+            controller.delegate = self
             
             controller.modalPresentationStyle = .overCurrentContext
             // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
             // .crossDissolve: ゆっくりと消えるスタイルの設定
             controller.modalTransitionStyle = .crossDissolve
+            // Tabbarの操作を止める
+            customTabBarController.tabBar.isUserInteractionEnabled = false
             
             // tabBarControllerへのアクセスができる
             // 表示されたViewControllerのancestorのtabbarControllerの取得,つまり、ViewControllerの親のcontrollerを取得できる
-            if let tabBarcontroller = tabBarController {
-                tabBarcontroller.tabBar.isHidden = true
-            }
-            
+            self.moveTabBarControllerDownAnimation()
             self.present(controller, animated: true)
         default:
             return
         }
     }
-    
-    
+}
+
+//MARK: - DataResetPopup の delegate
+extension SettingViewController: DataResetPopupDelegate {
+    // Buttonによるdelegateであることを明示したく、sender: UIButtonを記入した
+    func moveTabBarControllerUpAnimation(_ sender: UIButton) {
+        UIView.animate(
+            withDuration: TabBarAnimation.duration,
+            delay: 0.0,
+            options: [.curveEaseOut],
+            animations: {
+                self.customTabBarController.tabBar.center.y -= TabBarAnimation.movingHeight
+            }
+        )
+        customTabBarController.tabBar.isUserInteractionEnabled = true
+    }
+}
+
+//MARK: - AlarmSetting の delegate
+extension SettingViewController: AlarmSettingDelegate {
+    // ERROR: ⚠️delegateが効かない
+    func delegateCheckPractice() {
+        print("alarmView - settingView delegate check")
+    }
 }

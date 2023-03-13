@@ -25,27 +25,50 @@ import CoreData
 // -> TabbarControllerでは、controllerの構築だけをして、navigationBarItenなどのnavigationControllerの設定は、各controllerで実装することで、navigationControllerの遷移ができる
 // まずは、TabbarControllerで実装することにした
 
-class TabBarController: UITabBarController {
+// middle ButtonをTabBarに載せないと、popupViewなどがそのViewの上にある時、MiddleButtonが隠れないエラーが生じた
+// 解決策: tabbarにaddSubviewすることで、できると考える
+
+final class TabBarController: UITabBarController {
     
+//MARK: - Variable Part
     // ⚠️Error: MiddleButtonがTabbarControllerの要素としてあるわけではなく、位置調整でそこにあるように見られているだけだった..
-    let addButton = UIButton(type: .custom)
     let buttonHeight: CGFloat = 65
     // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
     var itemList = [ItemList]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let addButton: UIButton = {
+        let button = UIButton()
+        let image = UIImage(systemName: "plus.circle.fill")?
+            .withTintColor(
+                UIColor(rgb: 0x36B700).withAlphaComponent(0.65),
+                renderingMode: .alwaysOriginal
+            )
+        
+        let hideImage = UIImage(systemName: "plus.circle.fill")?
+            .withTintColor(
+                UIColor.black.withAlphaComponent(0.7),
+                renderingMode: .alwaysOriginal
+            )
+        
+        button.setBackgroundImage(image, for: .normal)
+        button.setBackgroundImage(hideImage, for: .disabled)
+        button.addTarget(nil, action: #selector(tapAddButton(sender:)), for: .touchUpInside)
+        return button
+    }()
     
+//MARK: - Life Cycle Part
     override func viewDidLoad() {
         super.viewDidLoad()
         // 影の部分はまだ、実装してない
         //setTabBarShadow()
         setTabBar()
-        setTabBarItems()
-        setUpMiddleButton()
-        setMiddleButtonConstraints()
         fetchData()
         self.delegate = self
     }
-    
+}
+
+//MARK: - Extension
+extension TabBarController {
     func fetchData() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
         let context = appDelegate.persistentContainer.viewContext
@@ -54,7 +77,6 @@ class TabBarController: UITabBarController {
         } catch {
             print(error.localizedDescription)
         }
-        
         itemList.forEach { item in
             print(item.endDate!)
         }
@@ -70,9 +92,13 @@ class TabBarController: UITabBarController {
         tabBar.unselectedItemTintColor = .label
         // tabBarを丸くすることのメリットを見つけ出すことができないため、消す
 //        tabBar.layer.cornerRadius = 23
-        tabBar.layer.masksToBounds = true
+        // 🔥falseにしないと、そとの部分が表示されない
+        tabBar.layer.masksToBounds = false
 //        tabBar.layer.borderColor = UIColor.lightGray.cgColor
 //        tabBar.layer.borderWidth = 0.4
+        setTabBarItems()
+        //setTabBarShadow()
+        setUpMiddleButton()
     }
     
     private func setTabBarShadow() {
@@ -90,59 +116,63 @@ class TabBarController: UITabBarController {
 //        if #available(iOS 15.0, *) {
 //            tabBar.scrollEdgeAppearance = tabBar.standardAppearance
 //        }
-        
-//        tabBar.layer.masksToBounds = true
-        
-        self.tabBar.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        self.tabBar.layer.shadowColor = UIColor.black.cgColor
-        self.tabBar.layer.shadowRadius = 4
-        self.tabBar.layer.shadowOpacity = 0.4
-        self.tabBar.layer.masksToBounds = false
+        self.tabBar.layer.shadowColor = UIColor.lightGray.cgColor
+        self.tabBar.layer.shadowOpacity = 0.5
+        self.tabBar.layer.shadowOffset = CGSize.zero
+        self.tabBar.layer.shadowRadius = 5
+        self.tabBar.layer.borderColor = UIColor.clear.cgColor
+        self.tabBar.layer.borderWidth = 0
+        self.tabBar.clipsToBounds = false
+        self.tabBar.backgroundColor = UIColor.white
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage()
+        //しかし、middleButtonの上の部分まで線が続くようになる
     }
     
+    // TabBarItemsの設定
     private func setTabBarItems() {
         // 最初からUINavigationControllerで括ることはできない
         let firstViewController = UIStoryboard.init(name: "Home", bundle: nil).instantiateViewController(withIdentifier: "HomeViewController")
 //        firstViewController.title = "Home"
-        firstViewController.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
+        firstViewController.tabBarItem = UITabBarItem(title: "ホーム", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
 //        firstViewController.navigationItem.largeTitleDisplayMode = .always
         
         let secondViewController = UIStoryboard(name: "ItemList", bundle: nil).instantiateViewController(withIdentifier: "ItemListViewController")
         secondViewController.title = "商品リスト"
-        secondViewController.tabBarItem = UITabBarItem(title: "Item List", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
+        secondViewController.tabBarItem = UITabBarItem(title: "商品リスト", image: UIImage(systemName: "list.bullet.rectangle.portrait"), selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"))
         secondViewController.navigationItem.largeTitleDisplayMode = .always
         
         let newItemViewController = UIStoryboard(name: "NewItem", bundle: nil).instantiateViewController(withIdentifier: "NewItemViewController")
         newItemViewController.tabBarItem = UITabBarItem(title: nil, image: nil, selectedImage: nil)
         
-        let thirdViewController = UIStoryboard(name: "CityInfomation", bundle: nil).instantiateViewController(withIdentifier: "CityInfomationViewController")
-        thirdViewController.title = "地域情報"
-        thirdViewController.tabBarItem = UITabBarItem(title: "City Info", image: UIImage(systemName: "building.2"), selectedImage: UIImage(systemName: "building.2.fill"))
+        let thirdViewController = UIStoryboard(name: "NoticeList", bundle: nil).instantiateViewController(withIdentifier: "NoticeListViewController")
+        thirdViewController.title = "お知らせ"
+        thirdViewController.tabBarItem = UITabBarItem(title: "お知らせ", image: UIImage(systemName: "bell"), selectedImage: UIImage(systemName: "bell.fill"))
         thirdViewController.navigationItem.largeTitleDisplayMode = .always
         
         let fourthViewController = UIStoryboard(name: "Profile", bundle: nil).instantiateViewController(withIdentifier: "ProfileViewController")
         fourthViewController.title = "Profile"
-        fourthViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
+        fourthViewController.tabBarItem = UITabBarItem(title: "プロフィール", image: UIImage(systemName: "person.crop.circle"), selectedImage: UIImage(systemName: "person.crop.circle.fill"))
         fourthViewController.navigationItem.largeTitleDisplayMode = .always
         
         // navigationControllerのRoot view設定
         let navigationHome = UINavigationController(rootViewController: firstViewController)
         let navigationItemList = UINavigationController(rootViewController: secondViewController)
         let navigationCreate = UINavigationController(rootViewController: newItemViewController)
-        let navigationCity = UINavigationController(rootViewController: thirdViewController)
+        let navigationNotice = UINavigationController(rootViewController: thirdViewController)
         let navigationProfile = UINavigationController(rootViewController: fourthViewController)
         
         navigationHome.navigationBar.prefersLargeTitles = false
         navigationItemList.navigationBar.prefersLargeTitles = false
         navigationCreate.navigationBar.prefersLargeTitles = true
-        navigationCity.navigationBar.prefersLargeTitles = true
+        navigationNotice.navigationBar.prefersLargeTitles = true
         navigationProfile.navigationBar.prefersLargeTitles = true
         
         let viewControllers = [
             navigationHome,
             navigationItemList,
             navigationCreate,
-            navigationCity,
+            navigationNotice,
             navigationProfile
         ]
         self.setViewControllers(viewControllers, animated: false)
@@ -161,19 +191,31 @@ class TabBarController: UITabBarController {
         }
     }
     
-    // コードで TabBarの真ん中にボタンを入れる
+//    // コードで TabBarの真ん中にボタンを入れる
+//    private func setUpMiddleButton() {
+//        addButton.backgroundColor = UIColor(rgb: 0x36B700)
+//        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
+//        addButton.tintColor = .white
+//        addButton.contentMode = .scaleAspectFit
+//        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
+//        addButton.translatesAutoresizingMaskIntoConstraints = false
+//        addButton.layer.cornerRadius = buttonHeight / 2
+//        // viewに入れるのではなく、tabBarにviewを追加すること
+//        self.view.layer.masksToBounds = false
+//        // viewに載せないと、button全体が効かない
+//        self.view.addSubview(addButton)
+//    }
+    
+    // TabBarの真ん中のボタンをコードで実装
+    // こうすると、plus Buttonだけが表示され、背景色がなくなってしまう
     private func setUpMiddleButton() {
-        addButton.backgroundColor = UIColor(rgb: 0x36B700)
-        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        addButton.tintColor = .white
-        addButton.contentMode = .scaleAspectFit
-        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.layer.cornerRadius = buttonHeight / 2
-        // viewに入れるのではなく、tabBarにviewを追加すること
-        self.view.layer.masksToBounds = false
-        // viewに載せないと、button全体が効かない
-        self.view.addSubview(addButton)
+        let width: CGFloat = 70/375 * self.view.frame.width
+        let height: CGFloat = 70/375 * self.view.frame.width
+        let posX: CGFloat = self.view.frame.width/2 - width/2
+        let posY: CGFloat = -32
+        addButton.frame = CGRect(x: posX, y: posY, width: width, height: height)
+//        tabBar.addSubview(self.addButton)
+        self.tabBar.addSubview(self.addButton)
     }
 
     private func setMiddleButtonConstraints() {
@@ -185,14 +227,12 @@ class TabBarController: UITabBarController {
         // subViewがないのに、layoutIfNeededをすることは正しくなかった
     }
     
-    @objc func addButtonAction(sender: UIButton) {
+    @objc func tapAddButton(sender: UIButton) {
         // 商品の登録VCを画面に表示
-        guard let controller = UIStoryboard(
-            name: "NewItem",
-            bundle: nil
-        ).instantiateViewController(
-            withIdentifier: "NewItemViewController"
-        ) as? NewItemViewController else {
+        guard let controller = UIStoryboard(name: "NewItem", bundle: nil)
+            .instantiateViewController(
+                withIdentifier: "NewItemViewController"
+            ) as? NewItemViewController else {
             fatalError("NewItemViewController could not be found")
         }
         
@@ -212,7 +252,6 @@ extension TabBarController: UITabBarControllerDelegate {
         guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
             return true
         }
-        
         // middleButton tabbar Itemのindex
         // このアプリの場合、indexは2になっている
         if selectedIndex == 2 {

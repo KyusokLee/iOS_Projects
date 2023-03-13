@@ -1,5 +1,5 @@
 //
-//  CityInfoVC.swift
+//  NoticeListVC.swift
 //  MoreGreen
 //
 //  Created by Kyus'lee on 2022/09/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CityInfomationViewController: UIViewController {
+class NoticeListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

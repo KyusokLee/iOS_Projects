@@ -28,7 +28,7 @@ final class CameraGuideView: UIView {
         let button = UIButton()
         let image = UIImage(systemName: "chevron.left")?
             .withTintColor(
-                UIColor.systemGray.withAlphaComponent(0.3),
+                UIColor.white.withAlphaComponent(0.6),
                 renderingMode: .alwaysOriginal
             )
         button.setImage(image, for: .normal)
@@ -42,7 +42,7 @@ final class CameraGuideView: UIView {
         let button = UIButton()
         let image = UIImage(systemName: "chevron.right")?
             .withTintColor(
-                UIColor.systemGray.withAlphaComponent(0.3),
+                UIColor.white.withAlphaComponent(0.6),
                 renderingMode: .alwaysOriginal
             )
         button.setImage(image, for: .normal)
@@ -92,18 +92,19 @@ final class CameraGuideView: UIView {
         let button = UIButton()
         let image = UIImage(systemName: "checkmark.square")?
             .withTintColor(
-                UIColor.systemGray.withAlphaComponent(0.3),
+                UIColor.white.withAlphaComponent(0.6),
                 renderingMode: .alwaysOriginal
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
+        button.addTarget(nil, action: #selector(tapCheckBoxButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let checkBoxTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.systemGray.withAlphaComponent(0.3)
+        label.textColor = UIColor.white.withAlphaComponent(0.6)
         label.textAlignment = .center
         label.numberOfLines = 1
         label.text = "もう一度、表示しない"
@@ -152,7 +153,6 @@ final class CameraGuideView: UIView {
         self.foregroundView.addSubview(self.imageView)
         self.addSubview(self.foregroundView)
         self.addSubview(self.checkBoxButton)
-        self.checkBoxButton.addTarget(self, action: #selector(tapCheckBoxButton), for: .touchUpInside)
         self.addSubview(self.checkBoxTitleLabel)
         self.addSubview(self.swipeLeftButton)
         self.addSubview(self.swipeRightButton)
@@ -277,7 +277,8 @@ final class CameraGuideView: UIView {
             },
             completion: { _ in
                 self.imageView.center.y -= 10
-            })
+            }
+        )
     }
     
     // ImageViewのimageのsizeを拡大したり、縮小したりするanimateに加えて、色が微かになる(fadeIn, fadeOut効果)の一連のanimationを動作をメソッド

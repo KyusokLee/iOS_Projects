@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol AlarmSettingDelegate: AnyObject {
+    func delegateCheckPractice()
+}
+
 class AlarmSettingViewController: UIViewController {
+    
+    @IBOutlet weak var delegateTestButton: UIButton!
+    weak var delegate: AlarmSettingDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,4 +38,10 @@ class AlarmSettingViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "通知設定"
     }
+    
+    @IBAction func tapDelegateTestButton(_ sender: Any) {
+        // やはり、効かない
+        self.delegate?.delegateCheckPractice()
+    }
+    
 }
