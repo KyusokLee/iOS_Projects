@@ -7,14 +7,19 @@
 
 import UIKit
 // 使わないコード
-
+// Tabbarのmiddle Buttonのtouch領域拡大とbuttonのanimation効果を実装するために
+// 後、高さも違くするために
+// 方法1. Tabbarを継承するsubClassを作成して、customizeする
+// 方法2. UITabbarをextensionする
 class CustomTabBar: UITabBar {
     
     private let buttonHeight: CGFloat = 60
     private let middleButton = UIButton()
+    
+    //MARK: - Variables
     public var didTapButton: (() -> ())?
     
-    // MARK: Life Cycle
+    //MARK: Life Cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.shadowColor = UIColor.systemGray5.cgColor
@@ -24,6 +29,13 @@ class CustomTabBar: UITabBar {
         self.layer.masksToBounds = false
         setUpMiddleButton()
         setMiddleButtonConstraints()
+    }
+    
+    // Tabbarの高さを設定する方法
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        var sizeThatFits = super.sizeThatFits(size)
+        sizeThatFits.height = 100
+        return sizeThatFits
     }
     
     // ⚠️ここのコードは、まだ100%理解できてない
@@ -65,7 +77,6 @@ class CustomTabBar: UITabBar {
     // HitTest
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard !clipsToBounds && !isHidden && alpha > 0 else { return nil }
-           
         return self.middleButton.frame.contains(point) ? self.middleButton : super.hitTest(point, with: event)
     }
 }

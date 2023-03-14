@@ -316,7 +316,7 @@
 		945108CA28DDC5DE00E80F20 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				94DEA71629BF1B070014929C /* TabBar */,
+				94DEA71629BF1B070014929C /* TabBarController */,
 				949A66CE299CD82900986FA8 /* NewItem */,
 				949A66CD299CD66400986FA8 /* Home */,
 				949A66CF299CD84F00986FA8 /* ItemList */,
@@ -520,7 +520,6 @@
 			isa = PBXGroup;
 			children = (
 				941BF55028FC1EDD006C8E28 /* HomeCustomHeader.swift */,
-				94AF3E6B28DC874700502C5B /* CustomTabBar.swift */,
 				940B0F9A28F03D81003AFE8C /* showItemInfoDetailButton.swift */,
 				94ABA9492906C3E60063CD3D /* UnderLinedMenuBarModel.swift */,
 			);
@@ -551,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				942E400129B4BBA100A710CD /* CameraGuideView.swift */,
+				94AF3E6B28DC874700502C5B /* CustomTabBar.swift */,
 				943317382917B5B2003CFB16 /* CategoryTabbar.swift */,
 				945108CB28DDC5E500E80F20 /* Cells */,
 				94ABA9452906C3670063CD3D /* ViewModel */,
@@ -576,12 +576,12 @@
 			path = Setting;
 			sourceTree = "<group>";
 		};
-		94DEA71629BF1B070014929C /* TabBar */ = {
+		94DEA71629BF1B070014929C /* TabBarController */ = {
 			isa = PBXGroup;
 			children = (
 				94122FF428DC6613004DEED6 /* TabBarController.swift */,
 			);
-			path = TabBar;
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

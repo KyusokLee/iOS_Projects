@@ -15,4 +15,29 @@ extension UITabBar {
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().backgroundColor = UIColor.white
     }
+    
+    // Tabbarの高さを設定する
+    override open func sizeThatFits(_ size: CGSize) -> CGSize {
+        var sizeThatFits = super.sizeThatFits(size)
+        sizeThatFits.height = 100
+        return sizeThatFits
+    }
+    
+    // TabBarのitemにbadgeを追加する
+    func addBadge(index:Int) {
+        if let tabItems = self.items {
+            let tabItem = tabItems[index]
+            tabItem.badgeValue = "●"
+            tabItem.badgeColor = .clear
+            tabItem.setBadgeTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.red], for: .normal)
+        }
+    }
+    
+    // TabBarのitemのbadgeを消す
+    func removeBadge(index:Int) {
+        if let tabItems = self.items {
+            let tabItem = tabItems[index]
+            tabItem.badgeValue = nil
+        }
+    }
 }

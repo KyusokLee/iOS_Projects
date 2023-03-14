@@ -28,6 +28,8 @@ import CoreData
 // middle ButtonをTabBarに載せないと、popupViewなどがそのViewの上にある時、MiddleButtonが隠れないエラーが生じた
 // 解決策: tabbarにaddSubviewすることで、できると考える
 
+//TODO: - HitTestで、Middle Buttonのtouch領域を広げる
+
 final class TabBarController: UITabBarController {
     
 //MARK: - Variable Part
@@ -265,3 +267,15 @@ extension TabBarController: UITabBarControllerDelegate {
         print("didSelect: \(tabBarController.selectedIndex)")
     }
 }
+
+// Youtubeのcomment sheetViewみたいなものを表示する間数
+//private func presentModal() {
+//    let controller = DetailViewController()
+//    let navigationController = UINavigationController(rootViewController: controller)
+//    // 2
+//    if let sheet = navigationController.sheetPresentationController {
+//        // 3
+//        sheet.detents = [.medium(), .large()]
+//    }
+//    self.present(navigationController, animated: true, completion: nil)
+//}
