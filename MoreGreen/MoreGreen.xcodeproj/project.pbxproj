@@ -79,6 +79,7 @@
 		94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CE57AD29B2055F00BB954D /* SettingViewController.swift */; };
 		94CE57B029B2056F00BB954D /* Setting.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94CE57AF29B2056F00BB954D /* Setting.storyboard */; };
 		94D5A49D29BA0697009B7E6C /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D5A49C29BA0697009B7E6C /* ErrorType.swift */; };
+		94D63B9229C1EDB600A47802 /* BarcodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D63B9129C1EDB600A47802 /* BarcodeScannerViewController.swift */; };
 		94D8A99828EB0CA100703FCF /* Date+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8A99728EB0CA100703FCF /* Date+Utils.swift */; };
 		94EBF49E28DED51600110F1A /* EndPeriodCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EBF49C28DED51500110F1A /* EndPeriodCell.swift */; };
 		94EBF49F28DED51600110F1A /* EndPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94EBF49D28DED51500110F1A /* EndPeriodCell.xib */; };
@@ -164,6 +165,7 @@
 		94CE57AD29B2055F00BB954D /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		94CE57AF29B2056F00BB954D /* Setting.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Setting.storyboard; sourceTree = "<group>"; };
 		94D5A49C29BA0697009B7E6C /* ErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorType.swift; sourceTree = "<group>"; };
+		94D63B9129C1EDB600A47802 /* BarcodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerViewController.swift; sourceTree = "<group>"; };
 		94D8A99728EB0CA100703FCF /* Date+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Utils.swift"; sourceTree = "<group>"; };
 		94EBF49C28DED51500110F1A /* EndPeriodCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPeriodCell.swift; sourceTree = "<group>"; };
 		94EBF49D28DED51500110F1A /* EndPeriodCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndPeriodCell.xib; sourceTree = "<group>"; };
@@ -504,6 +506,8 @@
 			children = (
 				942007D128DDDA020092B699 /* CameraViewController.swift */,
 				94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */,
+				94D63B9029C1ED8D00A47802 /* QRCodeScanner */,
+				94D63B8F29C1ED8300A47802 /* BarcodeScanner */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -574,6 +578,21 @@
 				94035A1629BDE11A008F6D96 /* DataResetPopupViewController.swift */,
 			);
 			path = Setting;
+			sourceTree = "<group>";
+		};
+		94D63B8F29C1ED8300A47802 /* BarcodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+				94D63B9129C1EDB600A47802 /* BarcodeScannerViewController.swift */,
+			);
+			path = BarcodeScanner;
+			sourceTree = "<group>";
+		};
+		94D63B9029C1ED8D00A47802 /* QRCodeScanner */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = QRCodeScanner;
 			sourceTree = "<group>";
 		};
 		94DEA71629BF1B070014929C /* TabBarController */ = {
@@ -707,6 +726,7 @@
 				94122FF528DC6613004DEED6 /* TabBarController.swift in Sources */,
 				942007D228DDDA020092B699 /* CameraViewController.swift in Sources */,
 				94035A0929BDCDE3008F6D96 /* SettingTableViewCell.swift in Sources */,
+				94D63B9229C1EDB600A47802 /* BarcodeScannerViewController.swift in Sources */,
 				94ABA94A2906C3E60063CD3D /* UnderLinedMenuBarModel.swift in Sources */,
 				94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */,
 				940B0F9928F03AF8003AFE8C /* UIButton+Utils.swift in Sources */,
