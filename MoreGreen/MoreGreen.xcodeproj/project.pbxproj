@@ -87,7 +87,19 @@
 		94F4F98C28E6F94E00245EB1 /* PhotoResultView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94F4F98B28E6F94E00245EB1 /* PhotoResultView.storyboard */; };
 		94F65D5A29BF1D4F004FE5D4 /* NoticeList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94F65D5929BF1D4F004FE5D4 /* NoticeList.storyboard */; };
 		94F65D5C29BF273F004FE5D4 /* TabBarAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F65D5B29BF273F004FE5D4 /* TabBarAnimation.swift */; };
+		94FF297829C86366009D6594 /* GoogleVisionAPIPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF297729C86366009D6594 /* GoogleVisionAPIPresenterTest.swift */; };
+		94FF298129C866EF009D6594 /* ItemElementsCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF298029C866EF009D6594 /* ItemElementsCreatorTests.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		94FF297929C86366009D6594 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 94449A8228D9F75C001C8BBB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94449A8928D9F75C001C8BBB;
+			remoteInfo = MoreGreen;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		94035A0729BDCDE3008F6D96 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
@@ -173,10 +185,20 @@
 		94F4F98B28E6F94E00245EB1 /* PhotoResultView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PhotoResultView.storyboard; sourceTree = "<group>"; };
 		94F65D5929BF1D4F004FE5D4 /* NoticeList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NoticeList.storyboard; sourceTree = "<group>"; };
 		94F65D5B29BF273F004FE5D4 /* TabBarAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarAnimation.swift; sourceTree = "<group>"; };
+		94FF297529C86366009D6594 /* MoreGreenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MoreGreenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		94FF297729C86366009D6594 /* GoogleVisionAPIPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPIPresenterTest.swift; sourceTree = "<group>"; };
+		94FF298029C866EF009D6594 /* ItemElementsCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemElementsCreatorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		94449A8728D9F75C001C8BBB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94FF297229C86366009D6594 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -286,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				94449A8C28D9F75C001C8BBB /* MoreGreen */,
+				94FF297629C86366009D6594 /* MoreGreenTests */,
 				94449A8B28D9F75C001C8BBB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -294,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				94449A8A28D9F75C001C8BBB /* MoreGreen.app */,
+				94FF297529C86366009D6594 /* MoreGreenTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -603,6 +627,31 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
+		94FF297629C86366009D6594 /* MoreGreenTests */ = {
+			isa = PBXGroup;
+			children = (
+				94FF297F29C866BB009D6594 /* Model */,
+				94FF297E29C8660C009D6594 /* Presenter */,
+			);
+			path = MoreGreenTests;
+			sourceTree = "<group>";
+		};
+		94FF297E29C8660C009D6594 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				94FF297729C86366009D6594 /* GoogleVisionAPIPresenterTest.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		94FF297F29C866BB009D6594 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				94FF298029C866EF009D6594 /* ItemElementsCreatorTests.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -623,6 +672,24 @@
 			productReference = 94449A8A28D9F75C001C8BBB /* MoreGreen.app */;
 			productType = "com.apple.product-type.application";
 		};
+		94FF297429C86366009D6594 /* MoreGreenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94FF297D29C86366009D6594 /* Build configuration list for PBXNativeTarget "MoreGreenTests" */;
+			buildPhases = (
+				94FF297129C86366009D6594 /* Sources */,
+				94FF297229C86366009D6594 /* Frameworks */,
+				94FF297329C86366009D6594 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94FF297A29C86366009D6594 /* PBXTargetDependency */,
+			);
+			name = MoreGreenTests;
+			productName = MoreGreenTests;
+			productReference = 94FF297529C86366009D6594 /* MoreGreenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -630,11 +697,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1400;
+				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					94449A8928D9F75C001C8BBB = {
 						CreatedOnToolsVersion = 14.0;
+					};
+					94FF297429C86366009D6594 = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = 94449A8928D9F75C001C8BBB;
 					};
 				};
 			};
@@ -652,6 +723,7 @@
 			projectRoot = "";
 			targets = (
 				94449A8928D9F75C001C8BBB /* MoreGreen */,
+				94FF297429C86366009D6594 /* MoreGreenTests */,
 			);
 		};
 /* End PBXProject section */
@@ -686,6 +758,13 @@
 				94F4F98C28E6F94E00245EB1 /* PhotoResultView.storyboard in Resources */,
 				942007D428DDDA120092B699 /* Camera.storyboard in Resources */,
 				94F65D5A29BF1D4F004FE5D4 /* NoticeList.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94FF297329C86366009D6594 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,7 +833,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94FF297129C86366009D6594 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94FF298129C866EF009D6594 /* ItemElementsCreatorTests.swift in Sources */,
+				94FF297829C86366009D6594 /* GoogleVisionAPIPresenterTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		94FF297A29C86366009D6594 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94449A8928D9F75C001C8BBB /* MoreGreen */;
+			targetProxy = 94FF297929C86366009D6594 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		94449A9B28D9F75D001C8BBB /* LaunchScreen.storyboard */ = {
@@ -938,6 +1034,50 @@
 			};
 			name = Release;
 		};
+		94FF297B29C86366009D6594 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UNTPRP3C66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.kyulee.MoreGreenTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoreGreen.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MoreGreen";
+			};
+			name = Debug;
+		};
+		94FF297C29C86366009D6594 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UNTPRP3C66;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				MACOSX_DEPLOYMENT_TARGET = 12.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.kyulee.MoreGreenTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MoreGreen.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MoreGreen";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -955,6 +1095,15 @@
 			buildConfigurations = (
 				94449AA228D9F75D001C8BBB /* Debug */,
 				94449AA328D9F75D001C8BBB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		94FF297D29C86366009D6594 /* Build configuration list for PBXNativeTarget "MoreGreenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94FF297B29C86366009D6594 /* Debug */,
+				94FF297C29C86366009D6594 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

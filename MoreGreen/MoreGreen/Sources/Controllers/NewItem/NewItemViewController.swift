@@ -338,7 +338,7 @@ private extension NewItemViewController {
         print("period configure")
         presenter = ItemInfoViewPresenter(
             jsonParser: EndDateJSONParser(itemInfoCreater: ItemElementsCreator()),
-            apiClient: GoogleVisonAPIClient(),
+            apiClient: GoogleVisionAPIClient(),
             itemView: self
         )
         // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)

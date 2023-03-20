@@ -7,7 +7,8 @@
 
 import Foundation
 
-enum ErrorType {
+// Error Typeを継承するEnumを生成 -> test codeの作成を容易にするため
+enum ErrorType: Error {
     case networkError
     case parseError
 }

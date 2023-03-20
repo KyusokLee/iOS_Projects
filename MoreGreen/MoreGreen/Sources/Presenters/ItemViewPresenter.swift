@@ -18,12 +18,12 @@ protocol ItemInfoView: AnyObject {
 // MARK: ModelとView間のdata fetchを担当するpresenter
 final class ItemInfoViewPresenter {
     private let jsonParser: EndDateJSONParserProtocol
-    private let apiClient: GoogleVisonAPIClientProtocol
+    private let apiClient: GoogleVisionAPIClientProtocol
     private weak var itemView: ItemInfoView?
     // initだけ打ったら自動で完成さらたんだが、、‼️
     init(
         jsonParser: EndDateJSONParserProtocol,
-        apiClient: GoogleVisonAPIClientProtocol,
+        apiClient: GoogleVisionAPIClientProtocol,
         itemView: ItemInfoView
     ) {
         self.jsonParser = jsonParser

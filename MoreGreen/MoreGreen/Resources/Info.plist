@@ -9,7 +9,7 @@
 		<string>BMJUAOTF</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>このアプリは、ユーザのデバイスのカメラを使用します。</string>
+	<string>商品の撮影のために、ユーザのデバイスのカメラを使用します</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

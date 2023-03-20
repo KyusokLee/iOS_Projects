@@ -9,7 +9,7 @@ import Foundation
 
 // google vision apiを用いる
 
-struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
+struct GoogleVisionAPIClient: GoogleVisionAPIClientProtocol {
     // API仕様はこちらを参照
     // https://cloud.google.com/vision/docs/ocr?hl=ja
     // https://cloud.google.com/vision/docs/reference/rest/v1/images/annotate?hl=ja#AnnotateImageRequest
@@ -29,7 +29,7 @@ struct GoogleVisonAPIClient: GoogleVisonAPIClientProtocol {
     }
 }
 
-private extension GoogleVisonAPIClient {
+private extension GoogleVisionAPIClient {
     func buildRequest(with base64String: String) -> URLRequest {
         // 🔥ここにAPI keyが入る
         let apiKey = ""
@@ -53,6 +53,6 @@ private extension GoogleVisonAPIClient {
     }
 }
 
-protocol GoogleVisonAPIClientProtocol {
+protocol GoogleVisionAPIClientProtocol {
     func send(base64String: String, completion: @escaping ((Data?, Error?) -> Void))
 }
