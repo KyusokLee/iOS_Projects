@@ -39,9 +39,16 @@ class AlarmSettingViewController: UIViewController {
         self.navigationItem.title = "通知設定"
     }
     
+    // rouletteViewを表示するテスト
     @IBAction func tapDelegateTestButton(_ sender: Any) {
-        // やはり、効かない
-        self.delegate?.delegateCheckPractice()
+        //self.delegate?.delegateCheckPractice()
+        let rouletteView = RouletteWheelView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
+        rouletteView.center = CGPoint(
+            x: self.view.frame.size.width / 2.0,
+            y: self.view.frame.size.height / 2.0
+        )
+        
+        self.view.addSubview(rouletteView)
     }
     
 }
