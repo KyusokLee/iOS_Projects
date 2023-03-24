@@ -25,3 +25,22 @@
 * 🌱実装したいと思う点
   * 他のユーザさんとの情報共有ができるように、UIActivityViewControllerを導入
   * バーコード認証によるレシートの読み込み -> 買い物後に直ちに、商品の登録ができれば、ユーザさんが感じる便利性が高くなると考えた
+
+### 🧐コード実装時の記録
+* OCRテキスト認証関連
+  * GCP Vision APIからiOS内装フレームワークであるVision導入へ
+    - Google Cloud PlatformのAPIは、Requestの回数をある基準を超えと、お金の費用が発生する。
+    - この理由から、iOS内装フレームワークであるVisionを導入することで、コストを削減することができると考えた。
+    - 加えて、API Requestを介さずにテキスト認証を行うので、アプリの全体のプロセスを１ステップ削減することもできる。
+  
+* TabbarController関連
+  * TabbarControllerのItem配置はどのようにするべきか？
+    - 
+  
+  * TabbarControllerの真ん中にあるCustom Buttonについて
+
+### Error Handling
+* これから記載していく予定!
+* Qiitaのデビューもしました！
+  
+  
