@@ -19,7 +19,7 @@ class CustomTabBar: UITabBar {
     //MARK: - Variables
     public var didTapButton: (() -> ())?
     
-    //MARK: Life Cycle
+    //MARK: - Life Cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.shadowColor = UIColor.systemGray5.cgColor

@@ -60,7 +60,7 @@ class BarcodeScannerViewController: UIViewController {
         view.layer.addSublayer(previewLayer)
 
         // Capture　Sessionを開始
-        // 分けるつもり
+        // MARK: - 分けるつもり
         captureSession.startRunning()
     }
 }

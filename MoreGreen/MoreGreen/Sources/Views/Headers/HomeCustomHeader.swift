@@ -20,7 +20,6 @@ final class HomeCustomHeader: UITableViewHeaderFooterView {
             headerTitle.font = .systemFont(ofSize: 17, weight: .bold)
         }
     }
-    
     @IBOutlet weak var alarmSetButton: UIButton! {
         didSet {
             let btnImage = UIImage(systemName: "bell")?.withTintColor(UIColor(rgb: 0x81C784), renderingMode: .alwaysOriginal)
@@ -28,7 +27,6 @@ final class HomeCustomHeader: UITableViewHeaderFooterView {
             alarmSetButton.setImage(btnImage, for: .normal)
         }
     }
-    
     @IBOutlet weak var showMoreDetailButton: UIButton! {
         didSet {
             showMoreDetailButton.setTitle("もっと見る", for: .normal)

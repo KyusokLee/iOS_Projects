@@ -28,7 +28,7 @@ class showItemInfoDetailButton: UIButton {
         guard super.point(inside: point, with: event) else {
             return false
         }
-        print("ssss")
+        print("Expand button touch field")
         // 全ての方向に20ほどタッチ領域を増やす
         // dx: x軸が設定したdxほど増加する (負数じゃないと増加しない)
         let margin: CGFloat = 20

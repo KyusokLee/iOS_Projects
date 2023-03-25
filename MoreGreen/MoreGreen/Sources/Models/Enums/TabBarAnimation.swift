@@ -12,4 +12,4 @@ enum TabBarAnimation {
     static let movingHeight: CGFloat = 115
 }
 
-//今後、middleButtonのanimation効果も実装すう予定
+//今後、middleButtonのanimation効果も実装する予定
