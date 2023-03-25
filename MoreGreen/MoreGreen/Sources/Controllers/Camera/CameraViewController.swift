@@ -241,10 +241,6 @@ extension CameraViewController {
         // 見せるpreviewのboundsのサイズを設定
         captureVideoLayer.videoGravity = .resizeAspectFill
         
-        // Viewにlayerをaddする
-        // ✍️ addSublayer と　insertSublayerの差は？
-        // add -> Sublayerを上に足すこと
-        // insert -> 該当のlayerに sublayerを入れること
         self.view.layer.insertSublayer(captureVideoLayer, at: 0)
     }
 

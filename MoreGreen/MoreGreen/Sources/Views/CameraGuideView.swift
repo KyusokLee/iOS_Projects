@@ -107,7 +107,7 @@ final class CameraGuideView: UIView {
         label.textColor = UIColor.white.withAlphaComponent(0.6)
         label.textAlignment = .center
         label.numberOfLines = 1
-        label.text = "もう一度、表示しない"
+        label.text = "今後、表示しない"
         label.font = .systemFont(ofSize: 15, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

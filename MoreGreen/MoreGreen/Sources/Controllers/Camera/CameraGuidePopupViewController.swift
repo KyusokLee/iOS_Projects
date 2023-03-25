@@ -33,7 +33,7 @@ class CameraGuidePopupViewController: UIViewController {
         didSet {
             titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
             titleLabel.textColor = .black
-            titleLabel.text = "もう一度、表示しない"
+            titleLabel.text = "今後、表示しない"
             titleLabel.textAlignment = .center
         }
     }

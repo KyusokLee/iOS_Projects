@@ -565,17 +565,7 @@ extension NewItemViewController: ButtonDelegate {
         let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
         appDelegate.saveContext()
         self.delegate?.addNewItemInfo()
-        
-//        // このVCをpresentしたVCを指定する
-//        guard let rootVC = self.presentingViewController else {
-//            return
-//        }
-//
-//        if rootVC != TabBarController() {
-//            print(rootVC)
-//        }
-        // rootVCが全部 TabBarControllerになっている
-        
+                
         // dismissするとともに、itemListVCに行きたい
         self.dismiss(animated: true)
     }
@@ -632,7 +622,6 @@ extension NewItemViewController: ButtonDelegate {
             
             let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
             appDelegate.saveContext()
-            
         } catch {
             print(error)
         }

@@ -7,8 +7,9 @@
 
 import UIKit
 
-
 // TODO: ⚠️ここのlayoutで警告が出てる
+// MARK: - ここのcardViewをFilpCardViewに変えるつもり -> その中に、imageViewとlabelなども入れるつもり
+// Nibファイルを使わずに、customizeしたViewをCellに格納したい
 class HomeCardViewCell: UITableViewCell {
     
     @IBOutlet weak var cardView: UIView! {
