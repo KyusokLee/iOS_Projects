@@ -23,7 +23,6 @@ final class RouletteWheelView: UIView {
     
 //    // Rouletteに追加する項目を配列で入れる
 //    let items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]
-        
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
@@ -109,7 +108,7 @@ final class RouletteWheelView: UIView {
                     
             let animator = UIViewPropertyAnimator(duration: 1.0, dampingRatio: 0.7) {
                 self.transform = CGAffineTransform(rotationAngle: targetRotation)
-            }animator.addCompletion { _ in
+            }; animator.addCompletion { _ in
                 self.performVibration()
             }
             animator.startAnimation()

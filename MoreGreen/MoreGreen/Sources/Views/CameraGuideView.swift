@@ -342,6 +342,7 @@ final class CameraGuideView: UIView {
         fetchShowCameraGuideViewState()
     }
     
+    // CameraGuideView stateの現状を取得
     private func fetchShowCameraGuideViewState() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
         do {
@@ -369,27 +370,6 @@ final class CameraGuideView: UIView {
     // checkBox buttonをtapしたときの処理
     @objc func tapCheckBoxButton() {
         delegate?.didTapCheckBoxButton()
-        // エラー: 🔥UIViewからViewControllerをpresentする方法は、rootViewControllerを取得して、presentする方法があるが、エラーになった
-        // 理由: rootViewControllerは、このアプリの構成だと、UITabbarControllerであるため、rootViewControllerを取得できないらしい
-        // 解決策: delegate patternを用いて、cameraViewControllerでpresentするような仕組みとした
-//        print("tap check button!")
-//        guard let controller = UIStoryboard(
-//            name: "CameraGuidePopup",
-//            bundle:nil
-//        ).instantiateViewController(
-//            withIdentifier: "CameraGuidePopupViewController"
-//        ) as? CameraGuidePopupViewController else {
-//            fatalError("CameraPopupViewController could not be found.")
-//        }
-//
-//        controller.modalPresentationStyle = .overCurrentContext
-//        // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
-//        // .crossDissolve: ゆっくりと消えるスタイルの設定
-//        controller.modalTransitionStyle = .crossDissolve
-                
-        // ⭐️Tip: modalTransitionStyleだけだと、ナチュラルなCrossDissolveStyleの画面の転換にならなかった。crossDissolve自体は、画面を交差するようなanimationであるため、overCurrentContextと一緒に書かないと、後ろのviewが小さくなり、popupViewが表に大きくでるような交差効果になる。
-//        self.window?.rootViewController?.tabBarController?.present(controller, animated: true, completion: nil)
-        
     }
     
     private func animateDownsize() {
