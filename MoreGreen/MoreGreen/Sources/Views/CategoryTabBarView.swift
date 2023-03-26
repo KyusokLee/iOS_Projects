@@ -12,10 +12,10 @@ import UIKit
 // step2. 次に、コードで書いたIBOutletをStoryboardに右dragで繋げる
 // -->上記のstepで、Stotyboard上のオブジェクトを他のfileに連動することができる
 
-class CategoryTabbar: UIView, UICollectionViewDataSource {
+class CategoryTabBarView: UIView, UICollectionViewDataSource {
     let tabBarNameArray: [String] = ["全体", "消費済み", "期限切れ"]
     weak var delegate: PagingTabbarDelegate?
-    static let nibName = "CategoryTabbar"
+    static let nibName = "CategoryTabBarView"
     var view: UIView!
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -58,7 +58,7 @@ class CategoryTabbar: UIView, UICollectionViewDataSource {
     }
 }
 
-extension CategoryTabbar: UICollectionViewDelegateFlowLayout {
+extension CategoryTabBarView: UICollectionViewDelegateFlowLayout {
     // cellをclickしたときcontents Viewを該当のindexに移動させる
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.scrollToIndex(to: indexPath.row)

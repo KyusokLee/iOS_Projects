@@ -7,111 +7,10 @@
 
 import UIKit
 
-class HomeCardViewController: UIViewController {
-    
-    // flipped(ひっくり返されたか)になってるかどうかのBool Flag
-    private var flipped = false
-    private var angle: Double = 0.0
-    // MARK: - flipViewの定義をここで書く
-    private lazy var flipCardView: UIView = {
-        let view = FlipCardView(frontView: frontView, backView: backView)
-        return view
-    }()
-    
-    // FlipCardViewの前面
-    private lazy var frontView: UIView = {
-        let view = FrontCardView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    // FlipCardViewの後面
-    private lazy var backView: UIView = {
-        let view = BackCardView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.addSubview(flipCardView)
-        flipCardView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
-    func addTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(flipViewTapped))
-        flipCardView.addGestureRecognizer(tapGesture)
-    }
-    
-    func setUpConstraints() {
-        NSLayoutConstraint.activate([
-            flipCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            flipCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            flipCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            flipCardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        ])
-    }
-    
-    @objc private func flipViewTapped() {
-        UIView.animate(
-            withDuration: 1.4,
-            delay: 0,
-            usingSpringWithDamping: 1.0,
-            initialSpringVelocity: 0.5,
-            options: .curveEaseInOut
-        ) {
-            if self.angle == 180 {
-                self.angle = 0
-            } else {
-                self.angle = 180
-            }
-            self.flipCardView.transform = CGAffineTransform(
-                rotationAngle: CGFloat(self.angle * Double.pi / 180)
-            )
-        }
-    }
-}
-
-class FlipCardView: UIView {
-    enum Axis {
-        case horizontal
-        case vertical
-    }
-    
-    private var frontView: UIView!
-    private var backView: UIView!
-    private var filipped = false
-    
-    init(frontView: UIView, backView: UIView) {
-        super.init(frame: .zero)
-        self.frontView = frontView
-        self.backView = backView
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("FlipCardView doesn't use Nib file.")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        frontView.frame = bounds
-        backView.frame = bounds
-//        axis.frame = bounds
-//        if filipped {
-//            axis.transform = CATransform3DMakeRotation(CGFloat(180 * Double.pi / 180), 1, 0, 0)
-//        } else {
-//            axis.transform = CATransform3DMakeRotation(CGFloat(0 * Double.pi / 180), 1, 0, 0)
-//        }
-    }
-}
-
 // CardViewの実装練習
 class CardView: UIView {
     
+    // Flipしたかのstateを保存
     private var flipped = false
     private var angle: Double = 0.0
 
@@ -121,8 +20,7 @@ class CardView: UIView {
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpGesture()
+        fatalError("FlipCardView doesn't use Nib file.")
     }
 
     private func setUpGesture() {

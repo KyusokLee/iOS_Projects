@@ -32,7 +32,7 @@ enum DisplayType {
 }
 
 class ItemListViewController: UIViewController {
-    @IBOutlet weak var categoryTabbarView: CategoryTabbar! {
+    @IBOutlet weak var categoryTabbarView: CategoryTabBarView! {
         didSet {
             categoryTabbarView.delegate = self
         }
