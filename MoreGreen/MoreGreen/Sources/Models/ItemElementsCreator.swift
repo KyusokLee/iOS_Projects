@@ -31,74 +31,72 @@ enum TargetType: RegexPattern {
     // \s: 空白
     // \s?: 空白があってもなくても大丈夫
     // 2022-12-21, 22-12-21, 22-03-03, 22 - 03 - 03, (何らかの文字 2022 - 12 - 22), (何らかの文字 22 - 12 - 22)に対応させる正規式
-    case endDateHyphen = "(\\s?(20[0-9]{2}|((2|3)[0-9]){0,1})\\s?)\\-(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\-(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    case expirationDateHyphen = "(\\s?(20[0-9]{2}|((2|3)[0-9]){0,1})\\s?)\\-(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\-(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
     // . 形式の日付
     // 上記の例と同様に、　.を区切りにしたテキストを認識させる
-    case endDateDot = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\.(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    case expirationDateDot = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\.(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\.(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
     
     // /で区切られている日付の認識
     // 確認済み
-    case endDateSlash = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\/(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\/(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
+    case expirationDateSlash = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\/(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\/(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1]))"
     
     // 日付の長さを正しく認識させるための正規式
-    case endDateLength = "\\s?(\\d{2,4}-\\d{1,2}-\\d{1,2})"
-    
+    case expirationDateLength = "\\s?(\\d{2,4}-\\d{1,2}-\\d{1,2})"
     //MARK: ⚠️数字と日本語が混ざっているものを認識させたい
     // ⚠️途中の段階 -> 漢字を読み取ると、hyphenや.などの認証がおかしくなっている
     // 例えば、2022年 10月 17日のような文字を認識させたいと思っている
     //　一応認識はなんとなくできるようになった
-    case endDateJapanese = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\p{Han}{0,1}(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\p{Han}{0,1}(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1])\\s?)\\p{Han}{0,1}"
-    
+    case expirationDateJapanese = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\p{Han}{0,1}(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\p{Han}{0,1}(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1])\\s?)\\p{Han}{0,1}"
     
 //    case testKanji = "^\\p{Han}{1,3}\\s?\\p{Han}{1,3}$"
 }
 
 struct ItemElementsCreator {
     // 賞味期限や消費期限の日付情報の生成
-    func create(from recognizedString: String) -> EndDate {
+    func create(from recognizedString: String) -> ExpirationDate {
         let texts = recognizedString.components(separatedBy: "\n")
         
         // TODO: ⚠️認識したい変数をここで定義
-        var endDate: String?
+        var expirationDate: String?
 
         texts.forEach {
             // ハイフン形式の日付の認識
-            let endDateHyphenRegex = try! NSRegularExpression(pattern: TargetType.endDateHyphen.rawValue)
-            if let result = endDateHyphenRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+            let expirationDateHyphenRegex = try! NSRegularExpression(pattern: TargetType.expirationDateHyphen.rawValue)
+            if let result = expirationDateHyphenRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
                 print($0)
-                endDate = ($0 as NSString).substring(with: result.range(at: 0))
+                expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
             
             // . 形式の日付の認識
-            let endDateDotRegex = try! NSRegularExpression(pattern: TargetType.endDateDot.rawValue)
-            if let result = endDateDotRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+            let expirationDateDotRegex = try! NSRegularExpression(pattern: TargetType.expirationDateDot.rawValue)
+            if let result = expirationDateDotRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
                 print($0)
-                endDate = ($0 as NSString).substring(with: result.range(at: 0))
+                expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
             
-            let endDateSlashRegex = try! NSRegularExpression(pattern: TargetType.endDateSlash.rawValue)
-            if let result = endDateSlashRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+            let expirationDateSlashRegex = try! NSRegularExpression(pattern: TargetType.expirationDateSlash.rawValue)
+            if let result = expirationDateSlashRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
                 print($0)
-                endDate = ($0 as NSString).substring(with: result.range(at: 0))
+                expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
             
 ////            // MARK: 🔥⚠️日本語が混ざっている文字を認識したい
 //             //日本語の正規式を追加すると、hyphenや.などの認識がうまくいかなくなる
 //            // p{Han}が認識されてないかもしれない --> 分析中
 //            // ⚠️日が 8、または、Bとして認識される
-//            let endDateJapaneseRegex = try! NSRegularExpression(pattern: TargetType.endDateJapanese.rawValue)
-//            if let result = endDateJapaneseRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+//            let expirationDateJapaneseRegex = try! NSRegularExpression(pattern: TargetType.expirationDateJapanese.rawValue)
+//            if let result = expirationDateJapaneseRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
 //                print("Japanese recognize")
 //                print($0)
-//                endDate = ($0 as NSString).substring(with: result.range(at: 0))
+//                expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
 //            }
             
         }
         
         // ここで、年、月、日を入れることも可能ではあるけど、logicとしてparsingをして、表示させるときに入れることにした
         // TODO: ⚠️返したい変数を構造体Modelとしてreturnする
-        return EndDate(
-            endDate: endDate
+        return ExpirationDate(
+            expirationDate: expirationDate
         )
     }
 }
