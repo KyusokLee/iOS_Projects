@@ -12,7 +12,6 @@ import UIKit
 // 2. 地域設定
 // 3. Userの設定 -> Profileのとこで実装する
 // 4. 使用方法
-
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var settingTableView: UITableView!
