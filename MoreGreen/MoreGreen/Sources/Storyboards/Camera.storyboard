@@ -29,7 +29,7 @@
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" image="multiply" catalog="system"/>
                                         <connections>
-                                            <action selector="didTapCloseButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="P3l-wg-CAl"/>
+                                            <action selector="didTapDismissButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Q4k-T5-OUj"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3L-AN-JO7">
@@ -41,7 +41,7 @@
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <connections>
-                                            <action selector="didTapShowCameraGuideButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Rjp-0M-if1"/>
+                                            <action selector="didTapShowCameraGuideViewButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OEk-cJ-DP3"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -61,7 +61,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="camera.circle.fill" catalog="system"/>
                                 <connections>
-                                    <action selector="shootButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qxc-u8-f1h"/>
+                                    <action selector="didTapShootButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="sfK-Rf-xsb"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -77,10 +77,10 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="cameraButton" destination="Vg5-up-Zbz" id="kju-9a-38y"/>
                         <outlet property="dismissButton" destination="Urf-Y4-sJR" id="hLX-ub-FW0"/>
                         <outlet property="previewView" destination="Rvo-6T-YsY" id="4k6-Do-CTM"/>
-                        <outlet property="showCameraGuideButton" destination="K3L-AN-JO7" id="kwP-IB-Xg7"/>
+                        <outlet property="shootButton" destination="Vg5-up-Zbz" id="Q3E-R9-Hlm"/>
+                        <outlet property="showCameraGuideViewButton" destination="K3L-AN-JO7" id="dv4-tl-tTk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
