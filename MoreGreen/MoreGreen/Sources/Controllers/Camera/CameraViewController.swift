@@ -15,6 +15,7 @@ protocol CameraViewControllerDelegate: AnyObject {
     func didFinishTakePhoto(with imageData: Data, index cellIndex: Int)
 }
 
+// MARK: - Life Cycle & Parameters
 class CameraViewController: UIViewController {
     // カメラの拡大、縮小の機能をTapgestureで追加する
     @IBOutlet private weak var previewView: UIView!
@@ -156,6 +157,7 @@ class CameraViewController: UIViewController {
     }
 }
 
+// MARK: - Logic and Function
 extension CameraViewController {
     @IBAction func shootButton(_ sender: Any) {
         // このタイミングでカメラのシャッターを切る
