@@ -74,8 +74,13 @@ class CameraViewController: UIViewController {
     
     // カメラをVCへの画面遷移メソッド
     static func instantiate() -> CameraViewController {
-        print("1")
-        return UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraViewController") as! CameraViewController
+        guard let controller = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(
+            withIdentifier: "CameraViewController"
+        ) as? CameraViewController else {
+            fatalError("CameraViewController could not be found")
+        }
+        
+        return controller
     }
 
     override func viewDidLoad() {
@@ -121,12 +126,7 @@ class CameraViewController: UIViewController {
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(handlePinchCamera))
         previewView.addGestureRecognizer(pinch)
     }
-    
-    // camera Guide Viewをup and down させる
-    private func animateGuideViewMoveUpAndDown() {
         
-    }
-    
     @objc func handlePinchCamera(_ pinch: UIPinchGestureRecognizer) {
         // camera Deviceがあることが前提なので、guard や if let　castingはしなかった
         var initialScale = cameraDevice.videoZoomFactor

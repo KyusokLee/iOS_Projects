@@ -139,6 +139,7 @@ final class CameraGuideView: UIView {
             let checkBoxImageName = isChecked ? "s" : "ss"
         }
     }
+    
     var checkState = [CheckState]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
