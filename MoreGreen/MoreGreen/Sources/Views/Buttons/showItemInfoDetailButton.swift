@@ -7,8 +7,7 @@
 
 import UIKit
 
-// ⚠️まだ、途中の段階
-
+// MARK: - HomeViewControllerの'もっと見る'ボタンを押したあと、処理するButton
 class showItemInfoDetailButton: UIButton {
 
     override init(frame: CGRect) {

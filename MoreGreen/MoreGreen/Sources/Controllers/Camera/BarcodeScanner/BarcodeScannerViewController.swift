@@ -15,6 +15,7 @@ import AVFoundation
 //AVCaptureMetadataOutputはAVCaptureOutputのSubClassで、PreviewLayerまたはファイルにデータを保存するためのAVCaptureVideoDataOutput、AVCaptureAudioDataOutputと一緒に使用できる。
 
 //つまり、AVCaptureMetadataOutputはカメラから持ってきたビデオデータからバーコードやQRコードのようなメタデータを検索するためのクラスで、認識した結果をdelegateObjectに伝える。
+// MARK: - QR Code, Barcode などの認識を行うViewController
 class BarcodeScannerViewController: UIViewController {
     
     var captureSession: AVCaptureSession!

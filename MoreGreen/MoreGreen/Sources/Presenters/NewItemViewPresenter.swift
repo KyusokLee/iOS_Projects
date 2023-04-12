@@ -1,8 +1,8 @@
 //
-//  ItemViewPresenter.swift
+//  NewItemViewPresenter.swift
 //  MoreGreen
 //
-//  Created by Kyus'lee on 2022/09/23.
+//  Created by Kyus'lee on 2023/04/12.
 //
 
 import Foundation
@@ -24,8 +24,9 @@ final class NewItemViewPresenter {
         self.view = view
     }
     
-    //VisionはNetworkを介さずに行う ->理由: 内装のフレームワークであるため、Appleプラットフォームで完結
-    func loadTextResult(from image: CIImage) {
+    // VisionはNetworkを介して行われるかどうかを試す
+    // 試したところ、VisionはNetworkを介さずに行う ->理由: 内装のフレームワークであるため、Appleプラットフォームで完結
+    func loadItemInfomation(from image: CIImage) {
         textRecognizer.recognize(ciImage: image, completion: { (results, error) in
             guard error == nil else {
                 return
