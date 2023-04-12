@@ -116,6 +116,7 @@ private extension CameraViewController {
         self.cameraGuideView.isShowing = true
     }
     
+    // ここで、ScreenのUIを確率する
     func setUpScreen() {
         setUpDismissButton()
         setUpShootButton()

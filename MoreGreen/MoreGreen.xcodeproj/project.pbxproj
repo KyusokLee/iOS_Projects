@@ -54,8 +54,6 @@
 		94481DA429BC8110009928CD /* AnimationTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA329BC8110009928CD /* AnimationTime.swift */; };
 		94481DA629BC9EB4009928CD /* CameraGuidePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */; };
 		94481DA929BC9EF2009928CD /* CameraGuidePopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */; };
-		946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */; };
-		9460320128E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */; };
 		9460320528E2E4DC00C4E0C9 /* ItemElementsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */; };
 		9460320728E328C300C4E0C9 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320628E328C300C4E0C9 /* UIImage+Utils.swift */; };
 		9472C8B028DF03E8004E4348 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472C8AE28DF03E8004E4348 /* ButtonCell.swift */; };
@@ -157,8 +155,6 @@
 		94481DA329BC8110009928CD /* AnimationTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTime.swift; sourceTree = "<group>"; };
 		94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuidePopupViewController.swift; sourceTree = "<group>"; };
 		94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraGuidePopup.storyboard; sourceTree = "<group>"; };
-		946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndDateJSONParser.swift; sourceTree = "<group>"; };
-		9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPIClient.swift; sourceTree = "<group>"; };
 		9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemElementsCreator.swift; sourceTree = "<group>"; };
 		9460320628E328C300C4E0C9 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 		9472C8AE28DF03E8004E4348 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
@@ -296,9 +292,7 @@
 			children = (
 				941657EE29D064240023D464 /* VisionTextRecognizer.swift */,
 				943EED2428FECE2300566648 /* CarouselFlowLayout.swift */,
-				9460320028E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift */,
 				9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */,
-				946031FE28E2E0E700C4E0C9 /* EndDateJSONParser.swift */,
 				94ABA9492906C3E60063CD3D /* UnderLinedMenuBarModel.swift */,
 				943EED2028FEB92100566648 /* SortedItemListModel.swift */,
 				9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */,
@@ -811,7 +805,6 @@
 				94F65D5C29BF273F004FE5D4 /* TabBarAnimation.swift in Sources */,
 				94ED417229E682F900A62CA1 /* NewItemViewPresenter.swift in Sources */,
 				94D5A49D29BA0697009B7E6C /* ErrorType.swift in Sources */,
-				946031FF28E2E0E700C4E0C9 /* EndDateJSONParser.swift in Sources */,
 				943317392917B5B2003CFB16 /* CategoryTabBarView.swift in Sources */,
 				94AF3E6328DC74D800502C5B /* HomeViewController.swift in Sources */,
 				94481DA429BC8110009928CD /* AnimationTime.swift in Sources */,
@@ -852,7 +845,6 @@
 				94122FF128DC5FE7004DEED6 /* UIColor+Utils.swift in Sources */,
 				943E716829C96C52006EFBB6 /* UIView+Utils.swift in Sources */,
 				940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */,
-				9460320128E2E10E00C4E0C9 /* GoogleVisionAPIClient.swift in Sources */,
 				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
 				943EED2128FEB92100566648 /* SortedItemListModel.swift in Sources */,
 				942E3FFE29B49B4200A710CD /* AppAppearance.swift in Sources */,

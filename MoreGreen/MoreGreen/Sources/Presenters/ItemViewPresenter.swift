@@ -9,7 +9,7 @@ import Foundation
 
 // ModelとView（View Controller）間の架け橋の役をするPresenter
 protocol ItemInfoView: AnyObject {
-    func shouldShowSuccessToShowItemInfo(with endDate: EndDate)
+    func shouldShowSuccessToShowItemInfo(with expirationDate: ExpirationDate)
     func shouldShowNetworkErrorFeedback(error errorType: ErrorType)
     func shouldShowFailToRecognizeFeedback(error errorType: ErrorType)
 }
