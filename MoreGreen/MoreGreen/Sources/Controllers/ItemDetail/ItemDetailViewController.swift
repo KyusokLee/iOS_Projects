@@ -9,7 +9,8 @@ import UIKit
 import CoreData
 
 // MARK: 🔥 ここのVCは、HomeVCの"もっと見る"をクリックすることでmoveされるVC
-class ItemDetailViewController: UIViewController {
+// MARK: - Life Cycle and Variables
+final class ItemDetailViewController: UIViewController {
     
     var filteredItems = [ItemList]()
     
@@ -19,16 +20,9 @@ class ItemDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+}
+
+// MARK: - Logic and Function
+private extension ItemDetailViewController {
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
