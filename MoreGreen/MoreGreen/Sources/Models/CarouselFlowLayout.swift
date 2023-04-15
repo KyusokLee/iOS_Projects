@@ -19,20 +19,16 @@ class CarouselFlowLayout: UICollectionViewFlowLayout {
         guard !firstTime else {
             return
         }
-        
         guard let hasCollectionView = self.collectionView else {
             return
         }
         
         let collectionViewSize = hasCollectionView.bounds
         print(collectionViewSize)
-        
         itemSize = CGSize(width: 150, height: 180)
         self.minimumLineSpacing = spacing
         scrollDirection = .horizontal
-        
         firstTime = true
     }
-    
     
 }

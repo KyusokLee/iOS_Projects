@@ -96,7 +96,7 @@ struct ItemElementsCreator {
         // ここで、年、月、日を入れることも可能ではあるけど、logicとしてparsingをして、表示させるときに入れることにした
         // TODO: ⚠️返したい変数を構造体Modelとしてreturnする
         return ExpirationDate(
-            expirationDate: expirationDate
+            expirationEndDate: expirationDate
         )
     }
 }
