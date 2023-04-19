@@ -17,6 +17,7 @@ protocol CameraViewControllerDelegate: AnyObject {
 }
 
 // MARK: - Life Cycle and Variables
+// TODO: - 1. 商品の名前をカメラで撮るように、 2. 商品名を認証させた後、賞味期限を撮るように
 final class CameraViewController: UIViewController {
     // カメラの拡大、縮小の機能をTapgestureで追加する
     @IBOutlet private weak var previewView: UIView!
@@ -25,8 +26,7 @@ final class CameraViewController: UIViewController {
     @IBOutlet weak var showCameraGuideViewButton: UIButton!
     
     weak var delegate: CameraViewControllerDelegate?
-    // itemの写真を撮る場合は、0
-    // itemの賞味期限や消費期限の写真を撮る場合は、1
+    // itemの写真を撮る場合は -> 0, itemの賞味期限や消費期限の写真を撮る場合は -> 1
     var cellIndex = 0
     // CaptureSession編数 _ cameraCaptureに関する全ての流れを管理するsession
     private let captureSession = AVCaptureSession()
@@ -44,7 +44,10 @@ final class CameraViewController: UIViewController {
     
     // カメラをVCへの画面遷移メソッド
     static func instantiate() -> CameraViewController {
-        guard let controller = UIStoryboard(name: "Camera", bundle: nil).instantiateViewController(withIdentifier: "CameraViewController") as? CameraViewController else {
+        let storyboard = UIStoryboard(name: "Camera", bundle: nil)
+        guard let controller = storyboard.instantiateViewController(
+            withIdentifier: "CameraViewController"
+        ) as? CameraViewController else {
             fatalError("CameraViewController could not be found.")
         }
         
@@ -287,39 +290,22 @@ extension CameraViewController: AVCapturePhotoCaptureDelegate {
             print("No photo data to write.")
             return
         }
-        // 🎖logic: Success -> result Viewに画面を移動
+        // Logic: Success -> result Viewに画面を移動
         //画面の設定 with imageData
-        
         print(imageData)
         // bytesが表示される
-        // ⚠️Photoを撮ったことをdelegateに知らせる
+        // Photoを撮ったことをdelegateに知らせる
         delegate?.didFinishTakePhoto(with: imageData, index: cellIndex)
-        
-        //⚠️ここで、presenterのloadItemInfo処理をするのが適していると思うが、View Controllerをpushするのではなく、parent VCに戻る処理をするので、難しかった
-        
-        // ⚠️ここで、エラーが生じる
-        // 理由: NewItemVC自体がnavigationControllerじゃないため、popViewが効かない
         // 一個前のVCに戻る
         navigationController?.popViewController(animated: true)
-//        // 🔥pushだったら、写真が反映される
-//        navigationController?.pushViewController(resultVC, animated: true)
-
-//        // Test Image View Result VC
-//        let testResultVC = PhotoResultVC.instantiate(with: imageData, index: cellIndex)
-//        navigationController?.pushViewController(testResultVC, animated: true)
-        ////⚠️下のコードを書くと、写真を撮るたびに新たなVCが生成される
-        //navigationController?.pushViewController(resultVC, animated: true)
     }
 }
 
 extension CameraViewController: CameraGuideViewDelegate {
     // checkBox buttonをtapしたとき、popupViewが表示されるようにする
     func didTapCheckBoxButton() {
-        print("tap check button!")
-        guard let controller = UIStoryboard(
-            name: "CameraGuidePopup",
-            bundle:nil
-        ).instantiateViewController(
+        let storyboard = UIStoryboard(name: "CameraGuidePopup", bundle: nil)
+        guard let controller = storyboard.instantiateViewController(
             withIdentifier: "CameraGuidePopupViewController"
         ) as? CameraGuidePopupViewController else {
             fatalError("CameraPopupViewController could not be found.")
@@ -330,7 +316,6 @@ extension CameraViewController: CameraGuideViewDelegate {
         cameraGuideView.swipeRightButton.alpha = 0.0
         cameraGuideView.checkBoxButton.alpha = 0.0
         cameraGuideView.checkBoxTitleLabel.alpha = 0.0
-        
         cameraGuideView.stopImageViewAnimation()
         
         controller.delegate = self

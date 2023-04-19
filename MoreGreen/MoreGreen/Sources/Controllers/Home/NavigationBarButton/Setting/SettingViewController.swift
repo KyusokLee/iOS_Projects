@@ -15,7 +15,7 @@ import UIKit
 class SettingViewController: UIViewController {
     
     @IBOutlet weak var settingTableView: UITableView!
-    let settingModel = SettingModel.infomation
+    let settingModel = SettingViewItemModel.infomation
     lazy var customTabBarController = UITabBarController()
     
     override func viewDidLoad() {

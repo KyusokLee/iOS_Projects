@@ -44,7 +44,6 @@
 		9433173D2917E2A5003CFB16 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9433173B2917E2A5003CFB16 /* CategoryCell.xib */; };
 		943E716629C96BC9006EFBB6 /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943E716529C96BC9006EFBB6 /* FlipCardView.swift */; };
 		943E716829C96C52006EFBB6 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943E716729C96C52006EFBB6 /* UIView+Utils.swift */; };
-		943EED2128FEB92100566648 /* SortedItemListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2028FEB92100566648 /* SortedItemListModel.swift */; };
 		943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2428FECE2300566648 /* CarouselFlowLayout.swift */; };
 		94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8D28D9F75C001C8BBB /* AppDelegate.swift */; };
 		94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8F28D9F75C001C8BBB /* SceneDelegate.swift */; };
@@ -143,7 +142,6 @@
 		9433173B2917E2A5003CFB16 /* CategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		943E716529C96BC9006EFBB6 /* FlipCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
 		943E716729C96C52006EFBB6 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
-		943EED2028FEB92100566648 /* SortedItemListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedItemListModel.swift; sourceTree = "<group>"; };
 		943EED2428FECE2300566648 /* CarouselFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselFlowLayout.swift; sourceTree = "<group>"; };
 		94449A8A28D9F75C001C8BBB /* MoreGreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoreGreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		94449A8D28D9F75C001C8BBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -294,7 +292,6 @@
 				943EED2428FECE2300566648 /* CarouselFlowLayout.swift */,
 				9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */,
 				94ABA9492906C3E60063CD3D /* UnderLinedMenuBarModel.swift */,
-				943EED2028FEB92100566648 /* SortedItemListModel.swift */,
 				9406C2E5290159F4002FA72B /* ItemListHeaderPageModel.swift */,
 				949A66CC299CD57200986FA8 /* Enums */,
 				94122FEE28DC5F59004DEED6 /* Entities */,
@@ -846,7 +843,6 @@
 				943E716829C96C52006EFBB6 /* UIView+Utils.swift in Sources */,
 				940B0F9B28F03D81003AFE8C /* showItemInfoDetailButton.swift in Sources */,
 				942007CF28DDC6B40092B699 /* ItemCell.swift in Sources */,
-				943EED2128FEB92100566648 /* SortedItemListModel.swift in Sources */,
 				942E3FFE29B49B4200A710CD /* AppAppearance.swift in Sources */,
 				942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */,
 				9460320528E2E4DC00C4E0C9 /* ItemElementsCreator.swift in Sources */,

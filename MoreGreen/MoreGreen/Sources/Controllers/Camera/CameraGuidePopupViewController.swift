@@ -13,6 +13,7 @@ protocol CameraGuidePopupDelegate: AnyObject {
     func shouldHideCameraGuideView()
 }
 
+// MARK: - Life Cycle and Variables
 final class CameraGuidePopupViewController: UIViewController {
     
     @IBOutlet weak var popupView: UIView!
@@ -30,6 +31,7 @@ final class CameraGuidePopupViewController: UIViewController {
     }
 }
 
+// MARK: - Function and Logic
 private extension CameraGuidePopupViewController {
     @IBAction func didTapCancelButton(_ sender: Any) {
         print("cancel!")

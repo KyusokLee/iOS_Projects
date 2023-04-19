@@ -10,9 +10,7 @@ import UIKit
 class SettingTableViewCell: UITableViewCell {
     
     @IBOutlet weak var cellImageView: UIImageView!
-    
     @IBOutlet weak var titleLabel: UILabel!
-    
     @IBOutlet weak var chevronImageView: UIImageView! {
         didSet {
             let image = UIImage(systemName: "chevron.right")?.withTintColor(
