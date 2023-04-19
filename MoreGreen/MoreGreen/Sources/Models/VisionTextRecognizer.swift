@@ -18,6 +18,8 @@ struct VisionTextRecognizer: VisionTextRecognizerProtocol {
         self.itemInfoCreator = itemInfoCreator
     }
     
+    // itemInfoCreator -> ExpirationDateのModelを返している
+    
     // MARK: - Vision Frameworkでテキスト認証
     func recognize(ciImage: CIImage, completion: @escaping ((String, Error?) -> Void)) {
         // テキスト認証結果を格納するString型配列
