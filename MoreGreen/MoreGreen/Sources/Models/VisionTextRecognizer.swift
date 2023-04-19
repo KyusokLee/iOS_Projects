@@ -29,27 +29,37 @@ struct VisionTextRecognizer: VisionTextRecognizerProtocol {
         var request = VNRecognizeTextRequest()
         
         request = VNRecognizeTextRequest { (request, error) in
-            guard let observations = request.results as? [VNRecognizedTextObservation], error == nil else {
+            guard let observations = request.results as? [VNRecognizedTextObservation],
+                  error == nil
+            else {
                 print("The observations you tried are of unexpected types.")
                 completion("", error)
                 return
             }
-            // 最大のテキスト候補を5つまで
+            // 最大のテキスト候補を1つまで
             let maximumCandidates = 1
             for observation in observations {
-                guard let candidates = observation.topCandidates(maximumCandidates).first, candidates.con else {
+                // VNConfidence: 観測物の精度の信頼水準を指す -> 0 ~ 1.0
+                guard let candidates = observation.topCandidates(maximumCandidates).first,
+                      candidates.confidence > 0.1
+                else {
                     continue
                 }
-                // candidatesが
+                // candidatesがカメラが追跡したテキストオブジェクトのことを言う
+                // つまり、このcandidatesと認証させたいテキスト(賞味期限)が一致するかを確認する処理が必要
+                let textString = candidates.string
+                let expirationDateModel = itemInfoCreator.create(from: textString)
                 
+                // TODO: - ExpirationModel (商品名、賞味期限)を返すように変更するつもり
+                if let expirationDate = expirationDateModel.expirationEndDate {
+                    text = expirationDate
+                }
                 
-//
                 // 正規表現のmatchをする
 //                if let match = text.range(of: self.expirationDatePattern, options: .regularExpression) {
 //                    let expirationDate = text.substring(with: match)
 //                    print("商品の賞味期限は \(expirationDate) です。")
 //                }
-                text.append(candidates)
             }
             completion(text, nil)
         }

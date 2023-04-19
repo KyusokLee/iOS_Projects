@@ -33,10 +33,10 @@ final class NewItemViewPresenter {
                 return
             }
             
-            if results.isEmpty {
-                self.view?.shouldShowRecognitionFailFeedback()
-            } else {
+            if !results.isEmpty {
                 self.view?.shouldShowTextRecognizeResult(with: results)
+            } else {
+                self.view?.shouldShowRecognitionFailFeedback()
             }
         })
     }
