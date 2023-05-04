@@ -54,19 +54,18 @@ struct VisionTextRecognizer: VisionTextRecognizerProtocol {
                 if let expirationDate = expirationDateModel.expirationEndDate {
                     text = expirationDate
                 }
-                
-                // 正規表現のmatchをする
-//                if let match = text.range(of: self.expirationDatePattern, options: .regularExpression) {
-//                    let expirationDate = text.substring(with: match)
-//                    print("商品の賞味期限は \(expirationDate) です。")
-//                }
             }
             completion(text, nil)
         }
         
         // MARK: - 日本語が正しく表示されなかったエラーはrecognitionLanguagesメソッドで日本語に設定するタイミングが原因
         // 調べたところ、テキスト認証 -> その後、テキストから日本語（以外の言語も）を検出する順番?のイメージ
-        request.recognitionLanguages = ["ja-JP", "en-US"]
+        // RequestのVision バージョンの設定
+        // Revision3が一番最近のもの
+        request.revision = VNRecognizeTextRequestRevision3
+        request.recognitionLevel = .accurate
+        request.recognitionLanguages = ["ja-JP", "en-US", "ko-KR"]
+        request.usesLanguageCorrection = true
         let requestHandler = VNImageRequestHandler(ciImage: ciImage, options: [:])
         // ここで、imageの処理を進める感じ
         // 画像に対しての解析リクエストを処理するためのオブジェクト

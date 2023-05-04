@@ -8,11 +8,21 @@
 import UIKit
 
 // CardViewの実装練習
-class CardView: UIView {
+class FlipCardView: UIView {
     
     // Flipしたかのstateを保存
     private var flipped = false
     private var angle: Double = 0.0
+    private lazy var frontView: UIView = {
+        let view = FrontCardView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    private lazy var backView: UIView = {
+        let view = BackCardView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
