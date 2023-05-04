@@ -32,20 +32,6 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    // FlipCardViewの前面
-    private lazy var frontView: UIView = {
-        let view = FrontCardView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    // FlipCardViewの後面
-    private lazy var backView: UIView = {
-        let view = BackCardView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     // 元となるCoreDataをfetchするための、配列

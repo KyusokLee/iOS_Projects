@@ -18,6 +18,7 @@ class FlipCardView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     private lazy var backView: UIView = {
         let view = BackCardView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -34,11 +35,12 @@ class FlipCardView: UIView {
     }
 
     private func setUpGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapToFlipView))
         addGestureRecognizer(tapGesture)
     }
 
-    @objc private func handleTapGesture(_ gesture: UITapGestureRecognizer) {
+    //
+    @objc private func didTapToFlipView(_ gesture: UITapGestureRecognizer) {
         UIView.transition(
             with: self,
             duration: 0.5,

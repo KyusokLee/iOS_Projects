@@ -11,6 +11,7 @@ import UIKit
 // TODO: ⚠️ここのlayoutで警告が出てる
 class HomeCardViewCell: UITableViewCell {
     
+    // ここで、FilpCardViewを受け取るようにすること
     @IBOutlet weak var cardView: UIView! {
         didSet {
             cardView.layer.masksToBounds = true
