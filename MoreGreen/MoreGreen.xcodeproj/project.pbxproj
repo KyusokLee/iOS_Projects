@@ -91,7 +91,6 @@
 		94FF297829C86366009D6594 /* GoogleVisionAPIPresenterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF297729C86366009D6594 /* GoogleVisionAPIPresenterTest.swift */; };
 		94FF298129C866EF009D6594 /* ItemElementsCreatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF298029C866EF009D6594 /* ItemElementsCreatorTests.swift */; };
 		94FF298329C87777009D6594 /* Bundle+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF298229C87777009D6594 /* Bundle+Utils.swift */; };
-		94FF298529C88390009D6594 /* RouletteWheelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF298429C88390009D6594 /* RouletteWheelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -193,7 +192,6 @@
 		94FF297729C86366009D6594 /* GoogleVisionAPIPresenterTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleVisionAPIPresenterTest.swift; sourceTree = "<group>"; };
 		94FF298029C866EF009D6594 /* ItemElementsCreatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemElementsCreatorTests.swift; sourceTree = "<group>"; };
 		94FF298229C87777009D6594 /* Bundle+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Utils.swift"; sourceTree = "<group>"; };
-		94FF298429C88390009D6594 /* RouletteWheelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouletteWheelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -600,7 +598,6 @@
 				94A1449F29C96FF500BF0FD0 /* FrontCardView.swift */,
 				94A144A129C9701E00BF0FD0 /* BackCardView.swift */,
 				942E400129B4BBA100A710CD /* CameraGuideView.swift */,
-				94FF298429C88390009D6594 /* RouletteWheelView.swift */,
 				943317382917B5B2003CFB16 /* CategoryTabBarView.swift */,
 				941657F229D064430023D464 /* TabBars */,
 				941657F129D0643E0023D464 /* Headers */,
@@ -792,7 +789,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94FF298529C88390009D6594 /* RouletteWheelView.swift in Sources */,
 				94D8A99828EB0CA100703FCF /* Date+Utils.swift in Sources */,
 				942007D828DDE10D0092B699 /* ExpirationDate.swift in Sources */,
 				949B2AE128DDA2420053E70B /* ProfileViewController.swift in Sources */,

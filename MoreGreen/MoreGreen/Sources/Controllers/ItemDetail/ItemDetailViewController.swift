@@ -18,7 +18,7 @@ final class ItemDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        print("もっと見るボタンを押しました!")
     }
 }
 

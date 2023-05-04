@@ -23,8 +23,13 @@ class CategoryTabBarView: UIView, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        setSizeOfCollectionViewCell(width: categoryCollectionView.bounds.width, height: categoryCollectionView.bounds.height)
-        guard let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell else { return UICollectionViewCell()}
+        setSizeOfCollectionViewCell(
+            width: categoryCollectionView.bounds.width,
+            height: categoryCollectionView.bounds.height
+        )
+        guard let categoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "CategoryCell", for: indexPath) as? CategoryCell else {
+            return UICollectionViewCell()
+        }
         categoryCell.setText(text: tabBarNameArray[indexPath.row])
         return categoryCell
     }

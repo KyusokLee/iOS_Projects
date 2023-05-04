@@ -28,7 +28,7 @@ class BackCardView: UIView {
         setUpView()
     }
     
-    func setUpView() {
+    private func setUpView() {
         self.backgroundColor = .blue
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 2
@@ -37,7 +37,7 @@ class BackCardView: UIView {
         setUpConstraints()
     }
     
-    func setUpConstraints() {
+    private func setUpConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)

@@ -11,9 +11,9 @@ protocol AlarmSettingDelegate: AnyObject {
     func delegateCheckPractice()
 }
 
-class AlarmSettingViewController: UIViewController {
+// MARK: - Life Cycle and Variables
+final class AlarmSettingViewController: UIViewController {
     
-    @IBOutlet weak var delegateTestButton: UIButton!
     weak var delegate: AlarmSettingDelegate?
 
     override func viewDidLoad() {
@@ -22,8 +22,11 @@ class AlarmSettingViewController: UIViewController {
         print("AlarmSettingViewController!")
         setNavigationController()
     }
-    
-    private func setNavigationController() {
+}
+
+// MARK: - Logic and Function
+private extension AlarmSettingViewController {
+    func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         // MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
@@ -38,17 +41,4 @@ class AlarmSettingViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "通知設定"
     }
-    
-    // rouletteViewを表示するテスト
-    @IBAction func tapDelegateTestButton(_ sender: Any) {
-        //self.delegate?.delegateCheckPractice()
-        let rouletteView = RouletteWheelView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
-        rouletteView.center = CGPoint(
-            x: self.view.frame.size.width / 2.0,
-            y: self.view.frame.size.height / 2.0
-        )
-        
-        self.view.addSubview(rouletteView)
-    }
-    
 }
