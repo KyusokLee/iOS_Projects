@@ -49,6 +49,7 @@ class HomeViewController: UIViewController {
     var willEndThisWeekCount = 0
     var dateFetchCount = 0
     var filterDateFetchCount = 0
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
