@@ -38,7 +38,7 @@ protocol NewItemViewControllerDelegate: AnyObject {
 class NewItemViewController: UIViewController {
     
     @IBOutlet weak var createItemTableView: UITableView!
-    private(set) var presenter: ItemInfoViewPresenter!
+    private(set) var presenter: NewItemViewPresenter!
     typealias PhotoType = (itemImage: Data, periodImage: Data)
     
     // ⚠️まだ、使うかどうか決めてない変数
@@ -336,6 +336,11 @@ private extension NewItemViewController {
     func periodConfigure(with imageData: Data, index cellIndex: Int) {
         
         print("period configure")
+        presenter = NewItemViewPresenter(
+            textRecognizer: <#T##VisionTextRecognizerProtocol#>,
+            view: self
+        )
+        
         presenter = ItemInfoViewPresenter(
             jsonParser: EndDateJSONParser(itemInfoCreater: ItemElementsCreator()),
             apiClient: GoogleVisionAPIClient(),

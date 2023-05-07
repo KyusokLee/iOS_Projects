@@ -42,7 +42,6 @@
 		943317392917B5B2003CFB16 /* CategoryTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943317382917B5B2003CFB16 /* CategoryTabBarView.swift */; };
 		9433173C2917E2A5003CFB16 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9433173A2917E2A5003CFB16 /* CategoryCell.swift */; };
 		9433173D2917E2A5003CFB16 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9433173B2917E2A5003CFB16 /* CategoryCell.xib */; };
-		943E716629C96BC9006EFBB6 /* FlipCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943E716529C96BC9006EFBB6 /* FlipCardView.swift */; };
 		943E716829C96C52006EFBB6 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943E716729C96C52006EFBB6 /* UIView+Utils.swift */; };
 		943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943EED2428FECE2300566648 /* CarouselFlowLayout.swift */; };
 		94449A8E28D9F75C001C8BBB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94449A8D28D9F75C001C8BBB /* AppDelegate.swift */; };
@@ -66,8 +65,6 @@
 		949B2AE928DDBE090053E70B /* CALayer+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AE828DDBE090053E70B /* CALayer+Utils.swift */; };
 		949B2AEB28DDBE1B0053E70B /* UITabBar+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949B2AEA28DDBE1B0053E70B /* UITabBar+Utils.swift */; };
 		949CD5E128E1931E001D6C67 /* 120.png in Resources */ = {isa = PBXBuildFile; fileRef = 949CD5E028E1931E001D6C67 /* 120.png */; };
-		94A144A029C96FF500BF0FD0 /* FrontCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A1449F29C96FF500BF0FD0 /* FrontCardView.swift */; };
-		94A144A229C9701E00BF0FD0 /* BackCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A144A129C9701E00BF0FD0 /* BackCardView.swift */; };
 		94ABA94A2906C3E60063CD3D /* UnderLinedMenuBarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ABA9492906C3E60063CD3D /* UnderLinedMenuBarModel.swift */; };
 		94AF3E6328DC74D800502C5B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AF3E6228DC74D800502C5B /* HomeViewController.swift */; };
 		94AF3E6528DC74E800502C5B /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94AF3E6428DC74E800502C5B /* Home.storyboard */; };
@@ -139,7 +136,6 @@
 		943317382917B5B2003CFB16 /* CategoryTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTabBarView.swift; sourceTree = "<group>"; };
 		9433173A2917E2A5003CFB16 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		9433173B2917E2A5003CFB16 /* CategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
-		943E716529C96BC9006EFBB6 /* FlipCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlipCardView.swift; sourceTree = "<group>"; };
 		943E716729C96C52006EFBB6 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
 		943EED2428FECE2300566648 /* CarouselFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselFlowLayout.swift; sourceTree = "<group>"; };
 		94449A8A28D9F75C001C8BBB /* MoreGreen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoreGreen.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,8 +162,6 @@
 		949B2AE828DDBE090053E70B /* CALayer+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Utils.swift"; sourceTree = "<group>"; };
 		949B2AEA28DDBE1B0053E70B /* UITabBar+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBar+Utils.swift"; sourceTree = "<group>"; };
 		949CD5E028E1931E001D6C67 /* 120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 120.png; path = MoreGreen/Resources/120.png; sourceTree = SOURCE_ROOT; };
-		94A1449F29C96FF500BF0FD0 /* FrontCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrontCardView.swift; sourceTree = "<group>"; };
-		94A144A129C9701E00BF0FD0 /* BackCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackCardView.swift; sourceTree = "<group>"; };
 		94ABA9492906C3E60063CD3D /* UnderLinedMenuBarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderLinedMenuBarModel.swift; sourceTree = "<group>"; };
 		94AF3E6228DC74D800502C5B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		94AF3E6428DC74E800502C5B /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
@@ -594,9 +588,6 @@
 		94AF3E6A28DC872600502C5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				943E716529C96BC9006EFBB6 /* FlipCardView.swift */,
-				94A1449F29C96FF500BF0FD0 /* FrontCardView.swift */,
-				94A144A129C9701E00BF0FD0 /* BackCardView.swift */,
 				942E400129B4BBA100A710CD /* CameraGuideView.swift */,
 				943317382917B5B2003CFB16 /* CategoryTabBarView.swift */,
 				941657F229D064430023D464 /* TabBars */,
@@ -832,8 +823,6 @@
 				9433173C2917E2A5003CFB16 /* CategoryCell.swift in Sources */,
 				94449A9028D9F75C001C8BBB /* SceneDelegate.swift in Sources */,
 				9406C2E6290159F4002FA72B /* ItemListHeaderPageModel.swift in Sources */,
-				94A144A029C96FF500BF0FD0 /* FrontCardView.swift in Sources */,
-				943E716629C96BC9006EFBB6 /* FlipCardView.swift in Sources */,
 				943317352917AEB4003CFB16 /* ItemDetailViewController.swift in Sources */,
 				94122FF128DC5FE7004DEED6 /* UIColor+Utils.swift in Sources */,
 				943E716829C96C52006EFBB6 /* UIView+Utils.swift in Sources */,
@@ -845,7 +834,6 @@
 				941BF55A28FC380E006C8E28 /* HomeItemCell.swift in Sources */,
 				941BF55128FC1EDD006C8E28 /* HomeCustomHeader.swift in Sources */,
 				9472C8B028DF03E8004E4348 /* ButtonCell.swift in Sources */,
-				94A144A229C9701E00BF0FD0 /* BackCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

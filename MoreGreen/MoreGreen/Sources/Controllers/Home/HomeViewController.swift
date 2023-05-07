@@ -26,11 +26,6 @@ import CoreData
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var homeTableView: UITableView!
-    // MARK: - flipViewの定義をここで書く
-    private lazy var flipCardView: UIView = {
-        let view = FlipCardView(frontView: frontView, backView: backView)
-        return view
-    }()
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -54,9 +49,6 @@ class HomeViewController: UIViewController {
     var willEndThisWeekCount = 0
     var dateFetchCount = 0
     var filterDateFetchCount = 0
-    // flipped(ひっくり返されたか)になってるかどうかのBool Flag
-    private var flipped = false
-    private var angle: Double = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,8 +56,6 @@ class HomeViewController: UIViewController {
         setNavigationBar()
         setTableView()
         registerXib()
-        self.view.addSubview(flipCardView)
-        flipCardView.translatesAutoresizingMaskIntoConstraints = false
 //        fetchData()
 //        homeTableView.reloadData()
 //        updateViewConstraints()
@@ -81,39 +71,6 @@ class HomeViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    func addTapGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(flipViewTapped))
-        flipCardView.addGestureRecognizer(tapGesture)
-    }
-    
-    func setUpConstraints() {
-        NSLayoutConstraint.activate([
-            flipCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            flipCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            flipCardView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
-            flipCardView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
-        ])
-    }
-    
-    @objc private func flipViewTapped() {
-        UIView.animate(
-            withDuration: 1.4,
-            delay: 0,
-            usingSpringWithDamping: 1.0,
-            initialSpringVelocity: 0.5,
-            options: .curveEaseInOut
-        ) {
-            if self.angle == 180 {
-                self.angle = 0
-            } else {
-                self.angle = 180
-            }
-            self.flipCardView.transform = CGAffineTransform(
-                rotationAngle: CGFloat(self.angle * Double.pi / 180)
-            )
-        }
     }
     
     // ⚠️navigationBarのappearanceはApp全体に共通して反映したいので、他のfileとして作った方がいいかもと思う
