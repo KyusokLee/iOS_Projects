@@ -39,7 +39,7 @@ class FlipCardView: UIView {
         addGestureRecognizer(tapGesture)
     }
 
-    //
+    // ここのwithにfrontViewとbackViewを導入する
     @objc private func didTapToFlipView(_ gesture: UITapGestureRecognizer) {
         UIView.transition(
             with: self,
