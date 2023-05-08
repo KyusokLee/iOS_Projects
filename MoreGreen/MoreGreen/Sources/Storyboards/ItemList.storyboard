@@ -43,9 +43,6 @@
                                     <constraint firstItem="GOD-KY-Jeh" firstAttribute="leading" secondItem="VGJ-Tq-eHF" secondAttribute="leading" id="uzK-cj-14u"/>
                                     <constraint firstAttribute="trailing" secondItem="GOD-KY-Jeh" secondAttribute="trailing" id="wAa-Sb-ZmA"/>
                                 </constraints>
-                                <connections>
-                                    <outlet property="categoryCollectionView" destination="GOD-KY-Jeh" id="Mw0-9p-RWn"/>
-                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEr-EK-nGv" userLabel="Middle View">
                                 <rect key="frame" x="0.0" y="60" width="390" height="5"/>

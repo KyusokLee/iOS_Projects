@@ -44,6 +44,8 @@ class CategoryTabBarView: UIView, UICollectionViewDataSource {
         }
     }
     
+    
+    
     // Contents　Viewに合わせて、pageを変えてくれるコード
     func scroll(to index: Int) {
         categoryCollectionView.selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: [])
