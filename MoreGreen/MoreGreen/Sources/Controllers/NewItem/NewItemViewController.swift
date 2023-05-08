@@ -36,9 +36,9 @@ protocol NewItemViewControllerDelegate: AnyObject {
 //}
 
 class NewItemViewController: UIViewController {
-    
+       
     @IBOutlet weak var createItemTableView: UITableView!
-    private(set) var presenter: ItemInfoViewPresenter!
+    private(set) var presenter: NewItemViewPresenter!
     typealias PhotoType = (itemImage: Data, periodImage: Data)
     
     // ⚠️まだ、使うかどうか決めてない変数
@@ -264,8 +264,8 @@ class NewItemViewController: UIViewController {
     }
     
     // 賞味期限の文字認識が終わるまで、loadingViewを表示する
-    func showLoadingView(loadAPI doRecognize: Bool) {
-        guard doRecognize else {
+    func showLoadingView(state checkState: Bool) {
+        guard checkState else {
             return
         }
         
@@ -300,9 +300,9 @@ class NewItemViewController: UIViewController {
         }
     }
     
-    func hideloadingView(_ loadingView: UIView?, loadAPI doRecognize: Bool) {
+    func hideloadingView(_ loadingView: UIView?, state recognizeState: Bool) {
         print("hide load!")
-        guard !doRecognize else {
+        guard !recognizeState else {
             return
         }
         print("do Hide load!")
@@ -320,33 +320,22 @@ class NewItemViewController: UIViewController {
 private extension NewItemViewController {
     // TODO: imageは2週類ある
     // 1つ目:　商品の写真だけを保存
-    // ⚠️imageと商品の名前も認証を行うつもりである
-//    func imageConfigure(with imageData: Data, index cellIndex: Int) {
-//        print("image configure")
-//
-//        let indexPath = IndexPath(row: cellIndex, section: cellIndex)
-//        let cell = createItemTableView.dequeueReusableCell(withIdentifier: "ItemImageCell", for: indexPath) as! ItemImageCell
-//        let image = UIImage(data: imageData)
-//        cell.itemPhoto = image ?? UIImage()
-//        createItemTableView.reloadData()
-//    }
     
     // 🔥Json parsingを用いて、imageをparsingする
     // 2つ目: OCR結果を用いて、賞味期限の表示
     func periodConfigure(with imageData: Data, index cellIndex: Int) {
         
         print("period configure")
-        presenter = ItemInfoViewPresenter(
-            jsonParser: EndDateJSONParser(itemInfoCreater: ItemElementsCreator()),
-            apiClient: GoogleVisionAPIClient(),
-            itemView: self
+        presenter = NewItemViewPresenter(
+            textRecognizer: VisionTextRecognizer(itemInfoCreator: ItemElementsCreator()),
+            view: self
         )
         // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
         // MARK: 🔥⚠️賞味期限のimageをloadして、賞味期限の文字を表示する処理をここで、行う
         if !isDoingRecognize {
             // DoingRecognizeをtrueに
             isDoingRecognize = true
-            self.showLoadingView(loadAPI: isDoingRecognize)
+            self.showLoadingView(state: isDoingRecognize)
             
             // periodImageLoadが終わるまで、hideloadingViewをいないから、syncとasyncで実装できそう
             DispatchQueue.main.async {
@@ -359,7 +348,7 @@ private extension NewItemViewController {
     // --> 修正したい方向性: cameraVCで写真を撮ったあと、すぐloadItemInfoをするようにすれば、より早く反映されるのではないかと考える
     // それとも、presenterを最初からVCのloadの時点(viewDidLoad)で定義する
     func periodImageLoad(with imageData: Data) {
-        presenter.loadItemInfo(from: imageData.base64EncodedString())
+        presenter.loadItemInfomation(from: CIImage(data: imageData)!)
     }
     // ⚠️カメラ撮影の権限をcheckするメソッド
     func requestCameraPermission() {
@@ -935,45 +924,21 @@ extension NewItemViewController: ResizePhotoDelegate {
     }
 }
 
-extension NewItemViewController: ItemInfoView {
-    // 認証とネットワークアクセスに成功した時
-    func shouldShowSuccessToShowItemInfo(with endDate: EndDate) {
-        //image Viewからのデータをpresenterから受け取ってimageをfetchする
-        let unrecognizedMsg = "日付を読み取れませんでした"
+extension NewItemViewController: TextRecognizeResultView {
+    func shouldShowTextRecognizeResult(with results: String) {
         self.recognizeState = true
-        self.endPeriodText = endDate.endDate ?? unrecognizedMsg
-        if self.endPeriodText == unrecognizedMsg {
-            failState = true
-        } else {
-            failState = false
-        }
+        self.endPeriodText = results
+        failState = false
         //🔥loadingViewをhideする処理をここで呼び出す
         self.isDoingRecognize = false
-        self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
+        self.hideloadingView(self.loadingView, state: self.isDoingRecognize)
         self.createItemTableView.reloadData()
     }
     
-    // Google APIへのnetWork 接続Error
-    func shouldShowNetworkErrorFeedback(error errorType: ErrorType) {
+    func shouldShowRecognitionFailFeedback() {
         DispatchQueue.main.async {
             self.present(
-                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
-                animated: true
-            )
-            self.recognizeState = false
-            self.endPeriodText = "ネットワークアクセスに失敗しました"
-            //🔥loadingViewをhideする処理をここで呼び出す
-            self.isDoingRecognize = false
-            self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
-            self.createItemTableView.reloadData()
-        }
-    }
-    
-    // 文字(賞味期限や消費期限)の認識に失敗
-    func shouldShowFailToRecognizeFeedback(error errorType: ErrorType) {
-        DispatchQueue.main.async {
-            self.present(
-                self.showsErrorAlert(title: errorType.alertTitle, message: errorType.alertMessage),
+                self.showsErrorAlert(title: "テキスト認証失敗", message: "テキスト認証に失敗しました。もう一度確認してください。"),
                 animated: true
             )
             self.recognizeState = false
@@ -981,7 +946,7 @@ extension NewItemViewController: ItemInfoView {
             self.failState = true
             //🔥loadingViewをhideする処理をここで呼び出す
             self.isDoingRecognize = false
-            self.hideloadingView(self.loadingView, loadAPI: self.isDoingRecognize)
+            self.hideloadingView(self.loadingView, state: self.isDoingRecognize)
             self.createItemTableView.reloadData()
         }
     }

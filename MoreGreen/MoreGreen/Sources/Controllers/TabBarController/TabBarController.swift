@@ -7,19 +7,6 @@
 
 import UIKit
 import CoreData
-// MARK: APP logic
-// カメラで商品の写真を撮る
-// MVP🔥🔥 1-1(1). 商品のイメージを取るように
-// MVP🔥🔥 1-1(2).賞味期限の OCR (GCP)
-// MVP🔥 1-2. 商品のバーコードを読み込む
-// 1-2(1). Yahoo search APIや外部の商品番号登録APIとfetchする (GCP 後、 他のAPI)
-// MVP🔥🔥 1-3. 画面に表示
-// MVP🔥 1-4. Core Dataを導入し、保存するように
-// MVP🔥 1-5. dataのCRUDを可能に
-// MVP🔥 1-6.　アラーム通知
-// 1-7. 家族との共有システム (家の商品をより効率的に管理しよう)
-// 1-8. 経済的な費用を計算するように
-// 1-9. Callenderを導入し、月別のデータを見れるように
 
 //MARK: - tabbarControllerの方でnavigationBarButtonItemのclick イベントを実装するか、該当のViewControllerでイベント処理を実装するかを迷う
 // -> TabbarControllerでは、controllerの構築だけをして、navigationBarItenなどのnavigationControllerの設定は、各controllerで実装することで、navigationControllerの遷移ができる
@@ -28,10 +15,7 @@ import CoreData
 // middle ButtonをTabBarに載せないと、popupViewなどがそのViewの上にある時、MiddleButtonが隠れないエラーが生じた
 // 解決策: tabbarにaddSubviewすることで、できると考える
 
-//TODO: - HitTestで、Middle Buttonのtouch領域を広げる
-
 final class TabBarController: UITabBarController {
-    
 //MARK: - Variable Part
     // ⚠️Error: MiddleButtonがTabbarControllerの要素としてあるわけではなく、位置調整でそこにあるように見られているだけだった..
     let buttonHeight: CGFloat = 65
@@ -193,21 +177,6 @@ extension TabBarController {
         }
     }
     
-//    // コードで TabBarの真ん中にボタンを入れる
-//    private func setUpMiddleButton() {
-//        addButton.backgroundColor = UIColor(rgb: 0x36B700)
-//        addButton.setImage(UIImage(systemName: "plus"), for: .normal)
-//        addButton.tintColor = .white
-//        addButton.contentMode = .scaleAspectFit
-//        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-//        addButton.translatesAutoresizingMaskIntoConstraints = false
-//        addButton.layer.cornerRadius = buttonHeight / 2
-//        // viewに入れるのではなく、tabBarにviewを追加すること
-//        self.view.layer.masksToBounds = false
-//        // viewに載せないと、button全体が効かない
-//        self.view.addSubview(addButton)
-//    }
-    
     // TabBarの真ん中のボタンをコードで実装
     // こうすると、plus Buttonだけが表示され、背景色がなくなってしまう
     private func setUpMiddleButton() {
@@ -216,7 +185,6 @@ extension TabBarController {
         let posX: CGFloat = self.view.frame.width/2 - width/2
         let posY: CGFloat = -32
         addButton.frame = CGRect(x: posX, y: posY, width: width, height: height)
-//        tabBar.addSubview(self.addButton)
         self.tabBar.addSubview(self.addButton)
     }
 
@@ -267,15 +235,3 @@ extension TabBarController: UITabBarControllerDelegate {
         print("didSelect: \(tabBarController.selectedIndex)")
     }
 }
-
-// Youtubeのcomment sheetViewみたいなものを表示する間数
-//private func presentModal() {
-//    let controller = DetailViewController()
-//    let navigationController = UINavigationController(rootViewController: controller)
-//    // 2
-//    if let sheet = navigationController.sheetPresentationController {
-//        // 3
-//        sheet.detents = [.medium(), .large()]
-//    }
-//    self.present(navigationController, animated: true, completion: nil)
-//}
