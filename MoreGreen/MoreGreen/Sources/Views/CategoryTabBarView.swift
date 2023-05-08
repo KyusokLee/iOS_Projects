@@ -13,6 +13,7 @@ import UIKit
 // -->上記のstepで、Stotyboard上のオブジェクトを他のfileに連動することができる
 
 class CategoryTabBarView: UIView, UICollectionViewDataSource {
+    
     let tabBarNameArray: [String] = ["全体", "消費済み", "期限切れ"]
     weak var delegate: PagingTabbarDelegate?
     static let nibName = "CategoryTabBarView"
@@ -39,12 +40,17 @@ class CategoryTabBarView: UIView, UICollectionViewDataSource {
         didSet {
             categoryCollectionView.dataSource = self
             categoryCollectionView.delegate = self
-            categoryCollectionView.register(UINib(nibName: CategoryCell.identifier, bundle: nil), forCellWithReuseIdentifier: CategoryCell.identifier)
-            categoryCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: true, scrollPosition: [])
+            categoryCollectionView.register(
+                UINib(nibName: CategoryCell.identifier, bundle: nil),
+                forCellWithReuseIdentifier: CategoryCell.identifier
+            )
+            categoryCollectionView.selectItem(
+                at: IndexPath(row: 0, section: 0),
+                animated: true,
+                scrollPosition: []
+            )
         }
     }
-    
-    
     
     // Contents　Viewに合わせて、pageを変えてくれるコード
     func scroll(to index: Int) {
