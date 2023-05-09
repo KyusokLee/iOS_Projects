@@ -32,11 +32,7 @@ enum DisplayType {
 }
 
 class ItemListViewController: UIViewController {
-    @IBOutlet weak var categoryTabbarView: CategoryTabBarView! {
-        didSet {
-            categoryTabbarView.delegate = self
-        }
-    }
+  
     @IBOutlet weak var indicatorView: UIView! {
         didSet {
             indicatorView.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.9)
@@ -45,6 +41,12 @@ class ItemListViewController: UIViewController {
     
     @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var categoryTabbarView: CategoryTabBarView! {
+        didSet {
+            categoryTabbarView.delegate = self
+        }
+    }
+    
     @IBOutlet weak var itemListTableView: UITableView!
     @IBOutlet weak var itemDisplayTypeSegment: UISegmentedControl! {
         didSet {
@@ -52,6 +54,7 @@ class ItemListViewController: UIViewController {
             
         }
     }
+    
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext

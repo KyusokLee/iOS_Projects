@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment version="5120" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -20,13 +21,13 @@
                                 <rect key="frame" x="0.0" y="60" width="130" height="5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGJ-Tq-eHF" customClass="CategoryTabbar" customModule="MoreGreen" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGJ-Tq-eHF" customClass="CategoryTabBarView" customModule="MoreGreen" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="GOD-KY-Jeh" userLabel="Category Collection View">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="83L-cm-dFA">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ODC-3A-3LO">
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="5zo-dt-Ubf">
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -35,14 +36,17 @@
                                         <cells/>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="83L-cm-dFA" secondAttribute="bottom" id="9tT-Gc-Kzn"/>
                                     <constraint firstAttribute="height" constant="60" id="KE5-ue-F13"/>
-                                    <constraint firstAttribute="bottom" secondItem="GOD-KY-Jeh" secondAttribute="bottom" id="c01-L3-fXq"/>
-                                    <constraint firstItem="GOD-KY-Jeh" firstAttribute="top" secondItem="VGJ-Tq-eHF" secondAttribute="top" id="fdp-lK-iDo"/>
-                                    <constraint firstItem="GOD-KY-Jeh" firstAttribute="leading" secondItem="VGJ-Tq-eHF" secondAttribute="leading" id="uzK-cj-14u"/>
-                                    <constraint firstAttribute="trailing" secondItem="GOD-KY-Jeh" secondAttribute="trailing" id="wAa-Sb-ZmA"/>
+                                    <constraint firstItem="83L-cm-dFA" firstAttribute="leading" secondItem="VGJ-Tq-eHF" secondAttribute="leading" id="X8D-Wj-B5P"/>
+                                    <constraint firstItem="83L-cm-dFA" firstAttribute="top" secondItem="VGJ-Tq-eHF" secondAttribute="top" id="ces-mo-1nr"/>
+                                    <constraint firstAttribute="trailing" secondItem="83L-cm-dFA" secondAttribute="trailing" id="mU2-EI-fwM"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="categoryCollectionView" destination="83L-cm-dFA" id="0jC-hh-0UT"/>
+                                </connections>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lEr-EK-nGv" userLabel="Middle View">
                                 <rect key="frame" x="0.0" y="60" width="390" height="5"/>
@@ -75,16 +79,16 @@
                             <constraint firstItem="gJj-JG-obh" firstAttribute="top" secondItem="Anw-f2-FuS" secondAttribute="bottom" id="484-1h-VUo"/>
                             <constraint firstItem="lEr-EK-nGv" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="4sf-E1-h5j"/>
                             <constraint firstItem="lEr-EK-nGv" firstAttribute="top" secondItem="VGJ-Tq-eHF" secondAttribute="bottom" id="5O2-Fe-lSf"/>
+                            <constraint firstItem="seR-9g-HGT" firstAttribute="width" secondItem="83L-cm-dFA" secondAttribute="width" multiplier="0.3333" id="6n0-GN-m5X"/>
                             <constraint firstItem="seR-9g-HGT" firstAttribute="leading" secondItem="VGJ-Tq-eHF" secondAttribute="leading" id="Hpb-a9-xud"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="lEr-EK-nGv" secondAttribute="trailing" id="Hwm-Ph-5hn"/>
+                            <constraint firstItem="seR-9g-HGT" firstAttribute="top" secondItem="83L-cm-dFA" secondAttribute="bottom" id="J6b-QD-KRw"/>
                             <constraint firstItem="Anw-f2-FuS" firstAttribute="top" secondItem="lEr-EK-nGv" secondAttribute="bottom" id="Rev-Mh-CmC"/>
-                            <constraint firstItem="seR-9g-HGT" firstAttribute="top" secondItem="GOD-KY-Jeh" secondAttribute="bottom" id="Whx-Yl-kQp"/>
                             <constraint firstItem="Anw-f2-FuS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cbn-3O-Tz1"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="VGJ-Tq-eHF" secondAttribute="trailing" id="emD-UW-gpm"/>
                             <constraint firstItem="VGJ-Tq-eHF" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="jr3-xh-PxC"/>
                             <constraint firstItem="seR-9g-HGT" firstAttribute="bottom" secondItem="lEr-EK-nGv" secondAttribute="bottom" id="ldG-cS-x4d"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="gJj-JG-obh" secondAttribute="bottom" id="t37-5q-10e"/>
-                            <constraint firstItem="seR-9g-HGT" firstAttribute="width" secondItem="GOD-KY-Jeh" secondAttribute="width" multiplier="0.333" id="u26-Pe-CSd"/>
                             <constraint firstItem="VGJ-Tq-eHF" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="weN-G7-mgX"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Anw-f2-FuS" secondAttribute="trailing" id="ytC-oD-qVf"/>
                         </constraints>
@@ -93,7 +97,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="categoryTabbarView" destination="VGJ-Tq-eHF" id="37h-9s-nNO"/>
+                        <outlet property="categoryTabbarView" destination="VGJ-Tq-eHF" id="v1m-tA-Gnd"/>
                         <outlet property="indicatorLeadingConstraint" destination="Hpb-a9-xud" id="Hts-uV-tl4"/>
                         <outlet property="indicatorView" destination="seR-9g-HGT" id="NEi-L5-ao6"/>
                         <outlet property="itemDisplayTypeSegment" destination="Anw-f2-FuS" id="PVE-TH-uSt"/>
