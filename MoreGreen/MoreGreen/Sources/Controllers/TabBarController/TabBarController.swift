@@ -46,7 +46,7 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // 影の部分はまだ、実装してない
-        //setTabBarShadow()
+        setTabBarShadow()
         setTabBar()
         fetchData()
         self.delegate = self
@@ -54,7 +54,7 @@ final class TabBarController: UITabBarController {
 }
 
 //MARK: - Extension
-extension TabBarController {
+private extension TabBarController {
     func fetchData() {
         let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
         let context = appDelegate.persistentContainer.viewContext
@@ -102,10 +102,11 @@ extension TabBarController {
 //        if #available(iOS 15.0, *) {
 //            tabBar.scrollEdgeAppearance = tabBar.standardAppearance
 //        }
+        
         self.tabBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.tabBar.layer.shadowOpacity = 0.5
         self.tabBar.layer.shadowOffset = CGSize.zero
-        self.tabBar.layer.shadowRadius = 5
+        self.tabBar.layer.shadowRadius = 1.5
         self.tabBar.layer.borderColor = UIColor.clear.cgColor
         self.tabBar.layer.borderWidth = 0
         self.tabBar.clipsToBounds = false
@@ -164,37 +165,15 @@ extension TabBarController {
         self.setViewControllers(viewControllers, animated: false)
     }
     
-    private func createNewFoodItemInfo() {
-        guard let controller = self.storyboard?.instantiateViewController(
-            withIdentifier: "NewItemViewController"
-        ) as? NewItemViewController else {
-            fatalError("NewItemViewController could not be found")
-        }
-        
-        controller.modalPresentationCapturesStatusBarAppearance = true
-        self.present(controller, animated: true) {
-            print("will create new info of food items")
-        }
-    }
-    
     // TabBarの真ん中のボタンをコードで実装
     // こうすると、plus Buttonだけが表示され、背景色がなくなってしまう
     private func setUpMiddleButton() {
-        let width: CGFloat = 70/375 * self.view.frame.width
-        let height: CGFloat = 70/375 * self.view.frame.width
+        let width: CGFloat = 50/375 * self.view.frame.width
+        let height: CGFloat = 50/375 * self.view.frame.width
         let posX: CGFloat = self.view.frame.width/2 - width/2
-        let posY: CGFloat = -32
+        let posY: CGFloat = 0
         addButton.frame = CGRect(x: posX, y: posY, width: width, height: height)
         self.tabBar.addSubview(self.addButton)
-    }
-
-    private func setMiddleButtonConstraints() {
-        let heightDifference = -(buttonHeight / 2)
-        addButton.heightAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        addButton.widthAnchor.constraint(equalToConstant: buttonHeight).isActive = true
-        addButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor).isActive = true
-        addButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: heightDifference).isActive = true
-        // subViewがないのに、layoutIfNeededをすることは正しくなかった
     }
     
     @objc func tapAddButton(sender: UIButton) {
