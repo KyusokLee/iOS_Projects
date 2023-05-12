@@ -129,15 +129,13 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             // ここで、delegateしなかったから、errorになった！
             controller.delegate = self
             
-            controller.modalPresentationStyle = .overCurrentContext
+            // .overCurrentContextだとTabbarControllerが透過されない
+            controller.modalPresentationStyle = .overFullScreen
             // 🌈modalTransitionStyle: 画面が転換されるときのStyle効果を提供する。animation Styleの設定可能
             // .crossDissolve: ゆっくりと消えるスタイルの設定
             controller.modalTransitionStyle = .crossDissolve
-            // Tabbarの操作を止める
-            customTabBarController.tabBar.isUserInteractionEnabled = false
             
-            // tabBarControllerへのアクセスができる
-            // 表示されたViewControllerのancestorのtabbarControllerの取得,つまり、ViewControllerの親のcontrollerを取得できる
+            // tabBarにアニメーション効果を与える
             self.moveTabBarControllerDownAnimation()
             self.present(controller, animated: true)
         default:
@@ -158,7 +156,6 @@ extension SettingViewController: DataResetPopupDelegate {
                 self.customTabBarController.tabBar.center.y -= TabBarAnimation.movingHeight
             }
         )
-        customTabBarController.tabBar.isUserInteractionEnabled = true
     }
 }
 
