@@ -659,9 +659,7 @@ extension NewItemViewController: ButtonDelegate {
     
     func showsErrorAlert(title: String, message: String) -> UIAlertController {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let check = UIAlertAction(title: "確認", style: .default) { _ in
-            self.dismiss(animated: true)
-        }
+        let check = UIAlertAction(title: "確認", style: .default)
         alertController.addAction(check)
         return alertController
     }
