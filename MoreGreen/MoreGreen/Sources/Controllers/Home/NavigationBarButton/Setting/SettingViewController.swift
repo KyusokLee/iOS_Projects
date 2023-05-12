@@ -12,7 +12,8 @@ import UIKit
 // 2. 地域設定
 // 3. Userの設定 -> Profileのとこで実装する
 // 4. 使用方法
-class SettingViewController: UIViewController {
+// MARK: - Variables and Life Cycle
+final class SettingViewController: UIViewController {
     
     @IBOutlet weak var settingTableView: UITableView!
     let settingModel = SettingViewItemModel.infomation
@@ -24,13 +25,14 @@ class SettingViewController: UIViewController {
         setTableView()
         fetchTabBarController()
     }
-    // navigationControllerの遷移先でnavigationControllerの色の設定をすると、rootViewControllerまで影響を与えてしまう
-    private func setNavigationController() {
+}
+
+// MARK: - Func and Logics
+private extension SettingViewController {
+    //navigationControllerの遷移先でnavigationControllerの色の設定をすると、rootViewControllerまで影響を与えちゃう
+    func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        // MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
-//        appearance.backgroundColor = UIColor.white
-//        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.navigationBar.tintColor = UIColor.black
         self.navigationController?.navigationBar.standardAppearance = appearance
@@ -41,17 +43,17 @@ class SettingViewController: UIViewController {
         self.navigationItem.title = "設定"
     }
     
-    private func setTableView() {
+    func setTableView() {
         settingTableView.delegate = self
         settingTableView.dataSource = self
         registerXib()
     }
     
-    private func registerXib() {
+    func registerXib() {
         settingTableView.register(UINib(nibName: "SettingTableViewCell", bundle: nil), forCellReuseIdentifier: "SettingTableViewCell")
     }
     
-    private func moveTabBarControllerDownAnimation() {
+    func moveTabBarControllerDownAnimation() {
         UIView.animate(
             withDuration: TabBarAnimation.duration,
             delay: 0.0,
@@ -62,15 +64,14 @@ class SettingViewController: UIViewController {
         )
     }
     
-    private func fetchTabBarController() {
+    func fetchTabBarController() {
         guard let tabBarController = self.tabBarController else {
             fatalError("TabBarController could not be found")
         }
         print("func 実行")
         customTabBarController = tabBarController
     }
-    
-    // delegateで命名した間数名がdelegateを使う側の間数名と同じ時、internalをつけることで、受ける側で実装した間数を使うことが可能
+    //delegateで命名した間数名がdelegateを使う側の間数名と同じ時、internalをつけることで、受ける側で実装した間数を使うことが可能
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
