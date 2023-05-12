@@ -31,7 +31,7 @@ enum DisplayType {
     case endDateSort
 }
 
-class ItemListViewController: UIViewController {
+final class ItemListViewController: UIViewController {
   
     @IBOutlet weak var indicatorView: UIView! {
         didSet {
@@ -40,7 +40,6 @@ class ItemListViewController: UIViewController {
     }
     
     @IBOutlet weak var indicatorLeadingConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var categoryTabbarView: CategoryTabBarView! {
         didSet {
             categoryTabbarView.delegate = self
@@ -55,13 +54,8 @@ class ItemListViewController: UIViewController {
         }
     }
     
-    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//    var pageViewController = UIPageViewController()
-//    var pageModel = PageModel()
-//    let tabsCount = 4
-////    let tabsCount = 4; #warning ("< 1 causes Crash!")
     
     var itemList = [ItemList]()
     var itemListCount = 0
@@ -89,7 +83,6 @@ class ItemListViewController: UIViewController {
     // TODO: ⚠️今週内 (7日以内)に賞味期限が切れる商品のデータだけを格納する配列
     var itemsWillEndList = [ItemList]()
     var dateFetchCount = 0
-    
     // ⚠️今週に賞味期限が切れるitemの数
     var willEndThisWeekCount = 0
     
@@ -118,15 +111,18 @@ class ItemListViewController: UIViewController {
             self.itemListTableView.reloadData()
         }
     }
+ 
+}
+
+// MARK: - Function and Logic
+private extension ItemListViewController {
     
     func setNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(rgb: 0x36B700).withAlphaComponent(0.7)
-        
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         appearance.titleTextAttributes = textAttributes
-        
         self.navigationController?.navigationBar.standardAppearance = appearance
         self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
@@ -172,7 +168,6 @@ class ItemListViewController: UIViewController {
                 print(#function, hasError)
             }
         }
-        
     }
     
     // TODO: ⚠️途中の段階
@@ -236,12 +231,6 @@ class ItemListViewController: UIViewController {
     func registerXib() {
         itemListTableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
     }
-    
-//    func setUpPagingViewController() {
-//        pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-//        pageViewController.dataSource = self
-//        pageViewController.delegate = self
-//    }
     
     // fetchDataをした後に、requestSendメソッドを呼び出すようにする
     // ⚠️🔥こうすることで、backGroundでもitemの数を表示することができた
@@ -776,21 +765,6 @@ extension ItemListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//// pagingVC関連メソッド
-//extension ItemList: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-//    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-//        if let currentVCIndex = pageModel.pages {
-//
-//        }
-//    }
-//
-//    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-//        <#code#>
-//    }
-//
-//
-//}
-
 // tableViewの更新を行う
 extension ItemListViewController: NewItemViewControllerDelegate {
     func addNewItemInfo() {
@@ -857,11 +831,5 @@ extension ItemListViewController: UICollectionViewDelegateFlowLayout {
         let page = Int(targetContentOffset.pointee.x / scrollView.frame.width)
         categoryTabbarView.scroll(to: page)
     }
-    
-//    // MARK: ⚠️まだ、PageCollectionViewは実装完了してない
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: pageCollectionView.bounds.width, height: pageCollectionView.bounds.height)
-//    }
-    
 }
 
