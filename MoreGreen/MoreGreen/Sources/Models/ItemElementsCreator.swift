@@ -46,6 +46,10 @@ enum TextTargetType: RegexPattern {
     case expirationDateJapanese = "(\\s?(20[0-9]{2}|((2|3)[0-9])){0,2}\\s?)\\p{Han}{0,1}(\\s?([1-9]|0[1-9]|1[0-2])\\s?)\\p{Han}{0,1}(\\s?([0-9]{1,2}|0[1-9]|1[0-9]|2[0-9]|3[0-1])\\s?)\\p{Han}{0,1}"
     
 //    case testKanji = "^\\p{Han}{1,3}\\s?\\p{Han}{1,3}$"
+    // 年月日を特定して認証させるためのcase　設計
+    // #を使用することで、バックスラッシュをエスケープせずに直接書くことができる
+    // 通常は \\dと書かなければナラニノに対し、##の中で書くと \dと書くことができるというメリットがある
+    case expirationDateNengappi = #"^\d{4}年(0?[1-9]|1[0-2])月(0?[1-9]|[12][0-9]|3[01])日$"#
 }
 
 struct ItemElementsCreator {
@@ -75,6 +79,13 @@ struct ItemElementsCreator {
                 print($0)
                 expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
             }
+            // TODO: - 年月日が混ざっている文字におけるdday 処理をまだやってないので、やること！
+            let expirationDateNengappiRegex = try! NSRegularExpression(pattern: TextTargetType.expirationDateNengappi.rawValue)
+            if let result = expirationDateNengappiRegex.firstMatch(in: $0, range: NSRange(location: 0, length: $0.count)) {
+                print($0)
+                expirationDate = ($0 as NSString).substring(with: result.range(at: 0))
+            }
+            // Vision Text OCRだと、多少精度が低いが、処理速度は速い
             
 ////            // MARK: 🔥⚠️日本語が混ざっている文字を認識したい
 //             //日本語の正規式を追加すると、hyphenや.などの認識がうまくいかなくなる
