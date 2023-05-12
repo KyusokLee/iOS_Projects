@@ -16,9 +16,7 @@ import CoreData
 // 解決策: tabbarにaddSubviewすることで、できると考える
 
 final class TabBarController: UITabBarController {
-//MARK: - Variable Part
-    // ⚠️Error: MiddleButtonがTabbarControllerの要素としてあるわけではなく、位置調整でそこにあるように見られているだけだった..
-    let buttonHeight: CGFloat = 65
+    //MARK: - Variable Part
     // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
     var itemList = [ItemList]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -42,7 +40,7 @@ final class TabBarController: UITabBarController {
         return button
     }()
     
-//MARK: - Life Cycle Part
+    //MARK: - Life Cycle Part
     override func viewDidLoad() {
         super.viewDidLoad()
         // 影の部分はまだ、実装してない
@@ -88,21 +86,6 @@ private extension TabBarController {
     }
     
     private func setTabBarShadow() {
-        // shadowをclearしてから、customしないと、shadowが反映されない
-//        if #available(iOS 13.0, *) {
-//            let appearance = self.tabBar.standardAppearance.copy()
-//            appearance.backgroundImage = UIImage()
-//            appearance.shadowImage = UIImage()
-//            self.tabBar.standardAppearance = appearance
-//        } else {
-//            self.tabBar.shadowImage = UIImage()
-//            self.tabBar.backgroundImage = UIImage()
-//        }
-//
-//        if #available(iOS 15.0, *) {
-//            tabBar.scrollEdgeAppearance = tabBar.standardAppearance
-//        }
-        
         self.tabBar.layer.shadowColor = UIColor.lightGray.cgColor
         self.tabBar.layer.shadowOpacity = 0.5
         self.tabBar.layer.shadowOffset = CGSize.zero
