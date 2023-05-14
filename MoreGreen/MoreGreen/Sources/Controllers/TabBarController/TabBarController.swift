@@ -25,9 +25,10 @@ final class TabBarController: UITabBarController {
     private var gradientLayer = CAGradientLayer()
     private let addButton: UIButton = {
         let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .light)
-        let color = UIColor(rgb: 0x36B700).withAlphaComponent(0.65)
-        let image = UIImage(systemName: "plus.circle.fill", withConfiguration: imageConfig)?.withTintColor(color, renderingMode: .alwaysOriginal)
+        let imageConfig = UIImage.SymbolConfiguration(pointSize: 25, weight: .semibold)
+        //let color = UIColor(rgb: 0x36B700).withAlphaComponent(0.65)
+        let color = UIColor.systemBackground
+        let image = UIImage(systemName: "plus", withConfiguration: imageConfig)?.withTintColor(color, renderingMode: .alwaysOriginal)
         button.setImage(image, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(tapAddButton(sender:)), for: .touchUpInside)
@@ -81,7 +82,7 @@ private extension TabBarController {
         tabBar.addSubview(addButton)
         setUpMiddleButtonConstraints()
         // GradationAnimation効果
-        // setUpMiddleButtonColorAnimation()
+        setUpMiddleButtonColorAnimation()
         // 影の部分はまだ、実装してない
         setTabBarShadow()
     }
@@ -151,7 +152,7 @@ private extension TabBarController {
     // TabBarの真ん中のボタンをコードで実装
     // こうすると、plus Buttonだけが表示され、背景色がなくなってしまう
     private func setUpMiddleButtonConstraints() {
-        let verticalSpace = (self.tabBar.frame.height - buttonHeight) / 2
+        let verticalSpace: CGFloat = 1
         NSLayoutConstraint.activate([
             addButton.heightAnchor.constraint(equalToConstant: buttonHeight),
             addButton.widthAnchor.constraint(equalToConstant: buttonHeight),
@@ -164,13 +165,15 @@ private extension TabBarController {
         // Gradient Layer生成
         //conicグラデーション効果を与えるため、CAGradientLayerインスタンスを生成した上に、maskにCAShapeLayerを代入
         gradientLayer.frame = CGRect(x: 0, y: 0, width: buttonHeight, height: buttonHeight)
+        gradientLayer.masksToBounds = false
+        gradientLayer.cornerRadius = gradientLayer.frame.width / 2
         gradientLayer.type = .axial
         gradientLayer.colors = GradationColor.gradientColors.map { $0.cgColor } as [Any]
         gradientLayer.locations = GradientConstants.gradientLocation
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.5)
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         // buttonのimageより裏にanimationを描画するための設定
-        //gradientLayer.zPosition = -1
+        gradientLayer.zPosition = -1
         addButton.layer.addSublayer(gradientLayer)
     }
     
@@ -178,7 +181,7 @@ private extension TabBarController {
     // TODO: - Gradation Animation Button 実装
     private func setUpMiddleButtonColorAnimation() {
         self.timer?.invalidate()
-        self.timer = Timer.scheduledTimer(withTimeInterval: GradientConstants.animationInterVal, repeats: true) { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: GradientConstants.animationDuration, repeats: true) { _ in
             self.gradientLayer.removeAnimation(forKey: "buttonGradationAnimation")
             let previous = GradationColor.gradientColors.map { $0.cgColor }
             let last = GradationColor.gradientColors.removeLast()
@@ -187,12 +190,12 @@ private extension TabBarController {
             let colorsAnimation = CABasicAnimation(keyPath: "colors")
             colorsAnimation.fromValue = previous
             colorsAnimation.toValue = lastColors
-            //colorsAnimation.autoreverses = true
-            colorsAnimation.repeatCount = 1
+            colorsAnimation.autoreverses = true
+            colorsAnimation.repeatCount = .infinity
             colorsAnimation.duration = GradientConstants.animationDuration
-            colorsAnimation.timingFunction = CAMediaTimingFunction(name: .linear)
+            colorsAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
             colorsAnimation.isRemovedOnCompletion = false
-            colorsAnimation.fillMode = .both
+            colorsAnimation.fillMode = .forwards
             self.gradientLayer.add(colorsAnimation, forKey: "buttonGradationAnimation")
         }
         setUpGradationLayer()
