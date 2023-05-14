@@ -35,6 +35,7 @@
 		942007D828DDE10D0092B699 /* ExpirationDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D728DDE10D0092B699 /* ExpirationDate.swift */; };
 		942007DB28DDE6740092B699 /* ItemImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942007D928DDE6740092B699 /* ItemImageCell.swift */; };
 		942007DC28DDE6740092B699 /* ItemImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 942007DA28DDE6740092B699 /* ItemImageCell.xib */; };
+		942894C82A10C54A00278362 /* GradationColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942894C72A10C54A00278362 /* GradationColor.swift */; };
 		942E3FFE29B49B4200A710CD /* AppAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942E3FFD29B49B4200A710CD /* AppAppearance.swift */; };
 		942E400229B4BBA100A710CD /* CameraGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942E400129B4BBA100A710CD /* CameraGuideView.swift */; };
 		943317352917AEB4003CFB16 /* ItemDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943317342917AEB4003CFB16 /* ItemDetailViewController.swift */; };
@@ -129,6 +130,7 @@
 		942007D728DDE10D0092B699 /* ExpirationDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpirationDate.swift; sourceTree = "<group>"; };
 		942007D928DDE6740092B699 /* ItemImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemImageCell.swift; sourceTree = "<group>"; };
 		942007DA28DDE6740092B699 /* ItemImageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemImageCell.xib; sourceTree = "<group>"; };
+		942894C72A10C54A00278362 /* GradationColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradationColor.swift; sourceTree = "<group>"; };
 		942E3FFD29B49B4200A710CD /* AppAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAppearance.swift; sourceTree = "<group>"; };
 		942E400129B4BBA100A710CD /* CameraGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuideView.swift; sourceTree = "<group>"; };
 		943317342917AEB4003CFB16 /* ItemDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailViewController.swift; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 				94D5A49C29BA0697009B7E6C /* ErrorType.swift */,
 				94481DA329BC8110009928CD /* AnimationTime.swift */,
 				94F65D5B29BF273F004FE5D4 /* TabBarAnimation.swift */,
+				942894C72A10C54A00278362 /* GradationColor.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -785,6 +788,7 @@
 				949B2AE128DDA2420053E70B /* ProfileViewController.swift in Sources */,
 				943EED2528FECE2300566648 /* CarouselFlowLayout.swift in Sources */,
 				94122FF328DC60DF004DEED6 /* UIFont+Utils.swift in Sources */,
+				942894C82A10C54A00278362 /* GradationColor.swift in Sources */,
 				9472C8B728DF2B24004E4348 /* HomeCardViewCell.swift in Sources */,
 				94F65D5C29BF273F004FE5D4 /* TabBarAnimation.swift in Sources */,
 				94ED417229E682F900A62CA1 /* NewItemViewPresenter.swift in Sources */,

@@ -20,6 +20,8 @@ final class TabBarController: UITabBarController {
     // ⚠️NewItemでitemを生成すると、戻る先はTabBarControllerなので、ここに
     var itemList = [ItemList]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let buttonHeight: CGFloat = 50
+    let animationDuration: TimeInterval = 5.0
     private let addButton: UIButton = {
         let button = UIButton()
         let image = UIImage(systemName: "plus.circle.fill")?
@@ -36,6 +38,7 @@ final class TabBarController: UITabBarController {
         
         button.setBackgroundImage(image, for: .normal)
         button.setBackgroundImage(hideImage, for: .disabled)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(nil, action: #selector(tapAddButton(sender:)), for: .touchUpInside)
         return button
     }()
@@ -43,8 +46,6 @@ final class TabBarController: UITabBarController {
     //MARK: - Life Cycle Part
     override func viewDidLoad() {
         super.viewDidLoad()
-        // 影の部分はまだ、実装してない
-        setTabBarShadow()
         setTabBar()
         fetchData()
         self.delegate = self
@@ -81,8 +82,11 @@ private extension TabBarController {
 //        tabBar.layer.borderColor = UIColor.lightGray.cgColor
 //        tabBar.layer.borderWidth = 0.4
         setTabBarItems()
-        //setTabBarShadow()
-        setUpMiddleButton()
+        tabBar.addSubview(addButton)
+        setUpMiddleButtonConstraints()
+        setUpMiddleButtonColorAnimation()
+        // 影の部分はまだ、実装してない
+        setTabBarShadow()
     }
     
     private func setTabBarShadow() {
@@ -96,7 +100,6 @@ private extension TabBarController {
         self.tabBar.backgroundColor = UIColor.white
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()
-        //しかし、middleButtonの上の部分まで線が続くようになる
     }
     
     // TabBarItemsの設定
@@ -150,13 +153,34 @@ private extension TabBarController {
     
     // TabBarの真ん中のボタンをコードで実装
     // こうすると、plus Buttonだけが表示され、背景色がなくなってしまう
-    private func setUpMiddleButton() {
-        let width: CGFloat = 50/375 * self.view.frame.width
-        let height: CGFloat = 50/375 * self.view.frame.width
-        let posX: CGFloat = self.view.frame.width/2 - width/2
-        let posY: CGFloat = 0
-        addButton.frame = CGRect(x: posX, y: posY, width: width, height: height)
-        self.tabBar.addSubview(self.addButton)
+    private func setUpMiddleButtonConstraints() {
+        let verticalSpace = (self.tabBar.frame.height - buttonHeight) / 2
+        NSLayoutConstraint.activate([
+            addButton.heightAnchor.constraint(equalToConstant: buttonHeight),
+            addButton.widthAnchor.constraint(equalToConstant: buttonHeight),
+            addButton.centerXAnchor.constraint(equalTo: tabBar.centerXAnchor),
+            addButton.topAnchor.constraint(equalTo: tabBar.topAnchor, constant: verticalSpace)
+        ])
+    }
+    
+    // middleButtonへgradiation Animationを与える
+    private func setUpMiddleButtonColorAnimation() {
+        setUpGradiationLayer()
+        
+    }
+    
+    private func setUpGradiationLayer() {
+        // Gradient Layer生成
+        //conicグラデーション効果を与えるため、CAGradientLayerインスタンスを生成した上に、maskにCAShapeLayerを代入
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = addButton.bounds
+        gradientLayer.type = .conic
+        gradientLayer.colors = GradationColor.gradientColors.map(\.cgColor) as [Any]
+        gradientLayer.locations = GradientConstants.gradientLocation
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 1)
+        gradientLayer.zPosition = -1
+        addButton.layer.addSublayer(gradientLayer)
     }
     
     @objc func tapAddButton(sender: UIButton) {

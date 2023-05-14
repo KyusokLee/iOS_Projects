@@ -9,21 +9,11 @@ import Foundation
 import UIKit
 
 extension UITabBar {
-    private var customTabBarHeight: CGFloat {
-        return 120
-    }
     //　基本のshadowStyleを初期化しないと、custom styleが反映されない
     static func clearShadow() {
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().backgroundColor = UIColor.white
-    }
-    
-    // Tabbarの高さを設定する
-    open override func sizeThatFits(_ size: CGSize) -> CGSize {
-        var sizeThatFits = super.sizeThatFits(size)
-        sizeThatFits.height = customTabBarHeight
-        return sizeThatFits
     }
     
     // TabBarのitemにbadgeを追加する
