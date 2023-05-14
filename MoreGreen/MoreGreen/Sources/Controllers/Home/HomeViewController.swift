@@ -78,6 +78,7 @@ class HomeViewController: UIViewController {
     private func setNavigationBar() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.systemBackground
         // MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
 //        appearance.backgroundColor = UIColor.white
 //        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]

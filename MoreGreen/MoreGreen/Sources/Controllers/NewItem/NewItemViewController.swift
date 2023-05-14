@@ -131,7 +131,7 @@ class NewItemViewController: UIViewController {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         appearance.titleTextAttributes = textAttributes
         
-        let dismissBarButton = UIBarButtonItem(image: UIImage(systemName: "multiply.circle")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(dismissBarButtonTap))
+        let dismissBarButton = UIBarButtonItem(image: UIImage(systemName: "xmark")?.withTintColor(UIColor.white, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(dismissBarButtonTap))
         self.navigationController?.navigationBar.topItem?.leftBarButtonItem = dismissBarButton
         
         self.navigationController?.navigationBar.standardAppearance = appearance
