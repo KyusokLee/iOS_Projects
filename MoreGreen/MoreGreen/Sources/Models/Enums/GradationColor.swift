@@ -26,4 +26,6 @@ enum GradationColor {
 enum GradientConstants {
     static let gradientLocation = [Int](0..<GradationColor.gradientColors.count)
         .map { NSNumber(value: Double($0)) }
+    static let animationInterVal: TimeInterval = 0.1
+    static let animationDuration: TimeInterval = 2.0
 }
