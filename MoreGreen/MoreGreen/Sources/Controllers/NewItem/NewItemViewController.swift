@@ -35,7 +35,7 @@ protocol NewItemViewControllerDelegate: AnyObject {
 //    func makeNewItemFromThisView()
 //}
 
-class NewItemViewController: UIViewController {
+final class NewItemViewController: UIViewController {
        
     @IBOutlet weak var createItemTableView: UITableView!
     private(set) var presenter: NewItemViewPresenter!
@@ -71,7 +71,6 @@ class NewItemViewController: UIViewController {
         super.viewDidLoad()
         print("Create new item list with camera OCR or barcode")
         print(photoData)
-        addKeyboardObserver()
         dismissKeyboardByTap()
         setUpTableView()
         registerXib()
@@ -92,27 +91,38 @@ class NewItemViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
         self.loadViewIfNeeded()
     }
+}
+
+private extension NewItemViewController {
+    // TODO: imageは2週類ある
+    // 1つ目:　商品の写真だけを保存
     
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(noti: Notification) {
+    // 🔥Json parsingを用いて、imageをparsingする
+    // 2つ目: OCR結果を用いて、賞味期限の表示
+    func periodConfigure(with imageData: Data, index cellIndex: Int) {
         
-    }
-    
-    @objc func keyboardWillHide(noti: Notification) {
-        
+        print("period configure")
+        presenter = NewItemViewPresenter(
+            textRecognizer: VisionTextRecognizer(itemInfoCreator: ItemElementsCreator()),
+            view: self
+        )
+        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
+        // MARK: 🔥⚠️賞味期限のimageをloadして、賞味期限の文字を表示する処理をここで、行う
+        if !isDoingRecognize {
+            // DoingRecognizeをtrueに
+            isDoingRecognize = true
+            self.showLoadingView(state: isDoingRecognize)
+            
+            // periodImageLoadが終わるまで、hideloadingViewをいないから、syncとasyncで実装できそう
+            DispatchQueue.main.async {
+                self.periodImageLoad(with: imageData)
+            }
+        }
     }
     
     func dismissKeyboardByTap() {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
         self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(self)
     }
         
     private func setUpTableView() {
@@ -259,10 +269,6 @@ class NewItemViewController: UIViewController {
         print(photoData)
     }
     
-    func resizeImageData(with imageData: Data) {
-        
-    }
-    
     // 賞味期限の文字認識が終わるまで、loadingViewを表示する
     func showLoadingView(state checkState: Bool) {
         guard checkState else {
@@ -313,34 +319,6 @@ class NewItemViewController: UIViewController {
             }
         } else {
             return
-        }
-    }
-}
-
-private extension NewItemViewController {
-    // TODO: imageは2週類ある
-    // 1つ目:　商品の写真だけを保存
-    
-    // 🔥Json parsingを用いて、imageをparsingする
-    // 2つ目: OCR結果を用いて、賞味期限の表示
-    func periodConfigure(with imageData: Data, index cellIndex: Int) {
-        
-        print("period configure")
-        presenter = NewItemViewPresenter(
-            textRecognizer: VisionTextRecognizer(itemInfoCreator: ItemElementsCreator()),
-            view: self
-        )
-        // view: self -> protocol規約を守るviewの指定 (delegateと似たようなもの)
-        // MARK: 🔥⚠️賞味期限のimageをloadして、賞味期限の文字を表示する処理をここで、行う
-        if !isDoingRecognize {
-            // DoingRecognizeをtrueに
-            isDoingRecognize = true
-            self.showLoadingView(state: isDoingRecognize)
-            
-            // periodImageLoadが終わるまで、hideloadingViewをいないから、syncとasyncで実装できそう
-            DispatchQueue.main.async {
-                self.periodImageLoad(with: imageData)
-            }
         }
     }
     
