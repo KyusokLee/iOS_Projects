@@ -73,6 +73,13 @@ private extension SettingViewController {
         customTabBarController = tabBarController
     }
     //delegateで命名した間数名がdelegateを使う側の間数名と同じ時、internalをつけることで、受ける側で実装した間数を使うことが可能
+    // TODO: - バイブレーション効果も与える予定
+    func showsCompleteToDeleteDataAlert(title: String, message: String) -> UIAlertController {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let check = UIAlertAction(title: "確認", style: .default)
+        alertController.addAction(check)
+        return alertController
+    }
 }
 
 extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -177,6 +184,15 @@ extension SettingViewController: DataResetPopupDelegate {
         do {
             try context.execute(deleteRequest)
             try context.save()
+            
+            // 削除完了に関するalertを表示させる
+            self.present(
+                showsCompleteToDeleteDataAlert(
+                    title: "削除完了",
+                    message: "登録した商品のデータを初期化しました"
+                ),
+                animated: true
+            )
         } catch let error {
             fatalError("Failed to delete Data :\(error.localizedDescription)")
         }
