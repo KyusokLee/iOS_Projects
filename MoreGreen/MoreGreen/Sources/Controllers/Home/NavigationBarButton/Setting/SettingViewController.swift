@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 // SettingVCで実装したい機能まとめ
 // 1. 通知の設定(通知が来る時間とか)
@@ -156,6 +157,29 @@ extension SettingViewController: DataResetPopupDelegate {
                 self.customTabBarController.tabBar.center.y -= TabBarAnimation.movingHeight
             }
         )
+    }
+    
+    // CoreDataを全部resetする
+    func deleteAllData() {
+        let container = NSPersistentContainer(name: "MoreGreen")
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                // 初期化エラー処理
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        // NSManagedObjectContextを取得
+        let context = container.viewContext
+        // 削除したいエンティティ（テーブル）を指定
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ItemList")
+        // 削除リクエストを作成
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch let error {
+            fatalError("Failed to delete Data :\(error.localizedDescription)")
+        }
     }
 }
 

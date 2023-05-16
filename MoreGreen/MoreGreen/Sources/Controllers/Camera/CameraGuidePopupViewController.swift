@@ -34,7 +34,6 @@ final class CameraGuidePopupViewController: UIViewController {
 // MARK: - Function and Logic
 private extension CameraGuidePopupViewController {
     @IBAction func didTapCancelButton(_ sender: Any) {
-        print("cancel!")
         delegate?.shouldShowCameraGuideViewAgain()
         self.dismiss(animated: true)
     }
@@ -70,7 +69,7 @@ private extension CameraGuidePopupViewController {
     func setUpTitleLabel() {
         titleLabel.font = .systemFont(ofSize: 20, weight: .bold)
         titleLabel.textColor = .black
-        titleLabel.text = "これ以上、表示しない"
+        titleLabel.text = "今後、表示しない"
         titleLabel.textAlignment = .center
     }
     
@@ -78,7 +77,7 @@ private extension CameraGuidePopupViewController {
         descriptionLabel.font = .systemFont(ofSize: 15, weight: .light)
         descriptionLabel.textColor = .black
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.text = "左上のはてなマークを押すと、いつでもカメラの活用法を確認できます"
+        descriptionLabel.text = "左上のはてなマークを押すと、カメラの使用方法を確認できます"
         descriptionLabel.textAlignment = .center
     }
     

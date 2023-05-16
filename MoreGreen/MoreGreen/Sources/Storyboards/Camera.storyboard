@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,39 +19,32 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rvo-6T-YsY">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urf-Y4-sJR">
-                                        <rect key="frame" x="25" y="45" width="30" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="nBe-gr-uho"/>
-                                            <constraint firstAttribute="height" constant="30" id="qjU-3c-Wv0"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="multiply" catalog="system"/>
-                                        <connections>
-                                            <action selector="didTapDismissButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Q4k-T5-OUj"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3L-AN-JO7">
-                                        <rect key="frame" x="25" y="95" width="30" height="30"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="6kR-el-ZS5"/>
-                                            <constraint firstAttribute="height" constant="30" id="D9i-m8-odK"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <connections>
-                                            <action selector="didTapShowCameraGuideViewButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OEk-cJ-DP3"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="Urf-Y4-sJR" firstAttribute="leading" secondItem="Rvo-6T-YsY" secondAttribute="leading" constant="25" id="H0a-GT-v3m"/>
-                                    <constraint firstItem="K3L-AN-JO7" firstAttribute="leading" secondItem="Rvo-6T-YsY" secondAttribute="leading" constant="25" id="Ldf-5g-zlg"/>
-                                    <constraint firstItem="Urf-Y4-sJR" firstAttribute="top" secondItem="Rvo-6T-YsY" secondAttribute="top" constant="45" id="j2w-0p-pTP"/>
-                                    <constraint firstItem="K3L-AN-JO7" firstAttribute="top" secondItem="Urf-Y4-sJR" secondAttribute="bottom" constant="20" id="nbq-qS-SDm"/>
-                                </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Urf-Y4-sJR">
+                                <rect key="frame" x="25" y="67" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="nBe-gr-uho"/>
+                                    <constraint firstAttribute="height" constant="30" id="qjU-3c-Wv0"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="multiply" catalog="system"/>
+                                <connections>
+                                    <action selector="didTapDismissButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Q4k-T5-OUj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K3L-AN-JO7">
+                                <rect key="frame" x="25" y="117" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="6kR-el-ZS5"/>
+                                    <constraint firstAttribute="height" constant="30" id="D9i-m8-odK"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="didTapShowCameraGuideViewButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OEk-cJ-DP3"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vg5-up-Zbz">
                                 <rect key="frame" x="160" y="722" width="70" height="70"/>
                                 <constraints>
@@ -71,8 +63,12 @@
                         <constraints>
                             <constraint firstItem="Rvo-6T-YsY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="0kD-ww-Hp5"/>
                             <constraint firstItem="Vg5-up-Zbz" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="63s-2L-XvY"/>
+                            <constraint firstItem="Urf-Y4-sJR" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="25" id="DPb-3r-fPs"/>
                             <constraint firstAttribute="bottom" secondItem="Rvo-6T-YsY" secondAttribute="bottom" id="IEO-NM-sS3"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Rvo-6T-YsY" secondAttribute="trailing" id="Il0-GY-sFO"/>
+                            <constraint firstItem="K3L-AN-JO7" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="25" id="Uab-cG-Efz"/>
+                            <constraint firstItem="K3L-AN-JO7" firstAttribute="top" secondItem="Urf-Y4-sJR" secondAttribute="bottom" constant="20" id="eDe-hV-bt1"/>
+                            <constraint firstItem="Urf-Y4-sJR" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="spf-3z-IU5"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Vg5-up-Zbz" secondAttribute="bottom" constant="18" id="wPe-03-aqA"/>
                             <constraint firstItem="Rvo-6T-YsY" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="x39-ac-WhX"/>
                         </constraints>
@@ -92,9 +88,6 @@
     <resources>
         <image name="camera.circle.fill" catalog="system" width="128" height="123"/>
         <image name="multiply" catalog="system" width="128" height="111"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

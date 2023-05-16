@@ -149,10 +149,9 @@ private extension CameraViewController {
     }
     
     func setUpShowCameraGuideViewButton() {
-        let color = UIColor.white
-        let image = UIImage(systemName: "questionmark.circle")?.withRenderingMode(.alwaysOriginal)
+        let color = UIColor.white.withAlphaComponent(0.7)
+        let image = UIImage(systemName: "questionmark.circle")?.withRenderingMode(.alwaysTemplate)
         guard let image = image else { return }
-        showCameraGuideViewButton.backgroundColor = .clear
         showCameraGuideViewButton.setImage(image, for: .normal)
         // UIのboundsに合わせてSizeを調整する方法
         showCameraGuideViewButton.contentVerticalAlignment = .fill

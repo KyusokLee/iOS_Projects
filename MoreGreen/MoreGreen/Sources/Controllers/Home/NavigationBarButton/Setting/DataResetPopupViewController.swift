@@ -9,6 +9,7 @@ import UIKit
 
 protocol DataResetPopupDelegate: AnyObject {
     func moveTabBarControllerUpAnimation(_ sender: UIButton)
+    func deleteAllData()
 }
 
 // データ初期化ボタンを押した時に表示されるPopupView
@@ -44,7 +45,7 @@ private extension DataResetPopupViewController {
         print("初期化を行う!")
         delegate?.moveTabBarControllerUpAnimation(sender)
         self.dismiss(animated: true) {
-            print("moveTabbar up")
+            self.delegate?.deleteAllData()
         }
     }
     
