@@ -14,18 +14,27 @@ protocol AlarmSettingDelegate: AnyObject {
 // MARK: - Life Cycle and Variables
 final class AlarmSettingViewController: UIViewController {
     
+    @IBOutlet weak var dismissButton: UIButton!
+    
+    
     weak var delegate: AlarmSettingDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         print("AlarmSettingViewController!")
-        setNavigationController()
+        setUpScreen()
+        //setNavigationController()
     }
 }
 
 // MARK: - Logic and Function
 private extension AlarmSettingViewController {
+    
+    @IBAction func didTapDismissButton(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
     func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -40,5 +49,19 @@ private extension AlarmSettingViewController {
         self.navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "通知設定"
+    }
+    
+    func setUpScreen() {
+        setUpDismissButton()
+    }
+    
+    func setUpDismissButton() {
+        let color = UIColor.black.withAlphaComponent(0.7)
+        let image = UIImage(systemName: "xmark")?.withTintColor(color, renderingMode: .alwaysOriginal)
+        guard let image = image else { return }
+        dismissButton.setImage(image, for: .normal)
+        //Buttonの設定したconstraintsより、imageが小さくなった場合、Buttonをsizeの大きさに合わせる方法
+        dismissButton.contentVerticalAlignment = .fill
+        dismissButton.contentHorizontalAlignment = .fill
     }
 }
