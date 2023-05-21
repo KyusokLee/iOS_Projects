@@ -184,11 +184,10 @@ extension SettingViewController: DataResetPopupDelegate {
         do {
             try context.execute(deleteRequest)
             try context.save()
-            
             // 削除完了に関するalertを表示させる
             self.present(
                 showsCompleteToDeleteDataAlert(
-                    title: "削除完了",
+                    title: "初期化完了",
                     message: "登録した商品のデータを初期化しました"
                 ),
                 animated: true
