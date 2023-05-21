@@ -126,9 +126,10 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             }
             // ここで、delegateしなかったから、errorになった！
             controller.delegate = self
+            controller.modalPresentationStyle = .formSheet
+            navigationController?.present(controller, animated: true)
             
             tableView.deselectRow(at: indexPath, animated: true)
-            self.navigationController?.pushViewController(controller, animated: true)
         case 1:
             tableView.deselectRow(at: indexPath, animated: true)
             guard let controller = UIStoryboard(name: "DataResetPopup", bundle: nil).instantiateViewController(withIdentifier: "DataResetPopupViewController") as? DataResetPopupViewController else {
