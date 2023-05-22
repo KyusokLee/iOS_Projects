@@ -124,11 +124,14 @@ extension SettingViewController: UITableViewDelegate, UITableViewDataSource {
             guard let controller = UIStoryboard(name: "AlarmSetting", bundle: nil).instantiateViewController(withIdentifier: "AlarmSettingViewController") as? AlarmSettingViewController else {
                 fatalError("AlarmSettingViewController could not be found")
             }
+            let navigationController = UINavigationController(rootViewController: controller)
+            //navigationController?.modalPresentationCapturesStatusBarAppearance = true
+            // fullScreenで表示させる方法
+            navigationController.modalPresentationStyle = .formSheet
             // ここで、delegateしなかったから、errorになった！
             controller.delegate = self
-            controller.modalPresentationStyle = .formSheet
-            navigationController?.present(controller, animated: true)
-            
+            // self.presentじゃなく、navigationController.presentだとエラーになる
+            self.present(navigationController, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
         case 1:
             tableView.deselectRow(at: indexPath, animated: true)
