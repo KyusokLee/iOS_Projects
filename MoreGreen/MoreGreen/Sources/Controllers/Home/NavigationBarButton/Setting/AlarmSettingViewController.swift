@@ -14,8 +14,8 @@ protocol AlarmSettingDelegate: AnyObject {
 // MARK: - Life Cycle and Variables
 final class AlarmSettingViewController: UIViewController {
     
-    @IBOutlet weak var dismissButton: UIButton!
-    
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var innerBackgroundView: UIView!
     
     weak var delegate: AlarmSettingDelegate?
 
@@ -23,45 +23,54 @@ final class AlarmSettingViewController: UIViewController {
         super.viewDidLoad()
         
         print("AlarmSettingViewController!")
+        // navigation画面遷移によるnavigation barの隠しをfalseにする
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        setNavigationController()
         setUpScreen()
-        //setNavigationController()
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        navigationController?.setNavigationBarHidden(false, animated: false)
+//        setNavigationController()
+//    }
 }
 
 // MARK: - Logic and Function
 private extension AlarmSettingViewController {
-    
-    @IBAction func didTapDismissButton(_ sender: Any) {
-        self.dismiss(animated: true)
-    }
-    
+        
     func setNavigationController() {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        // MARK: - AppAppearanceの実装で、ここでの実装はしなくてもよくなった
-//        appearance.backgroundColor = UIColor.white
-//        appearance.titleTextAttributes = [.foregroundColor: UIColor.black.withAlphaComponent(0.7)]
-        self.navigationItem.backButtonTitle = ""
-        self.navigationController?.navigationBar.tintColor = UIColor.black
-        self.navigationController?.navigationBar.standardAppearance = appearance
-        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        self.navigationController?.navigationBar.compactAppearance = appearance
-        self.navigationController?.navigationBar.compactScrollEdgeAppearance = appearance
+        appearance.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = "通知設定"
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        appearance.titleTextAttributes = textAttributes
+        let dismissButtonImage = UIImage(systemName: "xmark")
+        guard let image = dismissButtonImage else { return }
+        let dismissBarButton = UIBarButtonItem(
+            image: image.withTintColor(UIColor.black, renderingMode: .alwaysOriginal),
+            style: .plain,
+            target: self,
+            action: #selector(didTapDismissButton)
+        )
+        self.navigationController?.navigationBar.topItem?.leftBarButtonItem = dismissBarButton
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     func setUpScreen() {
-        setUpDismissButton()
+        setUpScrollView()
     }
     
-    func setUpDismissButton() {
-        let color = UIColor.black.withAlphaComponent(0.7)
-        let image = UIImage(systemName: "xmark")?.withTintColor(color, renderingMode: .alwaysOriginal)
-        guard let image = image else { return }
-        dismissButton.setImage(image, for: .normal)
-        //Buttonの設定したconstraintsより、imageが小さくなった場合、Buttonをsizeの大きさに合わせる方法
-        dismissButton.contentVerticalAlignment = .fill
-        dismissButton.contentHorizontalAlignment = .fill
+    func setUpScrollView() {
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.indicatorStyle = .black
+        innerBackgroundView.backgroundColor = .systemBackground
+    }
+    
+    @objc func didTapDismissButton() {
+        self.dismiss(animated: true)
     }
 }
