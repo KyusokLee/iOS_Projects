@@ -33,7 +33,7 @@ final class CameraGuideView: UIView {
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
-        button.addTarget(nil, action: #selector(tapSwipeLeftButton), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(didTapSwipeLeftButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -47,7 +47,7 @@ final class CameraGuideView: UIView {
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
-        button.addTarget(nil, action: #selector(tapSwipeRightButton), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(didTapSwipeRightButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -97,7 +97,7 @@ final class CameraGuideView: UIView {
             )
         button.setImage(image, for: .normal)
         button.isUserInteractionEnabled = true
-        button.addTarget(nil, action: #selector(tapCheckBoxButton), for: .touchUpInside)
+        button.addTarget(nil, action: #selector(didTapCheckBoxButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -170,9 +170,6 @@ final class CameraGuideView: UIView {
     }
     
     private func addTapgesture() {
-        // Error: self.backgroundViewにすると、unrecognized selector sent to instance 0x10178c010'のようなエラーが生じる
-        // 解決: -> self.backgroundViewからviewに変えることで解決した
-        // 理由: backgroundviewにaddGestureRecognizerで自分自身にgestureRecognizerを登録してるのに、そのgestureのtargetがself.backgroundViewだと重複になるので、エラーがでた
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(removeCameraGuideView))
         self.backgroundView.addGestureRecognizer(tapGestureRecognizer)
     }
@@ -359,16 +356,16 @@ final class CameraGuideView: UIView {
         self.isShowing = false
     }
     
-    @objc func tapSwipeLeftButton() {
+    @objc func didTapSwipeLeftButton() {
         print("camera guide view swipe left")
     }
     
-    @objc func tapSwipeRightButton() {
+    @objc func didTapSwipeRightButton() {
         print("camera guide view swipe right")
     }
     
     // checkBox buttonをtapしたときの処理
-    @objc func tapCheckBoxButton() {
+    @objc func didTapCheckBoxButton() {
         delegate?.didTapCheckBoxButton()
     }
     
