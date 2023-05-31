@@ -146,7 +146,7 @@ final class CameraGuideView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.addSubview(self.backgroundView)
-        self.addTapgesture()
+        self.addTapGesture()
         self.foregroundView.addSubview(self.titleLabel)
         self.foregroundView.addSubview(self.imageView)
         self.addSubview(self.foregroundView)
@@ -169,7 +169,7 @@ final class CameraGuideView: UIView {
         fatalError("CameraGuideView doesn't use Nib file.")
     }
     
-    private func addTapgesture() {
+    private func addTapGesture() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(removeCameraGuideView))
         self.backgroundView.addGestureRecognizer(tapGestureRecognizer)
     }
