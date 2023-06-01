@@ -112,7 +112,8 @@ final class CameraGuideView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-     
+    
+    // CameraGuideViewが表示されているかどうかのflag
     var isShowing = false {
         didSet {
             self.isHidden = !self.isShowing
@@ -331,7 +332,7 @@ final class CameraGuideView: UIView {
         let context = appDelegate.persistentContainer.viewContext
         do {
             self.checkState = try context.fetch(fetchRequest)
-            print(self.checkState)
+            print("localに保存されているcheckstate: ", self.checkState)
         } catch {
             print(error)
         }
