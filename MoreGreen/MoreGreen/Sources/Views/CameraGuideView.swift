@@ -323,36 +323,6 @@ final class CameraGuideView: UIView {
         self.imageView.layer.removeAllAnimations()
     }
     
-    // checkStateのcoredataをfetchする
-    // ⚠️途中の段階: checkStateの中で、showCameraGuideといったtypeだけ利用したいのに、全部持ってくる必要があるのか
-    // 考えられる解決策: CoreDataじゃなく、singleToneでsharingするといいかもって思った
-    // CoreDataで新しく保存するとかじゃなくて、Bool Typeを更新するだけなんで、appendとかのデータの追加はいらない
-    private func fetchCheckState() {
-        let fetchRequest: NSFetchRequest<CheckState> = CheckState.fetchRequest()
-        let context = appDelegate.persistentContainer.viewContext
-        do {
-            self.checkState = try context.fetch(fetchRequest)
-            print("localに保存されているcheckstate: ", self.checkState)
-        } catch {
-            print(error)
-        }
-        
-        fetchShowCameraGuideViewState()
-    }
-    
-    // CameraGuideView stateの現状を取得
-    private func fetchShowCameraGuideViewState() {
-        let fetchRequest: NSFetchRequest<ItemList> = ItemList.fetchRequest()
-        do {
-            // filteredDataは、[ItemList]　配列typeである
-            let showCameraGuideView = try context.fetch(fetchRequest)
-           
-            appDelegate.saveContext()
-        } catch {
-            print(error)
-        }
-    }
-    
     @objc func removeCameraGuideView() {
         self.isShowing = false
     }
