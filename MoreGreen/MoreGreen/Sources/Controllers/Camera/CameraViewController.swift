@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import CoreData
 
 // MARK: - コードの改善とVisionOCR機能の確立後、buttonを一つにする予定
 // cellIndexによって、Image写真の種類を分ける
@@ -26,6 +27,8 @@ final class CameraViewController: UIViewController {
     @IBOutlet weak var showCameraGuideViewButton: UIButton!
     
     weak var delegate: CameraViewControllerDelegate?
+    var checkState = [CheckState]()
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
     // itemの写真を撮る場合は -> 0, itemの賞味期限や消費期限の写真を撮る場合は -> 1
     var cellIndex = 0
     // CaptureSession編数 _ cameraCaptureに関する全ての流れを管理するsession
@@ -38,7 +41,7 @@ final class CameraViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         // 初期設定として、loadingをtrueに
         // CoreDataのshowCameraGuideStateに合わせる方法に変更
-        view.isShowing = true
+        // view.isShowing = true
         return view
     }()
     
@@ -70,6 +73,8 @@ final class CameraViewController: UIViewController {
         setUpCameraGuideViewConstraints()
         // delegateを受け取る
         cameraGuideView.delegate = self
+        // CameraGuideView CheckStateをfetchする
+        fetchCameraGuideViewCheckStateAndShowView()
     }
     
     // viewDidLayoutSubViewsを導入してみた
@@ -166,6 +171,40 @@ private extension CameraViewController {
             self.cameraGuideView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
             self.cameraGuideView.topAnchor.constraint(equalTo: self.view.topAnchor)
         ])
+    }
+    
+    // CameraGuideViewのcheckStateをfetchし、viewを表示するかどうかを管理するメソッド
+    // MARK: - ⚠️途中の段階
+    func fetchCameraGuideViewCheckStateAndShowView() {
+        // let shouldShow = shouldShowCameraGuideView()
+        cameraGuideView.isShowing = shouldShowCameraGuideView()
+        
+//        if shouldShow {
+//            // CameraGuideViewを表示
+//            cameraGuideView.isShowing = shouldShow
+//
+//        } else {
+//            // CameraGuideViewを表示させない
+//
+//
+//        }
+    }
+    
+    // CameraGuideViewを表示させるかどうかを判別するメソッド
+    func shouldShowCameraGuideView() -> Bool {
+        let fetchRequest: NSFetchRequest<CheckState> = CheckState.fetchRequest()
+        let context = appDelegate.persistentContainer.viewContext
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let checkState = results.first {
+                return checkState.value(forKey: "showCameraGuideView") as? Bool ?? true
+            }
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+        
+        // 設定されてないなら、trueをdefaultとして返すように
+        return true
     }
     
     // camera Preview viewに拡大、縮小の機能を追加
@@ -336,6 +375,7 @@ extension CameraViewController: CameraGuidePopupDelegate {
             self.cameraGuideView.checkBoxButton.alpha = 1.0
             self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
         }
+        cameraGuideView.isShowing = shouldShowCameraGuideView()
         cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
     }
     
@@ -349,6 +389,6 @@ extension CameraViewController: CameraGuidePopupDelegate {
             self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
         }
         
-        cameraGuideView.isShowing = false
+        cameraGuideView.isShowing = shouldShowCameraGuideView()
     }
 }
