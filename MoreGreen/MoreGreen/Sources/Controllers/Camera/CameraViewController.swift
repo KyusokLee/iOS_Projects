@@ -375,6 +375,7 @@ extension CameraViewController: CameraGuidePopupDelegate {
             self.cameraGuideView.checkBoxButton.alpha = 1.0
             self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
         }
+        cameraGuideView.isShowing = shouldShowCameraGuideView()
         cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
     }
     
@@ -388,6 +389,6 @@ extension CameraViewController: CameraGuidePopupDelegate {
             self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
         }
         
-        cameraGuideView.isShowing = false
+        cameraGuideView.isShowing = shouldShowCameraGuideView()
     }
 }
