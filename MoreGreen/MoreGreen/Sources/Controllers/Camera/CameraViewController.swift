@@ -367,28 +367,38 @@ extension CameraViewController: CameraGuideViewDelegate {
 
 extension CameraViewController: CameraGuidePopupDelegate {
     func shouldShowCameraGuideViewAgain() {
-        print("show CameraGuideView again")
-        UIView.animate(withDuration: 0.4) {
-            self.cameraGuideView.foregroundView.alpha = 1.0
-            self.cameraGuideView.swipeLeftButton.alpha = 1.0
-            self.cameraGuideView.swipeRightButton.alpha = 1.0
-            self.cameraGuideView.checkBoxButton.alpha = 1.0
-            self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+        let shouldShow = shouldShowCameraGuideView()
+        if shouldShow {
+            cameraGuideView.isShowing = shouldShow
+            print("show CameraGuideView again")
+            UIView.animate(withDuration: 0.4) {
+                self.cameraGuideView.foregroundView.alpha = 1.0
+                self.cameraGuideView.swipeLeftButton.alpha = 1.0
+                self.cameraGuideView.swipeRightButton.alpha = 1.0
+                self.cameraGuideView.checkBoxButton.alpha = 1.0
+                self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+            }
+            cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
+        } else {
+            return
         }
-        cameraGuideView.isShowing = shouldShowCameraGuideView()
-        cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
     }
     
     func shouldHideCameraGuideView() {
-        print("hide camera Guide View")
-        UIView.animate(withDuration: 0.4) {
-            self.cameraGuideView.foregroundView.alpha = 1.0
-            self.cameraGuideView.swipeLeftButton.alpha = 1.0
-            self.cameraGuideView.swipeRightButton.alpha = 1.0
-            self.cameraGuideView.checkBoxButton.alpha = 1.0
-            self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+        let shouldShow = shouldShowCameraGuideView()
+        if shouldShow == false {
+            cameraGuideView.isShowing = shouldShow
+            print("hide camera Guide View")
+            UIView.animate(withDuration: 0.4) {
+                self.cameraGuideView.foregroundView.alpha = 1.0
+                self.cameraGuideView.swipeLeftButton.alpha = 1.0
+                self.cameraGuideView.swipeRightButton.alpha = 1.0
+                self.cameraGuideView.checkBoxButton.alpha = 1.0
+                self.cameraGuideView.checkBoxTitleLabel.alpha = 1.0
+            }
+            cameraGuideView.startImageFadeAndChangeSize(duration: AnimationTime.duration)
+        } else {
+            return
         }
-        
-        cameraGuideView.isShowing = shouldShowCameraGuideView()
     }
 }
