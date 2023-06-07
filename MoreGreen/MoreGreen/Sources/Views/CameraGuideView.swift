@@ -135,11 +135,6 @@ final class CameraGuideView: UIView {
     // buttonをtapすると、cameraGuidePopupViewをpresentする
     // ただし、PopupViewの取り消しボタンを押すと、ただ、popupViewをdismissするだけにする
     // 確認を押すと、cameraGuideViewをdismissする
-    var isChecked: Bool = false {
-        didSet {
-            let checkBoxImageName = isChecked ? "s" : "ss"
-        }
-    }
     var checkState = [CheckState]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
