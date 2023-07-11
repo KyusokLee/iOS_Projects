@@ -53,6 +53,7 @@
 		94481DA429BC8110009928CD /* AnimationTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA329BC8110009928CD /* AnimationTime.swift */; };
 		94481DA629BC9EB4009928CD /* CameraGuidePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */; };
 		94481DA929BC9EF2009928CD /* CameraGuidePopup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */; };
+		945E35672A5D65EF0030E3D5 /* VisionPracticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E35662A5D65EF0030E3D5 /* VisionPracticeViewController.swift */; };
 		9460320528E2E4DC00C4E0C9 /* ItemElementsCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */; };
 		9460320728E328C300C4E0C9 /* UIImage+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9460320628E328C300C4E0C9 /* UIImage+Utils.swift */; };
 		9472C8B028DF03E8004E4348 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9472C8AE28DF03E8004E4348 /* ButtonCell.swift */; };
@@ -150,6 +151,7 @@
 		94481DA329BC8110009928CD /* AnimationTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTime.swift; sourceTree = "<group>"; };
 		94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraGuidePopupViewController.swift; sourceTree = "<group>"; };
 		94481DA829BC9EF2009928CD /* CameraGuidePopup.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CameraGuidePopup.storyboard; sourceTree = "<group>"; };
+		945E35662A5D65EF0030E3D5 /* VisionPracticeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionPracticeViewController.swift; sourceTree = "<group>"; };
 		9460320428E2E4DC00C4E0C9 /* ItemElementsCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemElementsCreator.swift; sourceTree = "<group>"; };
 		9460320628E328C300C4E0C9 /* UIImage+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Utils.swift"; sourceTree = "<group>"; };
 		9472C8AE28DF03E8004E4348 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				942007D128DDDA020092B699 /* CameraViewController.swift */,
 				94481DA529BC9EB4009928CD /* CameraGuidePopupViewController.swift */,
 				94D63B8F29C1ED8300A47802 /* BarcodeScanner */,
+				945E35662A5D65EF0030E3D5 /* VisionPracticeViewController.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -818,6 +821,7 @@
 				94D63B9229C1EDB600A47802 /* BarcodeScannerViewController.swift in Sources */,
 				94ABA94A2906C3E60063CD3D /* UnderLinedMenuBarModel.swift in Sources */,
 				941657EF29D064240023D464 /* VisionTextRecognizer.swift in Sources */,
+				945E35672A5D65EF0030E3D5 /* VisionPracticeViewController.swift in Sources */,
 				94CE57AE29B2055F00BB954D /* SettingViewController.swift in Sources */,
 				940B0F9928F03AF8003AFE8C /* UIButton+Utils.swift in Sources */,
 				94AF3E7228DC93EB00502C5B /* NewItemViewController.swift in Sources */,

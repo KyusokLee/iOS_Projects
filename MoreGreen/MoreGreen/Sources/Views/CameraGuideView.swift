@@ -136,6 +136,9 @@ final class CameraGuideView: UIView {
     // buttonをtapすると、cameraGuidePopupViewをpresentする
     // ただし、PopupViewの取り消しボタンを押すと、ただ、popupViewをdismissするだけにする
     // 確認を押すと、cameraGuideViewをdismissする
+    
+    // 先に
+    var guideImageViews = [UIImageView]()
     var checkState = [CheckState]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
