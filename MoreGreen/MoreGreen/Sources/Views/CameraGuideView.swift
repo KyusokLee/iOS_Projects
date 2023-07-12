@@ -76,6 +76,7 @@ final class CameraGuideView: UIView {
     }()
     
     // imageViewでimageを動かせる
+    // MARK: - imageViewを変更させて、viewが変わる処理をしたい
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         let image = UIImage(systemName: "camera.viewfinder")?
@@ -135,6 +136,9 @@ final class CameraGuideView: UIView {
     // buttonをtapすると、cameraGuidePopupViewをpresentする
     // ただし、PopupViewの取り消しボタンを押すと、ただ、popupViewをdismissするだけにする
     // 確認を押すと、cameraGuideViewをdismissする
+    
+    // 先に
+    var guideImageViews = [UIImageView]()
     var checkState = [CheckState]()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -316,6 +320,16 @@ final class CameraGuideView: UIView {
     
     func stopImageViewAnimation() {
         self.imageView.layer.removeAllAnimations()
+    }
+    
+    // Buttonをtapして、imageを変える間数
+    func changeImageView() {
+        // indexの操作をして、前のimageと次のページのimageに更新
+        if swipeLeftButton.isTouchInside {
+            
+        } else if swipeRightButton.isTouchInside {
+            
+        }
     }
     
     @objc func removeCameraGuideView() {
