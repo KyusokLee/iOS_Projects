@@ -14,10 +14,9 @@ class VisionPracticeViewController: UIViewController {
     
     var handPoseRequest = VNDetectHumanHandPoseRequest()
 
-    let handler = VNImageRequestHandler(
-        cmSampleBuffer: sampleBuffer,
-    
-    )
+//    let handler = VNImageRequestHandler(
+//        cmSampleBuffer: CMSampleBuffer
+//    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
